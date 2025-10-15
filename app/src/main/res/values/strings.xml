@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Rixengine Ad Demo</string>
+
+    <string name="admob_banner_id">ca-app-pub-4885562717451614/8650098944</string>
+    <string name="ad_log_ad">AD</string>
+    <string name="group_ad_tag">AD</string>
+    <string name="load_ad">load ad</string>
+    <string name="show_ad">show ad</string>
+    <string name="loading">Ad loading……</string>
+    <string name="load_success">loaded successfully</string>
+    <string name="load_failed">Failed to load</string>
+</resources>

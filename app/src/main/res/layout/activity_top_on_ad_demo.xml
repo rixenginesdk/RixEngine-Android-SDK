@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_banner"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="Banner"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1a000000"
+        app:layout_constraintTop_toBottomOf="@+id/tv_banner" />
+    <TextView
+        android:id="@+id/tv_video_ad"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@color/alx_transparent"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="RewardVideoAD"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_line" />
+
+    <View
+        android:id="@+id/v_line_two"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1a000000"
+        app:layout_constraintTop_toBottomOf="@+id/tv_video_ad" />
+
+    <TextView
+        android:id="@+id/tv_interstitial_ad"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@color/alx_transparent"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="Interstitial"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_line_two" />
+
+    <View
+        android:id="@+id/v_line_three"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1a000000"
+        app:layout_constraintTop_toBottomOf="@+id/tv_interstitial_ad" />
+    <TextView
+        android:id="@+id/tv_native"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@color/alx_transparent"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="Native"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_line_three" />
+    <View
+        android:id="@+id/v_line_four"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1a000000"
+        app:layout_constraintTop_toBottomOf="@+id/tv_native" />
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/tv_splash"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="@color/alx_transparent"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:includeFontPadding="false"-->
+<!--        android:paddingLeft="25dp"-->
+<!--        android:text="SplashAd"-->
+<!--        android:textColor="#000"-->
+<!--        android:textSize="20sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/v_line_four" />-->
+<!--    <View-->
+<!--        android:id="@+id/v_line_six"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="#1a000000"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tv_splash" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

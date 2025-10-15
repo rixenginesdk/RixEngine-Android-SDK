@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/item_icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/ad_begin_bg"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:id="@+id/item_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:textColor="@android:color/black"
+        android:layout_toRightOf="@+id/item_icon"
+        android:text="信息流测试标题广告--" />
+
+    <TextView
+        android:id="@+id/item_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="14sp"
+        android:textColor="#828282"
+        android:layout_toRightOf="@+id/item_icon"
+        android:layout_below="@+id/item_title"
+        android:text="信息流测试标题广告--" />
+
+</RelativeLayout>

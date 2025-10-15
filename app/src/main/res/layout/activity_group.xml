@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/tv_top_on_ad"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="TopOn AD Demo"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <View
+        android:id="@+id/v_line_two"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1a000000"
+        app:layout_constraintTop_toBottomOf="@+id/tv_top_on_ad" />
+
+    <TextView
+        android:id="@+id/tv_admob_ad"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="Admob AD Demo"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_line_two" />
+
+    <View
+        android:id="@+id/v_line_tradplus"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1a000000"
+        app:layout_constraintTop_toBottomOf="@+id/tv_admob_ad" />
+    <TextView
+        android:id="@+id/tv_tradplus_ad"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="TradPlus AD Demo"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_line_tradplus" />
+    <View
+        android:id="@+id/v_line_ironsource"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1a000000"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tradplus_ad" />
+    <TextView
+        android:id="@+id/tv_ironsource_ad"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="IronSource AD Demo"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_line_ironsource" />
+    <View
+        android:id="@+id/v_line_moapub"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1a000000"
+        app:layout_constraintTop_toBottomOf="@+id/tv_ironsource_ad" />
+
+    <TextView
+        android:id="@+id/tv_max_ad"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="Max AD Demo"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_line_moapub" />
+    <View
+        android:id="@+id/v_line_max"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1a000000"
+        app:layout_constraintTop_toBottomOf="@+id/tv_max_ad" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

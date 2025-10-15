@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:showDividers="middle"
+    android:divider="@drawable/divider_vertical">
+
+    <TextView
+        android:id="@+id/tv_banner"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="Banner AD"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tv_banner_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="BannerAd在listView中展示"
+        android:visibility="gone"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tv_banner_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:visibility="gone"
+        android:paddingLeft="25dp"
+        android:text="BannerAd在RecyclerView中展示"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tv_video_ad"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="Reward Video AD"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+
+    <TextView
+        android:id="@+id/tv_interstitial_ad"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="Interstitial AD"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tv_native_ad"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="Native AD"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+</LinearLayout>

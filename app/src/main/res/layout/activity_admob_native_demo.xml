@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_load"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="加载广告"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        android:textSize="20sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1a000000" />
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="广告未加载"
+        android:textColor="#000000"
+        android:layout_marginBottom="10dp"
+        android:textSize="20sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1a000000" />
+
+    <FrameLayout
+        android:id="@+id/ad_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.gms.ads.nativead.NativeAdView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_native_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.gms.ads.nativead.MediaView
+        android:id="@+id/item_express"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
+
+    </com.google.android.gms.ads.nativead.MediaView>
+
+
+
+</com.google.android.gms.ads.nativead.NativeAdView>

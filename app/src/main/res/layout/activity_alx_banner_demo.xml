@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="广告加载方式一"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                tools:ignore="InvalidId" />
+
+            <Button
+                android:id="@+id/bn_load"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="预加载" />
+
+
+
+            <Button
+                android:id="@+id/bn_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="展示" />
+
+            <TextView
+                android:id="@+id/tv_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="#fff"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="广告加载方式二"
+                android:textColor="#fff"
+                android:layout_marginTop="20dp"
+                android:textSize="16sp"
+                tools:ignore="InvalidId" />
+
+            <Button
+                android:id="@+id/bn_load_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="加载并展示" />
+
+            <com.alxad.api.AlxBannerView
+                android:id="@+id/do_ad_banner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp" />
+
+            <FrameLayout
+                android:id="@+id/ad_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1000dp"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="#ffffff"
+                android:text=""/>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

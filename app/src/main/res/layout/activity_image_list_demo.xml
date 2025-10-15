@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/bn_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/alx_transparent"
+        android:text="RecyclerView 展示"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1a000000"/>
+
+    <Button
+        android:id="@+id/bn_listview"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/alx_transparent"
+        android:text="ListView 展示"/>
+
+
+</LinearLayout>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_alx_demo"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:clickable="true"
+        android:paddingLeft="25dp"
+        android:text="Rixengine AD Demo"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1a000000"
+        app:layout_constraintTop_toBottomOf="@+id/tv_alx_demo" />
+
+    <TextView
+        android:id="@+id/tv_group_demo"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="Mediation Demo"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_line" />
+    <View
+        android:id="@+id/v_line_two"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1a000000"
+        app:layout_constraintTop_toBottomOf="@+id/tv_group_demo" />
+
+
+
+    <TextView
+        android:id="@+id/tv_open_pass"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="25dp"
+        android:text="Use OpenPass"
+        android:textColor="#000"
+        android:visibility="gone"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_line_two" />
+    <View
+        android:id="@+id/v_line_3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1a000000"
+        app:layout_constraintTop_toBottomOf="@+id/tv_group_demo" />
+
+
+    <!--    <TextView-->
+<!--        android:id="@+id/tv_http_test"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="?attr/selectableItemBackground"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:includeFontPadding="false"-->
+<!--        android:paddingLeft="25dp"-->
+<!--        android:text="Http Request Test"-->
+<!--        android:textColor="#000"-->
+<!--        android:textSize="20sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/v_line_moapub" />-->
+<!--    <View-->
+<!--        android:id="@+id/v_line_three"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="#1a000000"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tv_http_test" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tv_web_view"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="?attr/selectableItemBackground"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:includeFontPadding="false"-->
+<!--        android:paddingLeft="25dp"-->
+<!--        android:text="WebView拦截指定url"-->
+<!--        android:textColor="#000"-->
+<!--        android:textSize="20sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/v_line_three" />-->
+<!--    <View-->
+<!--        android:id="@+id/v_line_four"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="#1a000000"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tv_web_view" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tv_video_list"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="?attr/selectableItemBackground"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:includeFontPadding="false"-->
+<!--        android:paddingLeft="25dp"-->
+<!--        android:text="测试视频播放列表"-->
+<!--        android:textColor="#000"-->
+<!--        android:textSize="20sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/v_line_four" />-->
+<!--    <View-->
+<!--        android:id="@+id/v_line_six"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="#1a000000"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tv_video_list" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tv_video_single"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="?attr/selectableItemBackground"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:includeFontPadding="false"-->
+<!--        android:paddingLeft="25dp"-->
+<!--        android:text="测试横竖屏播放器"-->
+<!--        android:textColor="#000"-->
+<!--        android:textSize="20sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/v_line_six" />-->
+<!--    <View-->
+<!--        android:id="@+id/v_line_seven"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="#1a000000"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tv_video_single" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tv_image_list"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="?attr/selectableItemBackground"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:includeFontPadding="false"-->
+<!--        android:paddingLeft="25dp"-->
+<!--        android:text="测试图片加载列表"-->
+<!--        android:textColor="#000"-->
+<!--        android:textSize="20sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/v_line_seven" />-->
+
+<!--    <View-->
+<!--        android:id="@+id/v_line_eight"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="#1a000000"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tv_image_list" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tv_clear_cache"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="?attr/selectableItemBackground"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:includeFontPadding="false"-->
+<!--        android:paddingLeft="25dp"-->
+<!--        android:text="清除本地缓存"-->
+<!--        android:textColor="#000"-->
+<!--        android:textSize="20sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/v_line_eight" />-->
+
+<!--    <View-->
+<!--        android:id="@+id/v_line_nine"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="#1a000000"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tv_clear_cache" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

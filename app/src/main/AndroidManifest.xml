@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.rixengine">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application
+        android:name=".MainApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+
+        <activity android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <data android:scheme="com.myopenpass.auth.b3044f3612f7cfdf237331d9d38d2477" android:host="openpass-android-redirect.com" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".GroupActivity"/>
+        <!-- Alx demo案例-->
+        <activity android:name=".alx.demo.AdListActivity" />
+        <activity android:name=".alx.demo.BannerActivity" />
+        <activity
+            android:name=".alx.demo.BannerListViewActivity"
+            android:label="ListView show" />
+        <activity
+            android:name=".alx.demo.BannerRecyclerViewActivity"
+            android:label="RecyclerView show" />
+        <activity android:name=".alx.demo.RewardVideoActivity" />
+        <activity android:name=".alx.demo.InterstitialActivity" />
+
+        <activity android:name=".alx.demo.NativeListActivity" />
+        <activity
+            android:name=".alx.demo.NativeListViewActivity"
+            android:label="ListView show" />
+        <activity
+            android:name=".alx.demo.NativeRecyclerViewActivity"
+            android:label="RecyclerView show" />
+        <activity
+            android:name=".alx.demo.NativeNormalActivity"
+            android:label="Normal show" />
+
+
+        <!-- TopOn平台 demo案例 -->
+        <activity
+            android:name=".topon.demo.TopOnAdDemoListActivity"
+            android:label="TopOn Ad" />
+        <activity android:name=".topon.demo.TopOnBannerDemoActivity" />
+        <activity android:name=".topon.demo.TopOnNativeDemoActivity" />
+        <activity android:name=".topon.demo.TopOnVideoDemoActivity" />
+        <activity android:name=".topon.demo.TopOnInterstitialDemoActivity" />
+        <activity android:name=".topon.demo.TopOnSplashDemoActivity" />
+
+
+        <!-- Admob平台 demo案例 -->
+        <activity
+            android:name=".admob.demo.AdmobDemoListActivity"
+            android:label="Admob Ad" />
+        <activity android:name=".admob.demo.AdmobBannerActivity" />
+        <activity android:name=".admob.demo.AdmobRewardVideoActivity" />
+        <activity android:name=".admob.demo.AdmobInterstitialActivity" />
+        <activity android:name=".admob.demo.AdmobNativeActivity" />
+
+
+
+        <!-- TradPlus平台 demo案例 -->
+        <activity
+            android:name=".tradplus.demo.TradPlusDemoListActivity"
+            android:label="TradPlus Ad" />
+        <activity android:name=".tradplus.demo.TradPlusSplashDemoActivity" />
+        <activity android:name=".tradplus.demo.TradPlusBannerDemoActivity" />
+        <activity android:name=".tradplus.demo.TradPlusRewardVideoDemoActivity" />
+        <activity android:name=".tradplus.demo.TradPlusInterstitialDemoActivity" />
+        <activity android:name=".tradplus.demo.TradPlusNativeDemoActivity" />
+
+
+        <!-- IronSource平台 demo案例 -->
+        <activity
+            android:name=".ironsource.demo.IronSourceDemoListActivity"
+            android:label="Ironsource Ad"></activity>
+        <activity android:name=".ironsource.demo.IronSourceInterstitialActivity" />
+        <activity android:name=".ironsource.demo.IronSourceBannerActivity" />
+        <activity android:name=".ironsource.demo.IronSourceRewardedVideoActivity" />
+
+        <!-- max平台 demo案例 -->
+        <activity
+            android:name=".max.demo.MaxDemoListActivity"
+            android:label="max Ad" />
+        <activity
+            android:name=".max.demo.MaxBannerActivity"
+            android:label="banner Ad" />
+        <activity
+            android:name=".max.demo.MaxInterstitialActivity"
+            android:label="interstitial Ad" />
+        <activity
+            android:name=".max.demo.MaxRewardVideoActivity"
+            android:label="reward video Ad" />
+        <activity
+            android:name=".max.demo.MaxNativeActivity"
+            android:label="native Ad" />
+
+
+
+        <!-- 下面是配置信息 -->
+        <!--TopOn平台//////start     -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+        <!--google-->
+        <meta-data
+            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+            android:value="true" />
+        <!--TopOn平台//////end  -->
+
+
+        <!--ironsource平台//////start     -->
+        <activity
+            android:name="com.ironsource.sdk.controller.ControllerActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="true" />
+        <activity
+            android:name="com.ironsource.sdk.controller.InterstitialActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name="com.ironsource.sdk.controller.OpenUrlActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:theme="@android:style/Theme.Translucent" />
+
+        <provider
+            android:name="com.ironsource.lifecycle.IronsourceLifecycleProvider"
+            android:authorities="${applicationId}.IronsourceLifecycleProvider" />
+        <!--ironsource平台//////end     -->
+
+        <!--max平台//////start     -->
+        <meta-data android:name="applovin.sdk.key"
+            android:value="95-ffs7CG-uU8Z3exG1oky-tAdQGD1z1kHK365gIQdSIH90WNUv2fTCPFMBhVmH9Fx0o1GhhAX7DQDrnACsVIv"/>
+
+        <!--max平台//////start     -->
+
+        <!-- android:name="ALX_LICENSE" -->
+        <!-- android:value="10f0e186e95b3ee597804f65831e5359" /> -->
+        <!-- <meta-data -->
+        <!-- android:name="ALX_KEY" -->
+        <!-- android:value="30012" /> -->
+        <!-- <meta-data -->
+        <!-- android:name="ALX_APP_ID" -->
+        <!-- android:value="2a4a1e38839977ecd152f89c01f66683" /> -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+            android:value="true" />
+        <meta-data
+            android:name="ALX_LICENSE"
+            android:value="7b9f41d06393fcdae195e0fbaee34923Y5" />
+        <meta-data
+            android:name="ALX_KEY"
+            android:value="60023" />
+        <meta-data
+            android:name="ALX_APP_ID"
+            android:value="246a96361196f62202e6033f2e44720eY4" />
+
+        <!--Admob平台——start -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4885562717451614~4848824427"/>
+
+        <!-- OpenPass -->
+<!--        <activity android:name="com.myopenpass.auth.dev.MobileActivity"-->
+<!--            android:launchMode="singleTop"-->
+<!--            android:exported="true">-->
+<!--            ...-->
+<!--        </activity>-->
+
+        <meta-data android:name="op_web_redirect"
+            android:value="com.myopenpass.auth.b3044f3612f7cfdf237331d9d38d2477://openpass-android-redirect.com"/>
+    </application>
+
+</manifest>
