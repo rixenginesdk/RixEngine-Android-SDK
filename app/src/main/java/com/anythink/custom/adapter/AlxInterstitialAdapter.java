@@ -38,41 +38,7 @@ public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
 
     public void startBid(Context context) {
         Log.d(TAG,"startBid ");
-        alxInterstitialAD = new AlxInterstitialAD();
-        alxInterstitialAD.load(context, unitid, new AlxInterstitialADListener() {
-            @Override
-            public void onInterstitialAdLoaded() {
-
-                //get price
-                double bidPrice = alxInterstitialAD.getPrice();
-                Log.d(TAG,"bidPrice: "+bidPrice);
-
-                //get currency
-                TUAdConst.CURRENCY currency = TUAdConst.CURRENCY.USD;
-
-                //get uuid
-                String token = UUID.randomUUID().toString();
-
-                //BiddingNotice
-                TUBiddingNotice biddingNotice = null;
-
-                //BaseAd
-                BaseAd basead = null;
-                if (mBiddingListener != null) {
-                    mBiddingListener.onC2SBiddingResultWithCache(
-                            TUBiddingResult.success(bidPrice, token, biddingNotice, currency), basead);
-                }
-            }
-
-            @Override
-            public void onInterstitialAdLoadFail(int errorCode, String errorMsg) {
-                Log.d(TAG,"startBid  load fail: "+errorMsg);
-                if (mBiddingListener != null) {
-                    mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(errorMsg), null);
-                }
-
-            }
-        });
+        startAdLoad(context);
 
     }
 
@@ -187,12 +153,34 @@ public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
                 if (mLoadListener != null) {
                     mLoadListener.onAdCacheLoaded();
                 }
+                //get price
+                double bidPrice = alxInterstitialAD.getPrice();
+                Log.d(TAG,"bidPrice: "+bidPrice);
+
+                //get currency
+                TUAdConst.CURRENCY currency = TUAdConst.CURRENCY.USD;
+
+                //get uuid
+                String token = UUID.randomUUID().toString();
+
+                //BiddingNotice
+                TUBiddingNotice biddingNotice = null;
+
+                //BaseAd
+                BaseAd basead = null;
+                if (mBiddingListener != null) {
+                    mBiddingListener.onC2SBiddingResultWithCache(
+                            TUBiddingResult.success(bidPrice, token, biddingNotice, currency), basead);
+                }
             }
 
             @Override
             public void onInterstitialAdLoadFail(int errorCode, String errorMsg) {
                 if (mLoadListener != null) {
                     mLoadListener.onAdLoadError(errorCode + "", errorMsg);
+                }
+                if (mBiddingListener != null) {
+                    mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(errorMsg), null);
                 }
 
                 Log.i(TAG, "onInterstitialAdLoadFail:" + errorCode + " msg:" + errorMsg);
