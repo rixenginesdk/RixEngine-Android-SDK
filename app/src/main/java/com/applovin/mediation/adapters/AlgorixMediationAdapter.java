@@ -11,23 +11,23 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.rixengine.api.AlxAdParam;
-import com.rixengine.api.AlxAdSDK;
-import com.rixengine.api.AlxBannerView;
-import com.rixengine.api.AlxBannerViewAdListener;
-import com.rixengine.api.AlxImage;
-import com.rixengine.api.AlxInterstitialAD;
-import com.rixengine.api.AlxInterstitialADListener;
-import com.rixengine.api.AlxRewardVideoAD;
-import com.rixengine.api.AlxRewardVideoADListener;
-import com.rixengine.api.AlxSdkInitCallback;
-import com.rixengine.api.nativead.AlxMediaContent;
-import com.rixengine.api.nativead.AlxMediaView;
-import com.rixengine.api.nativead.AlxNativeAd;
-import com.rixengine.api.nativead.AlxNativeAdLoadedListener;
-import com.rixengine.api.nativead.AlxNativeAdLoader;
-import com.rixengine.api.nativead.AlxNativeAdView;
-import com.rixengine.api.nativead.AlxNativeEventListener;
+import com.alxad.api.AlxAdParam;
+import com.alxad.api.AlxAdSDK;
+import com.alxad.api.AlxBannerView;
+import com.alxad.api.AlxBannerViewAdListener;
+import com.alxad.api.AlxImage;
+import com.alxad.api.AlxInterstitialAD;
+import com.alxad.api.AlxInterstitialADListener;
+import com.alxad.api.AlxRewardVideoAD;
+import com.alxad.api.AlxRewardVideoADListener;
+import com.alxad.api.AlxSdkInitCallback;
+import com.alxad.api.nativead.AlxMediaContent;
+import com.alxad.api.nativead.AlxMediaView;
+import com.alxad.api.nativead.AlxNativeAd;
+import com.alxad.api.nativead.AlxNativeAdLoadedListener;
+import com.alxad.api.nativead.AlxNativeAdLoader;
+import com.alxad.api.nativead.AlxNativeAdView;
+import com.alxad.api.nativead.AlxNativeEventListener;
 import com.applovin.impl.sdk.utils.BundleUtils;
 import com.applovin.mediation.MaxAdFormat;
 import com.applovin.mediation.adapter.MaxAdViewAdapter;
@@ -40,14 +40,20 @@ import com.applovin.mediation.adapter.listeners.MaxInterstitialAdapterListener;
 import com.applovin.mediation.adapter.listeners.MaxNativeAdAdapterListener;
 import com.applovin.mediation.adapter.listeners.MaxRewardedAdapterListener;
 import com.applovin.mediation.adapter.parameters.MaxAdapterInitializationParameters;
+import com.applovin.mediation.adapter.parameters.MaxAdapterParameters;
 import com.applovin.mediation.adapter.parameters.MaxAdapterResponseParameters;
 import com.applovin.mediation.nativeAds.MaxNativeAd;
 import com.applovin.mediation.nativeAds.MaxNativeAdView;
 import com.applovin.sdk.AppLovinPrivacySettings;
 import com.applovin.sdk.AppLovinSdk;
+import com.applovin.sdk.AppLovinSdkSettings;
 import com.applovin.sdk.AppLovinSdkUtils;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -56,12 +62,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Applovin ads AlgoriX Adapter
  */
 public class AlgorixMediationAdapter extends MediationAdapterBase implements MaxAdViewAdapter, MaxInterstitialAdapter, MaxRewardedAdapter, MaxNativeAdAdapter {
-
-    String ADAPTER_VERSION = "3.8.2";
-    // 服务器请求EndPoint域名, 由平台分配，请手动修改， 例如：https://yoursubdomain.svr.rixengine.com/rtb
-    String ADAPTER_SDK_HOST_URL = "https://demo.use.svr.rixengine.com/rtb";
-
     private static final String TAG = "AlgorixMediationAdapter";
+    private static final String ADAPTER_VERSION = "3.9.1";
 
     private static final int DEFAULT_IMAGE_TASK_TIMEOUT_SECONDS = 10;
 
@@ -81,89 +83,9 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
     @Override
     public void initialize(MaxAdapterInitializationParameters parameters, Activity activity, final OnCompletionListener onCompletionListener) {
         Log.d(TAG, "initialize alx sdk……");
+        Log.d(TAG, "sdk-version:" + AppLovinSdk.VERSION);
         Log.d(TAG, "alx-applovin-adapter-version:" + ADAPTER_VERSION);
-        try {
-            status = InitializationStatus.INITIALIZING;
-            Context context = (activity != null) ? activity.getApplicationContext() : getApplicationContext();
-
-            Bundle bundle = parameters.getCustomParameters();
-            String host = bundle.getString("host");
-            String appid = bundle.getString("appid");
-            String sid = bundle.getString("sid");
-            String token = bundle.getString("token");
-            String debug = bundle.getString("isdebug");
-            Boolean isDebug = null;
-            if (debug != null) {
-                if (debug.equalsIgnoreCase("true")) {
-                    isDebug = Boolean.TRUE;
-                } else if (debug.equalsIgnoreCase("false")) {
-                    isDebug = Boolean.FALSE;
-                }
-            }
-
-            if (TextUtils.isEmpty(host) && !TextUtils.isEmpty(ADAPTER_SDK_HOST_URL)) {
-                host = ADAPTER_SDK_HOST_URL;
-                Log.e(TAG,"host url is null, please check it, now use default host : " + ADAPTER_SDK_HOST_URL);
-            }
-
-            Log.d(TAG, "alx-applovin-init:host=" + host + " token=" + token + "  sid=" + sid + " appid=" + appid);
-
-            if (TextUtils.isEmpty(host) || TextUtils.isEmpty(appid) || TextUtils.isEmpty(sid) || TextUtils.isEmpty(token)) {
-                Log.d(TAG, "initialize alx params: host or appid or sid or token is null");
-                status = InitializationStatus.DOES_NOT_APPLY;
-                onCompletionListener.onCompletion(status, null);
-            } else {
-                if (isDebug != null) {
-                    AlxAdSDK.setDebug(isDebug.booleanValue());
-                }
-                AlxAdSDK.init(context, host, token, sid, appid, new AlxSdkInitCallback() {
-                    @Override
-                    public void onInit(boolean isOk, String msg) {
-                        status = InitializationStatus.INITIALIZED_SUCCESS;
-                        onCompletionListener.onCompletion(status, null);
-                    }
-                });
-                // // set GDPR
-                // // Subject to GDPR Flag: Please pass a Boolean value to indicate if the user is subject to GDPR regulations or not.
-                // // Your app should make its own determination as to whether GDPR is applicable to the user or not.
-                // AlxAdSDK.setSubjectToGDPR(true);
-
-                if (parameters != null) {
-                    // Set GDPR Consent value
-                    String strGDPRConsent = "0";
-                    if (TextUtils.isEmpty(parameters.getConsentString())) {
-                        if (AppLovinPrivacySettings.hasUserConsent(context)) {
-                            try {
-                                SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-                                strGDPRConsent = mPreferences.getString("IABTCF_TCString", "");
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            if (TextUtils.isEmpty(strGDPRConsent)) {
-                                strGDPRConsent = "1";
-                            }
-                        }
-                        AlxAdSDK.setUserConsent(strGDPRConsent);
-                    } else {
-                        AlxAdSDK.setUserConsent(parameters.getConsentString());
-                    }
-                    Log.i(TAG, "Max parameter hasUserConsent:" + parameters.hasUserConsent()
-                            + " getConsentString:" + parameters.getConsentString()
-                            + " isAgeRestrictedUser:" + parameters.isAgeRestrictedUser()
-                            + " hasUserConsent-2:" + AppLovinPrivacySettings.hasUserConsent(context));
-                }
-
-                // // set COPPA true or false
-                // AlxAdSDK.setBelowConsentAge(true);
-                // // set CCPA
-                // AlxAdSDK.subjectToUSPrivacy("1YYY");
-
-            }
-        } catch (Exception e) {
-            Log.d(TAG, "initialize alx error:" + e.getMessage());
-            status = InitializationStatus.INITIALIZED_FAILURE;
-            onCompletionListener.onCompletion(status, null);
-        }
+        initSdk(parameters, activity, true, onCompletionListener);
     }
 
     @Override
@@ -208,6 +130,9 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
     //banner load
     @Override
     public void loadAdViewAd(MaxAdapterResponseParameters parameters, MaxAdFormat maxAdFormat, Activity activity, final MaxAdViewAdapterListener listener) {
+        if (initialized.get() == false) {
+            initSdk(parameters, activity, false, null);
+        }
         String adId = parameters.getThirdPartyAdPlacementId();
         Log.d(TAG, "loadAdViewAd ad id:" + adId);
         if (TextUtils.isEmpty(adId)) {
@@ -262,6 +187,9 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
     //interstitial ad load
     @Override
     public void loadInterstitialAd(MaxAdapterResponseParameters parameters, Activity activity, final MaxInterstitialAdapterListener listener) {
+        if (initialized.get() == false) {
+            initSdk(parameters, activity, false, null);
+        }
         String adId = parameters.getThirdPartyAdPlacementId();
         Log.d(TAG, "loadInterstitialAd ad id:" + adId);
         if (TextUtils.isEmpty(adId)) {
@@ -338,6 +266,9 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
     //reward ad load
     @Override
     public void loadRewardedAd(MaxAdapterResponseParameters parameters, Activity activity, final MaxRewardedAdapterListener listener) {
+        if (initialized.get() == false) {
+            initSdk(parameters, activity, false, null);
+        }
         String adId = parameters.getThirdPartyAdPlacementId();
         Log.d(TAG, "loadRewardedAd ad id:" + adId);
         if (TextUtils.isEmpty(adId)) {
@@ -367,16 +298,12 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
                 Log.d(TAG, "onRewardedVideoAdPlayStart");
                 if (listener != null) {
                     listener.onRewardedAdDisplayed();
-                    listener.onRewardedAdVideoStarted();
                 }
             }
 
             @Override
             public void onRewardedVideoAdPlayEnd(AlxRewardVideoAD var1) {
                 Log.d(TAG, "onRewardedVideoAdPlayEnd");
-                if (listener != null) {
-                    listener.onRewardedAdVideoCompleted();
-                }
             }
 
             @Override
@@ -428,6 +355,9 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
     //native ad
     @Override
     public void loadNativeAd(MaxAdapterResponseParameters parameters, Activity activity, final MaxNativeAdAdapterListener listener) {
+        if (initialized.get() == false) {
+            initSdk(parameters, activity, false, null);
+        }
         String adId = parameters.getThirdPartyAdPlacementId();
         Log.d(TAG, "loadNativeAd ad id:" + adId);
         if (TextUtils.isEmpty(adId)) {
@@ -649,6 +579,182 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
             }
             nativeAdView.setNativeAd(nativeAD);
         }
+    }
+
+    private void initSdk(MaxAdapterParameters parameters, Activity activity, boolean isInit, final OnCompletionListener onCompletionListener) {
+        try {
+            status = InitializationStatus.INITIALIZING;
+            Context context = (activity != null) ? activity.getApplicationContext() : getApplicationContext();
+
+            Bundle bundle = parameters.getCustomParameters();
+            String appid = bundle.getString("appid");
+            String sid = bundle.getString("sid");
+            String token = bundle.getString("token");
+            String debug = bundle.getString("isdebug");
+            Bundle extras = bundle.getBundle("extras");
+
+            Boolean isDebug = null;
+            if (debug != null) {
+                if (debug.equalsIgnoreCase("true")) {
+                    isDebug = Boolean.TRUE;
+                } else if (debug.equalsIgnoreCase("false")) {
+                    isDebug = Boolean.FALSE;
+                }
+            }
+            Log.d(TAG, "alx-applovin-init:token=" + token + "  sid=" + sid + " appid=" + appid);
+
+            if (TextUtils.isEmpty(appid) || TextUtils.isEmpty(sid) || TextUtils.isEmpty(token)) {
+                Log.d(TAG, "initialize alx params: appid or sid or token is null");
+                status = InitializationStatus.DOES_NOT_APPLY;
+                initialized.set(false);
+                if (onCompletionListener != null) {
+                    status = InitializationStatus.INITIALIZED_SUCCESS;
+                    onCompletionListener.onCompletion(status, null);
+                }
+            } else {
+                if (isDebug != null) {
+                    AlxAdSDK.setDebug(isDebug.booleanValue());
+                }
+                AlxAdSDK.init(context, token, sid, appid, new AlxSdkInitCallback() {
+                    @Override
+                    public void onInit(boolean isOk, String msg) {
+                        initialized.set(true);
+                        status = InitializationStatus.INITIALIZED_SUCCESS;
+                        if (onCompletionListener != null) {
+                            onCompletionListener.onCompletion(status, null);
+                        }
+                    }
+                });
+                Map<String, Object> extraParameters = getExtraParameters(extras, context);
+                printExtraParameters(extraParameters);
+                setAlxExtraParameters(extraParameters);
+                // // set GDPR
+                // // Subject to GDPR Flag: Please pass a Boolean value to indicate if the user is subject to GDPR regulations or not.
+                // // Your app should make its own determination as to whether GDPR is applicable to the user or not.
+                // AlxAdSDK.setSubjectToGDPR(true);
+
+                String tcString = null;
+                try {
+                    SharedPreferences Preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                    tcString = Preferences.getString("IABTCF_TCString", "");
+                    int gdprApplies = Preferences.getInt("IABTCF_gdprApplies", 0);
+                    Log.d(TAG, "alx-applovin-init:tcString= " + tcString + " gdprApplies: " + gdprApplies);
+                    if (gdprApplies != 0) {
+                        AlxAdSDK.setSubjectToGDPR(true);
+                    } else {
+                        AlxAdSDK.setSubjectToGDPR(false);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (tcString != null && !tcString.isEmpty()) {
+                    AlxAdSDK.setUserConsent(tcString);
+                } else if (parameters != null) {
+                    // Set GDPR Consent value
+                    String strGDPRConsent = "0";
+                    if (TextUtils.isEmpty(parameters.getConsentString())) {
+                        if (AppLovinPrivacySettings.hasUserConsent(context)) {
+                            try {
+                                SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                                strGDPRConsent = mPreferences.getString("IABTCF_TCString", "");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            if (TextUtils.isEmpty(strGDPRConsent)) {
+                                strGDPRConsent = "1";
+                            }
+                        }
+                        AlxAdSDK.setUserConsent(strGDPRConsent);
+                    } else {
+                        AlxAdSDK.setUserConsent(parameters.getConsentString());
+                    }
+                    Log.i(TAG, "Max parameter hasUserConsent:" + parameters.hasUserConsent()
+                            + " getConsentString:" + parameters.getConsentString()
+                            + " isAgeRestrictedUser:" + parameters.isAgeRestrictedUser()
+                            + " hasUserConsent-2:" + AppLovinPrivacySettings.hasUserConsent(context));
+                }
+
+                // // set COPPA true or false
+                // AlxAdSDK.setBelowConsentAge(true);
+                // // set CCPA
+                // AlxAdSDK.subjectToUSPrivacy("1YYY");
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "initialize alx error:" + e.getMessage());
+            status = InitializationStatus.INITIALIZED_FAILURE;
+            if (onCompletionListener != null) {
+                onCompletionListener.onCompletion(status, null);
+            }
+        }
+    }
+
+    private void setAlxExtraParameters(Map<String, Object> parameters) {
+        if (parameters != null && !parameters.isEmpty()) {
+            for (Map.Entry<String, Object> entry : parameters.entrySet()) {
+                AlxAdSDK.addExtraParameters(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    private Map<String, Object> getExtraParameters(Bundle extras, Context context) {
+        Map<String, Object> map = null;
+        try {
+            map = getAlxExtraParameters(extras);
+            if (map == null || map.isEmpty()) {
+                map = getMaxExtraParameters(context);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "alx extras field error:" + e.getMessage());
+        }
+        return map;
+    }
+
+    private void printExtraParameters(Map<String, Object> map) {
+        try {
+            if (map == null || map.isEmpty()) {
+                Log.d(TAG, "alx Extra Parameters:null");
+                return;
+            }
+            JSONObject json = new JSONObject(map);
+            Log.d(TAG, "alx Extra Parameters:" + json.toString());
+        } catch (Exception e) {
+            Log.e(TAG, "printExtraParameters error:" + e.getMessage());
+        }
+    }
+
+    private Map<String, Object> getAlxExtraParameters(Bundle extras) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            if (extras == null) {
+                return map;
+            }
+            for (String key : extras.keySet()) {
+                try {
+                    Object obj = extras.get(key);
+                    map.put(key, obj);
+                } catch (Exception e1) {
+                    Log.e(TAG, "alx extras field " + key + " error:" + e1.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "alx extras field error:" + e.getMessage());
+        }
+        return map;
+    }
+
+    private Map<String, Object> getMaxExtraParameters(Context context) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            AppLovinSdkSettings settings = AppLovinSdk.getInstance(context).getSettings();
+            Map<String, String> values = settings.getExtraParameters();
+            if (values != null && !values.isEmpty()) {
+                map.putAll(values);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "max extras field error:" + e.getMessage());
+        }
+        return map;
     }
 
 }
