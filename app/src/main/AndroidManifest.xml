@@ -186,7 +186,7 @@
         <!--Admob平台——start -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-4885562717451614~4848824427"/>
+            android:value="ca-app-pub-2258587227088809~4790418597"/>
 
         <!-- OpenPass -->
 <!--        <activity android:name="com.myopenpass.auth.dev.MobileActivity"-->

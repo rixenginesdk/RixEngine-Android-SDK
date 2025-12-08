@@ -26,8 +26,8 @@ public class AppConfig {
     public static final String TOPON_SPLASH_PID = "b611335c2f2678";
 
     //Admob
-    public static final String ADMOB_APP_ID = "ca-app-pub-4885562717451614~4848824427";
-    public static final String ADMOB_BANNER_ID = "ca-app-pub-4885562717451614/9675235882";
+    public static final String ADMOB_APP_ID = "ca-app-pub-2258587227088809~4790418597";
+    public static final String ADMOB_BANNER_ID = "ca-app-pub-2258587227088809/4048182567";
     public static final String ADMOB_INTERSTITIAL_ID = "ca-app-pub-2258587227088809/7959894454";
     public static final String ADMOB_REWARD_ID = "ca-app-pub-2258587227088809/1913360859";
     public static final String ADMOB_NATIVE_ID = "ca-app-pub-2258587227088809/3086454689";
