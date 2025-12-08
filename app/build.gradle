@@ -61,11 +61,11 @@ dependencies {
     api "com.google.android.gms:play-services-ads:23.5.0"
     api "com.google.android.ads.consent:consent-library:1.0.8"
     // Max
-    api "com.applovin:applovin-sdk:11.4.4"
+    api "com.applovin:applovin-sdk:13.3.1"
     // IronSource
-    api "com.ironsource.sdk:mediationsdk:7.3.0"
+    api "com.ironsource.sdk:mediationsdk:7.3.0.1"
     // TradPlus
-    api "com.tradplusad:tradplus:8.7.0.1"
+    api "com.tradplusad:tradplus:14.5.0.1"
 
     //  支持UID2的库
     implementation 'com.uid2:uid2-android-sdk:1.6.0'

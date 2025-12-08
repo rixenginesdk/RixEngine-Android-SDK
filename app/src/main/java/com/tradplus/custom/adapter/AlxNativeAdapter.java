@@ -23,6 +23,7 @@ import com.tradplus.ads.base.bean.TPBaseAd;
 import com.tradplus.ads.base.common.TPError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,71 +37,89 @@ public class AlxNativeAdapter extends TPNativeAdapter {
     private String unitid = "";
     private String appid = "";
     private String sid = "";
-    private String host = "";
     private String token = "";
+    private String host = "";
 
-    private Boolean isdebug = false; //判断是否已经执行回调，防止重复执行回调方法
+    private Boolean isDebug = null;
 
     private AlxNativeAd nativeAd;
 
+    private OnC2STokenListener onC2STokenListener = null;
+    private boolean isBiddingLoaded = false;
+
     @Override
     public void loadCustomAd(Context context, Map<String, Object> userParams, Map<String, String> tpParams) {
-        Log.d(TAG, "rixengine-tradplus-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        Log.d(TAG, "alx-tradplus-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
         Log.i(TAG, "loadCustomAd");
         if (tpParams != null && parseServer(tpParams)) {
             initSdk(context);
         } else {
             if (mLoadAdapterListener != null) {
-                mLoadAdapterListener.loadAdapterLoadFailed(new TPError("rixengine apppid | host | token | sid | appid is empty."));
+                mLoadAdapterListener.loadAdapterLoadFailed(new TPError("alx host | apppid | token | sid | appid is empty."));
             }
         }
     }
 
+    // TradPlus Native C2S 模式测试后无法展示，目前不可用
+    @Override
+    public void getC2SBidding(final Context context, final Map<String, Object> localParams, final Map<String, String> tpParams, final OnC2STokenListener onC2STokenListener) {
+
+        this.onC2STokenListener = onC2STokenListener;
+        this.isBiddingLoaded = false;
+        loadCustomAd(context, localParams, tpParams);
+    }
+
+    /**
+     * 竞价失败时的上报接⼝ V10.1.0.1 support
+     *
+     * @param auctionPrice    胜出者的第⼀名价格，单位是美元
+     * @param auctionPriceCny 胜出者的第⼀名价格，单位是元（人民币）
+     * @param lossReason      竞价失败的原因 返回null，原因 竞价失败
+     */
+    @Override
+    public void setLossNotifications(String auctionPrice, String auctionPriceCny, String lossReason) {
+        // auctionPrice和 auctionPriceCny均需要判空，部分平台规定不可以回传价格
+    }
+
     private boolean parseServer(Map<String, String> serverExtras) {
         try {
-            if (serverExtras.containsKey("unitid")) {
-                unitid = serverExtras.get("unitid");
-            }
-            if (serverExtras.containsKey("appid")) {
-                appid = serverExtras.get("appid");
-
-            } else if (serverExtras.containsKey("appkey")) {
-                appid = serverExtras.get("appkey");
-            }
-            if (serverExtras.containsKey("appkey")) {
-                sid = serverExtras.get("appkey");
-            } else if (serverExtras.containsKey("sid")) {
-                sid = serverExtras.get("sid");
-            }
             if (serverExtras.containsKey("host")) {
                 host = serverExtras.get("host");
             }
-            if (serverExtras.containsKey("license")) {
-                token = serverExtras.get("license");
-            } else if (serverExtras.containsKey("token")) {
+            if (serverExtras.containsKey("appid")) {
+                appid = serverExtras.get("appid");
+            }
+            if (serverExtras.containsKey("sid")) {
+                sid = serverExtras.get("sid");
+            }
+            if (serverExtras.containsKey("token")) {
                 token = serverExtras.get("token");
+            }
+            if (serverExtras.containsKey("unitid")) {
+                unitid = serverExtras.get("unitid");
             }
 
             if (serverExtras.containsKey("isdebug")) {
-                String test = serverExtras.get("isdebug");
-                Log.e(TAG, "rixengine debug mode:" + test);
-                if (test.equals("true")) {
-                    isdebug = true;
-                } else {
-                    isdebug = false;
+                String debug = serverExtras.get("isdebug");
+                Log.e(TAG, "alx debug mode:" + debug);
+                if (debug != null) {
+                    if (debug.equalsIgnoreCase("true")) {
+                        isDebug = Boolean.TRUE;
+                    } else if (debug.equalsIgnoreCase("false")) {
+                        isDebug = Boolean.FALSE;
+                    }
                 }
-            } else {
-                Log.e(TAG, "rixengine debug mode: false");
-            }
-            if (serverExtras.containsKey("tag")) {
-                String tag = serverExtras.get("tag");
-                Log.e(TAG, "rixengine json tag:" + tag);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (TextUtils.isEmpty(unitid) || TextUtils.isEmpty(host) || TextUtils.isEmpty(token) || TextUtils.isEmpty(sid) || TextUtils.isEmpty(appid)) {
-            Log.i(TAG, "rixengine unitid | host | token | sid | appid is empty");
+
+        if (TextUtils.isEmpty(host) && !TextUtils.isEmpty(AlxMetaInf.ADAPTER_SDK_HOST_URL)) {
+            host = AlxMetaInf.ADAPTER_SDK_HOST_URL;
+        }
+
+        if (TextUtils.isEmpty(host) || TextUtils.isEmpty(unitid) || TextUtils.isEmpty(token) || TextUtils.isEmpty(sid) || TextUtils.isEmpty(appid)) {
+            Log.i(TAG, "alx host | unitid | token | sid | appid is empty");
             return false;
         }
         return true;
@@ -108,9 +127,11 @@ public class AlxNativeAdapter extends TPNativeAdapter {
 
     private void initSdk(final Context context) {
         try {
-            Log.i(TAG, "rixengine ver:" + AlxAdSDK.getNetWorkVersion() + " rixengine host: " + host + " rixengine token: " + token + " rixengine appid: " + appid + " rixengine sid: " + sid);
+            Log.i(TAG, "alx ver:" + AlxAdSDK.getNetWorkVersion() + " alx host: " + host + " alx token: " + token + " alx appid: " + appid + " alx sid: " + sid);
 
-            AlxAdSDK.setDebug(isdebug);
+            if (isDebug != null) {
+                AlxAdSDK.setDebug(isDebug.booleanValue());
+            }
             AlxAdSDK.init(context, host, token, sid, appid, new AlxSdkInitCallback() {
                 @Override
                 public void onInit(boolean isOk, String msg) {
@@ -125,12 +146,24 @@ public class AlxNativeAdapter extends TPNativeAdapter {
     }
 
     private void startAdLoad(final Context context) {
+        if (onC2STokenListener != null && isBiddingLoaded) {
+            if (mLoadAdapterListener != null) {
+                mLoadAdapterListener.loadAdapterLoaded(null);
+            }
+            return;
+        }
+
         AlxNativeAdLoadedListener loadListener = new AlxNativeAdLoadedListener() {
             @Override
             public void onAdFailed(int errorCode, String errorMsg) {
                 Log.i(TAG, "onAdLoadedFail:" + errorCode + ";" + errorMsg);
                 if (mLoadAdapterListener != null) {
                     mLoadAdapterListener.loadAdapterLoadFailed(new TPError(errorCode + "", errorMsg));
+                }
+
+                // 根据三方文档，失败无法获取ecpm，将失败原因回传给TradPlusSDK
+                if (onC2STokenListener != null) {
+                    onC2STokenListener.onC2SBiddingFailed(errorCode + " ", errorMsg);
                 }
             }
 
@@ -158,6 +191,22 @@ public class AlxNativeAdapter extends TPNativeAdapter {
                         mLoadAdapterListener.loadAdapterLoaded(customNativeAd);
                     }
 
+                    if (onC2STokenListener != null) {
+                        // 根据三方文档，loaded成功后获取ECPM
+                        String ecpmLevel = String.valueOf(info.getPrice());
+                        if (TextUtils.isEmpty(ecpmLevel)) {
+                            //价格返回空，无意义，通过onC2STokenListener调用失败回调
+                            onC2STokenListener.onC2SBiddingFailed("", "ecpmLevel is Empty");
+                            return;
+                        }
+                        Log.i(TAG, "alx ecpm:" + ecpmLevel);
+                        // 成功获取price，通过onC2STokenListener将价格传给TradPlusSDK（美金）
+                        Map<String, Object> hashMap = new HashMap<>();
+                        // key必须是"ecpm"，value是double类型
+                        hashMap.put("ecpm", Double.parseDouble(ecpmLevel));
+                        onC2STokenListener.onC2SBiddingResult(hashMap);
+                    }
+                    isBiddingLoaded = true;
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
                     e.printStackTrace();
@@ -421,6 +470,9 @@ public class AlxNativeAdapter extends TPNativeAdapter {
                 public void onAdImpression() {
                     if (mShowListener != null) {
                         mShowListener.onAdShown();
+                    }
+                    if (onC2STokenListener != null) {
+                        Log.i(TAG, "alx bid onAdImpression");
                     }
                 }
 

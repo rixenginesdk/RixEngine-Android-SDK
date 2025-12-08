@@ -21,75 +21,65 @@ public class AlxSplashAdapter extends TPSplashAdapter {
     private String unitid = "";
     private String appid = "";
     private String sid = "";
-    private String host = "";
     private String token = "";
-    private Boolean isdebug = false;
+    private String host = "";
+    private Boolean isDebug = null;
     private AlxSplashAd mAdObj;
     private boolean isReady = false;
 
     @Override
     public void loadCustomAd(Context context, Map<String, Object> map, Map<String, String> tpParams) {
-        Log.d(TAG, "rixengine-tradplus-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        Log.d(TAG, "alx-tradplus-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
         Log.i(TAG, "loadCustomAd");
         isReady = false;
         if (tpParams != null && parseServer(tpParams)) {
             initSdk(context);
         } else {
             if (mLoadAdapterListener != null) {
-                mLoadAdapterListener.loadAdapterLoadFailed(new TPError("rixengine apppid | host | token | sid | appid is empty."));
+                mLoadAdapterListener.loadAdapterLoadFailed(new TPError("alx host | apppid | token | sid | appid is empty."));
             }
         }
     }
 
     private boolean parseServer(Map<String, String> serverExtras) {
         try {
-            if (serverExtras.containsKey("unitid")) {
-                unitid = (String) serverExtras.get("unitid");
+            if (serverExtras.containsKey("host")) {
+                host = serverExtras.get("host");
             }
             if (serverExtras.containsKey("appid")) {
-                appid = (String) serverExtras.get("appid");
-
-            } else if (serverExtras.containsKey("appkey")) {
-                appid = (String) serverExtras.get("appkey");
+                appid = serverExtras.get("appid");
             }
-            if (serverExtras.containsKey("appkey")) {
-                sid = (String) serverExtras.get("appkey");
-            } else if (serverExtras.containsKey("sid")) {
-                sid = (String) serverExtras.get("sid");
+            if (serverExtras.containsKey("sid")) {
+                sid = serverExtras.get("sid");
             }
-            if (serverExtras.containsKey("host")) {
-                host = (String) serverExtras.get("host");
+            if (serverExtras.containsKey("token")) {
+                token = serverExtras.get("token");
             }
-            if (serverExtras.containsKey("license")) {
-                token = (String) serverExtras.get("license");
-            } else if (serverExtras.containsKey("token")) {
-                token = (String) serverExtras.get("token");
+            if (serverExtras.containsKey("unitid")) {
+                unitid = serverExtras.get("unitid");
             }
 
             if (serverExtras.containsKey("isdebug")) {
-                String test = serverExtras.get("isdebug").toString();
-                Log.e(TAG, "rixengine debug mode:" + test);
-                if (test.equals("true")) {
-                    isdebug = true;
-                } else {
-                    isdebug = false;
+                String debug = serverExtras.get("isdebug");
+                Log.e(TAG, "alx debug mode:" + debug);
+                if (debug != null) {
+                    if (debug.equalsIgnoreCase("true")) {
+                        isDebug = Boolean.TRUE;
+                    } else if (debug.equalsIgnoreCase("false")) {
+                        isDebug = Boolean.FALSE;
+                    }
                 }
-            } else {
-                Log.e(TAG, "rixengine debug mode: false");
-            }
-            if (serverExtras.containsKey("tag")) {
-                String tag = serverExtras.get("tag").toString();
-                Log.e(TAG, "rixengine json tag:" + tag);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (TextUtils.isEmpty(unitid) || TextUtils.isEmpty(host) || TextUtils.isEmpty(token) || TextUtils.isEmpty(sid) || TextUtils.isEmpty(appid)) {
-            Log.i(TAG, "rixengine unitid | host | token | sid | appid is empty");
-            if (mLoadAdapterListener != null) {
-                mLoadAdapterListener.loadAdapterLoadFailed(
-                        new TPError(TPError.ADAPTER_CONFIGURATION_ERROR + ":rixengine unitid | host | token | sid | appid is empty."));
-            }
+
+        if (TextUtils.isEmpty(host) && !TextUtils.isEmpty(AlxMetaInf.ADAPTER_SDK_HOST_URL)) {
+            host = AlxMetaInf.ADAPTER_SDK_HOST_URL;
+        }
+
+        if (TextUtils.isEmpty(host) || TextUtils.isEmpty(unitid) || TextUtils.isEmpty(token) || TextUtils.isEmpty(sid) || TextUtils.isEmpty(appid)) {
+            Log.i(TAG, "alx host | unitid | token | sid | appid is empty");
             return false;
         }
         return true;
@@ -97,9 +87,11 @@ public class AlxSplashAdapter extends TPSplashAdapter {
 
     private void initSdk(final Context context) {
         try {
-            Log.i(TAG, "rixengine ver:" + AlxAdSDK.getNetWorkVersion() + " rixengine host: " + host + " rixengine token: " + token + " rixengine appid: " + appid + " rixengine sid: " + sid);
+            Log.i(TAG, "alx ver:" + AlxAdSDK.getNetWorkVersion() + " alx host: " + host + " alx token: " + token + " alx appid: " + appid + " alx sid: " + sid);
 
-            AlxAdSDK.setDebug(isdebug);
+            if (isDebug != null) {
+                AlxAdSDK.setDebug(isDebug.booleanValue());
+            }
             AlxAdSDK.init(context, host, token, sid, appid, new AlxSdkInitCallback() {
                 @Override
                 public void onInit(boolean isOk, String msg) {

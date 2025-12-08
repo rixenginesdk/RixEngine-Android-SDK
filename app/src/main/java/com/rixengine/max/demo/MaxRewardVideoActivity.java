@@ -123,16 +123,6 @@ public class MaxRewardVideoActivity extends AppCompatActivity implements View.On
         }
 
         @Override
-        public void onRewardedVideoStarted(MaxAd ad) {
-            Log.d(TAG, "onRewardedVideoStarted");
-        }
-
-        @Override
-        public void onRewardedVideoCompleted(MaxAd ad) {
-            Log.d(TAG, "onRewardedVideoCompleted");
-        }
-
-        @Override
         public void onUserRewarded(MaxAd ad, MaxReward reward) {
             Log.d(TAG, "onUserRewarded:" + reward.getLabel());
         }
