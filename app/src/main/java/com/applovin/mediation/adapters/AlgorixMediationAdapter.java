@@ -11,23 +11,25 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.alxad.api.AlxAdParam;
-import com.alxad.api.AlxAdSDK;
-import com.alxad.api.AlxBannerView;
-import com.alxad.api.AlxBannerViewAdListener;
-import com.alxad.api.AlxImage;
-import com.alxad.api.AlxInterstitialAD;
-import com.alxad.api.AlxInterstitialADListener;
-import com.alxad.api.AlxRewardVideoAD;
-import com.alxad.api.AlxRewardVideoADListener;
-import com.alxad.api.AlxSdkInitCallback;
-import com.alxad.api.nativead.AlxMediaContent;
-import com.alxad.api.nativead.AlxMediaView;
-import com.alxad.api.nativead.AlxNativeAd;
-import com.alxad.api.nativead.AlxNativeAdLoadedListener;
-import com.alxad.api.nativead.AlxNativeAdLoader;
-import com.alxad.api.nativead.AlxNativeAdView;
-import com.alxad.api.nativead.AlxNativeEventListener;
+import com.applovin.mediation.adapter.parameters.MaxAdapterParameters;
+import com.applovin.sdk.AppLovinSdkSettings;
+import com.rixengine.api.AlxAdParam;
+import com.rixengine.api.AlxAdSDK;
+import com.rixengine.api.AlxBannerView;
+import com.rixengine.api.AlxBannerViewAdListener;
+import com.rixengine.api.AlxImage;
+import com.rixengine.api.AlxInterstitialAD;
+import com.rixengine.api.AlxInterstitialADListener;
+import com.rixengine.api.AlxRewardVideoAD;
+import com.rixengine.api.AlxRewardVideoADListener;
+import com.rixengine.api.AlxSdkInitCallback;
+import com.rixengine.api.nativead.AlxMediaContent;
+import com.rixengine.api.nativead.AlxMediaView;
+import com.rixengine.api.nativead.AlxNativeAd;
+import com.rixengine.api.nativead.AlxNativeAdLoadedListener;
+import com.rixengine.api.nativead.AlxNativeAdLoader;
+import com.rixengine.api.nativead.AlxNativeAdView;
+import com.rixengine.api.nativead.AlxNativeEventListener;
 import com.applovin.impl.sdk.utils.BundleUtils;
 import com.applovin.mediation.MaxAdFormat;
 import com.applovin.mediation.adapter.MaxAdViewAdapter;
@@ -40,14 +42,13 @@ import com.applovin.mediation.adapter.listeners.MaxInterstitialAdapterListener;
 import com.applovin.mediation.adapter.listeners.MaxNativeAdAdapterListener;
 import com.applovin.mediation.adapter.listeners.MaxRewardedAdapterListener;
 import com.applovin.mediation.adapter.parameters.MaxAdapterInitializationParameters;
-import com.applovin.mediation.adapter.parameters.MaxAdapterParameters;
 import com.applovin.mediation.adapter.parameters.MaxAdapterResponseParameters;
 import com.applovin.mediation.nativeAds.MaxNativeAd;
 import com.applovin.mediation.nativeAds.MaxNativeAdView;
 import com.applovin.sdk.AppLovinPrivacySettings;
 import com.applovin.sdk.AppLovinSdk;
-import com.applovin.sdk.AppLovinSdkSettings;
 import com.applovin.sdk.AppLovinSdkUtils;
+
 
 import org.json.JSONObject;
 
@@ -59,15 +60,20 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Applovin ads AlgoriX Adapter
+ * Applovin ads RixEngine Adapter
  */
 public class AlgorixMediationAdapter extends MediationAdapterBase implements MaxAdViewAdapter, MaxInterstitialAdapter, MaxRewardedAdapter, MaxNativeAdAdapter {
+
+    String ADAPTER_VERSION = "3.9.1";
+    // 服务器请求EndPoint域名, 由平台分配，请手动修改， 例如：https://yoursubdomain.svr.rixengine.com/rtb
+    String ADAPTER_SDK_HOST_URL = "https://demo.use.svr.rixengine.com/rtb"; //测试HOST，正式需要修改
+
     private static final String TAG = "AlgorixMediationAdapter";
-    private static final String ADAPTER_VERSION = "3.9.1";
 
     private static final int DEFAULT_IMAGE_TASK_TIMEOUT_SECONDS = 10;
 
     private static final AtomicBoolean initialized = new AtomicBoolean();
+
     private static InitializationStatus status;
 
     private AlxBannerView bannerAD;
@@ -83,7 +89,6 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
     @Override
     public void initialize(MaxAdapterInitializationParameters parameters, Activity activity, final OnCompletionListener onCompletionListener) {
         Log.d(TAG, "initialize alx sdk……");
-        Log.d(TAG, "sdk-version:" + AppLovinSdk.VERSION);
         Log.d(TAG, "alx-applovin-adapter-version:" + ADAPTER_VERSION);
         initSdk(parameters, activity, true, onCompletionListener);
     }
@@ -178,6 +183,8 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
                 }
             }
         };
+        // 利用第三方统计，加入自定义打点事件（开发者可根据需要加入第三方埋点统计）
+        // 统计请求事件
         // 320 * 50 banner
         bannerAD.loadAd(adId, alxBannerADListener);
         // MREC
@@ -587,6 +594,7 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
             Context context = (activity != null) ? activity.getApplicationContext() : getApplicationContext();
 
             Bundle bundle = parameters.getCustomParameters();
+            String host = bundle.getString("host");
             String appid = bundle.getString("appid");
             String sid = bundle.getString("sid");
             String token = bundle.getString("token");
@@ -601,10 +609,17 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
                     isDebug = Boolean.FALSE;
                 }
             }
-            Log.d(TAG, "alx-applovin-init:token=" + token + "  sid=" + sid + " appid=" + appid);
 
-            if (TextUtils.isEmpty(appid) || TextUtils.isEmpty(sid) || TextUtils.isEmpty(token)) {
-                Log.d(TAG, "initialize alx params: appid or sid or token is null");
+            if (TextUtils.isEmpty(host) && !TextUtils.isEmpty(ADAPTER_SDK_HOST_URL)) {
+                host = ADAPTER_SDK_HOST_URL;
+                Log.e(TAG, "host url is null, please check it, now use default host : " + ADAPTER_SDK_HOST_URL);
+            }
+
+            Log.d(TAG, "alx-applovin-init:host=" + host + " token=" + token + "  sid=" + sid + " appid=" + appid);
+//            Log.d(TAG, "alx-applovin-init:extras=" + extras);
+
+            if (TextUtils.isEmpty(host) || TextUtils.isEmpty(appid) || TextUtils.isEmpty(sid) || TextUtils.isEmpty(token)) {
+                Log.d(TAG, "initialize alx params: host or appid or sid or token is null");
                 status = InitializationStatus.DOES_NOT_APPLY;
                 initialized.set(false);
                 if (onCompletionListener != null) {
@@ -615,7 +630,7 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
                 if (isDebug != null) {
                     AlxAdSDK.setDebug(isDebug.booleanValue());
                 }
-                AlxAdSDK.init(context, token, sid, appid, new AlxSdkInitCallback() {
+                AlxAdSDK.init(context, host, token, sid, appid, new AlxSdkInitCallback() {
                     @Override
                     public void onInit(boolean isOk, String msg) {
                         initialized.set(true);
@@ -644,8 +659,8 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
                     } else {
                         AlxAdSDK.setSubjectToGDPR(false);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (Exception ignored) {
+
                 }
 
                 if (tcString != null && !tcString.isEmpty()) {
@@ -658,8 +673,8 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
                             try {
                                 SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
                                 strGDPRConsent = mPreferences.getString("IABTCF_TCString", "");
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                            } catch (Exception ignored) {
+
                             }
                             if (TextUtils.isEmpty(strGDPRConsent)) {
                                 strGDPRConsent = "1";
@@ -679,6 +694,7 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
                 // AlxAdSDK.setBelowConsentAge(true);
                 // // set CCPA
                 // AlxAdSDK.subjectToUSPrivacy("1YYY");
+
             }
         } catch (Exception e) {
             Log.d(TAG, "initialize alx error:" + e.getMessage());
