@@ -7,11 +7,9 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.rixengine.api.AlxAdSDK;
-import com.rixengine.api.AlxBannerView;
-import com.rixengine.api.AlxBannerViewAdListener;
-import com.rixengine.api.AlxSdkInitCallback;
 import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.VersionInfo;
 import com.google.android.gms.ads.mediation.Adapter;
 import com.google.android.gms.ads.mediation.InitializationCompleteCallback;
 import com.google.android.gms.ads.mediation.MediationAdLoadCallback;
@@ -19,14 +17,20 @@ import com.google.android.gms.ads.mediation.MediationBannerAd;
 import com.google.android.gms.ads.mediation.MediationBannerAdCallback;
 import com.google.android.gms.ads.mediation.MediationBannerAdConfiguration;
 import com.google.android.gms.ads.mediation.MediationConfiguration;
-import com.google.android.gms.ads.mediation.VersionInfo;
+import com.rixengine.api.AlxAdSDK;
+import com.rixengine.api.AlxBannerView;
+import com.rixengine.api.AlxBannerViewAdListener;
+import com.rixengine.api.AlxSdkInitCallback;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Google Mobile ads AlgoriX Banner Adapter
+ * Google Mobile ads RixEngine Banner Adapter
  */
 public class AlxBannerAdapter extends Adapter implements MediationBannerAd {
 
@@ -38,6 +42,8 @@ public class AlxBannerAdapter extends Adapter implements MediationBannerAd {
     private String host = "";
     private Boolean isDebug = null;
 
+    private JSONObject extras = null;
+
     private MediationAdLoadCallback<MediationBannerAd, MediationBannerAdCallback> mMediationLoadCallback;
     private MediationBannerAdCallback mMediationEventCallback;
 
@@ -46,6 +52,7 @@ public class AlxBannerAdapter extends Adapter implements MediationBannerAd {
     @Override
     public void initialize(Context context, InitializationCompleteCallback initializationCompleteCallback, List<MediationConfiguration> list) {
         Log.d(TAG, "alx-admob-adapter: initialize");
+        Log.d(TAG, "sdk-version:" + MobileAds.getVersion().toString());
         if (context == null) {
             initializationCompleteCallback.onInitializationFailed(
                     "Initialization Failed: Context is null.");
@@ -56,6 +63,7 @@ public class AlxBannerAdapter extends Adapter implements MediationBannerAd {
 
     @Override
     public void loadBannerAd(@NonNull MediationBannerAdConfiguration configuration, @NonNull MediationAdLoadCallback<MediationBannerAd, MediationBannerAdCallback> callback) {
+        Log.d(TAG, "sdk-version:" + MobileAds.getVersion().toString());
         Log.d(TAG, "alx-admob-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
         Log.d(TAG, "alx-admob-adapter: loadBannerAd");
         mMediationLoadCallback = callback;
@@ -94,7 +102,7 @@ public class AlxBannerAdapter extends Adapter implements MediationBannerAd {
                 return;
             }
             host = AlxMetaInf.ADAPTER_SDK_HOST_URL;
-            Log.e(TAG,"host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
+            Log.e(TAG, "host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
         }
 
         try {
@@ -109,6 +117,9 @@ public class AlxBannerAdapter extends Adapter implements MediationBannerAd {
                     load(context);
                 }
             });
+            Map<String, Object> extraParameters = getAlxExtraParameters(extras);
+            printExtraParameters(extraParameters);
+            setAlxExtraParameters(extraParameters);
 //            // set GDPR
 //            AlxAdSDK.setSubjectToGDPR(true);
 //            // set GDPR Consent
@@ -144,6 +155,7 @@ public class AlxBannerAdapter extends Adapter implements MediationBannerAd {
             token = json.getString("token");
             unitid = json.getString("unitid");
             String debug = json.optString("isdebug");
+            extras = json.optJSONObject("extras");
             if (debug != null) {
                 if (debug.equalsIgnoreCase("true")) {
                     isDebug = Boolean.TRUE;
@@ -243,5 +255,44 @@ public class AlxBannerAdapter extends Adapter implements MediationBannerAd {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void setAlxExtraParameters(Map<String, Object> parameters) {
+        if (parameters != null && !parameters.isEmpty()) {
+            for (Map.Entry<String, Object> entry : parameters.entrySet()) {
+                AlxAdSDK.addExtraParameters(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    private Map<String, Object> getAlxExtraParameters(JSONObject extras) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            if (extras == null) {
+                return map;
+            }
+            Iterator<String> keys = extras.keys();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                Object value = extras.get(key);
+                map.put(key, value);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "alx extras field error:" + e.getMessage());
+        }
+        return map;
+    }
+
+    private void printExtraParameters(Map<String, Object> map) {
+        try {
+            if (map == null || map.isEmpty()) {
+                Log.d(TAG, "alx Extra Parameters:null");
+                return;
+            }
+            JSONObject json = new JSONObject(map);
+            Log.d(TAG, "alx Extra Parameters:" + json.toString());
+        } catch (Exception e) {
+            Log.e(TAG, "printExtraParameters error:" + e.getMessage());
+        }
     }
 }

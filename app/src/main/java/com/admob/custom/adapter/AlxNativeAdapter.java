@@ -3,6 +3,7 @@ package com.admob.custom.adapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -11,9 +12,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.VersionInfo;
+import com.google.android.gms.ads.mediation.Adapter;
+import com.google.android.gms.ads.mediation.InitializationCompleteCallback;
+import com.google.android.gms.ads.mediation.MediationAdLoadCallback;
+import com.google.android.gms.ads.mediation.MediationConfiguration;
+import com.google.android.gms.ads.mediation.MediationNativeAdCallback;
+import com.google.android.gms.ads.mediation.MediationNativeAdConfiguration;
+import com.google.android.gms.ads.mediation.NativeAdMapper;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.rixengine.api.AlxAdParam;
 import com.rixengine.api.AlxAdSDK;
 import com.rixengine.api.AlxImage;
-import com.rixengine.api.AlxAdParam;
 import com.rixengine.api.AlxSdkInitCallback;
 import com.rixengine.api.nativead.AlxMediaView;
 import com.rixengine.api.nativead.AlxNativeAd;
@@ -21,23 +33,18 @@ import com.rixengine.api.nativead.AlxNativeAdLoadedListener;
 import com.rixengine.api.nativead.AlxNativeAdLoader;
 import com.rixengine.api.nativead.AlxNativeAdView;
 import com.rixengine.api.nativead.AlxNativeEventListener;
-import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.formats.NativeAd;
-import com.google.android.gms.ads.mediation.Adapter;
-import com.google.android.gms.ads.mediation.InitializationCompleteCallback;
-import com.google.android.gms.ads.mediation.MediationAdLoadCallback;
-import com.google.android.gms.ads.mediation.MediationConfiguration;
-import com.google.android.gms.ads.mediation.MediationNativeAdCallback;
-import com.google.android.gms.ads.mediation.MediationNativeAdConfiguration;
-import com.google.android.gms.ads.mediation.UnifiedNativeAdMapper;
-import com.google.android.gms.ads.mediation.VersionInfo;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Google Mobile ads RixEngine Native Adapter
+ */
 public class AlxNativeAdapter extends Adapter {
     private static final String TAG = "AlxNativeAdapter";
 
@@ -47,8 +54,8 @@ public class AlxNativeAdapter extends Adapter {
     private String token = "";
     private String host = "";
     private Boolean isDebug = null;
-
-    private MediationAdLoadCallback<UnifiedNativeAdMapper, MediationNativeAdCallback> mMediationLoadCallback;
+    private JSONObject extras = null;
+    private MediationAdLoadCallback<NativeAdMapper, MediationNativeAdCallback> mMediationLoadCallback;
     private MediationNativeAdCallback mMediationEventCallback;
 
     private AlxNativeAd nativeAd;
@@ -57,6 +64,7 @@ public class AlxNativeAdapter extends Adapter {
     @Override
     public void initialize(@NonNull Context context, @NonNull InitializationCompleteCallback initializationCompleteCallback, @NonNull List<MediationConfiguration> list) {
         Log.d(TAG, "alx-admob-adapter: initialize");
+        Log.d(TAG, "sdk-version:" + MobileAds.getVersion().toString());
         if (context == null) {
             initializationCompleteCallback.onInitializationFailed(
                     "Initialization Failed: Context is null.");
@@ -66,7 +74,8 @@ public class AlxNativeAdapter extends Adapter {
     }
 
     @Override
-    public void loadNativeAd(@NonNull MediationNativeAdConfiguration configuration, @NonNull MediationAdLoadCallback<UnifiedNativeAdMapper, MediationNativeAdCallback> callback) {
+    public void loadNativeAdMapper(@NonNull MediationNativeAdConfiguration configuration, @NonNull MediationAdLoadCallback<NativeAdMapper, MediationNativeAdCallback> callback) throws RemoteException {
+        Log.d(TAG, "sdk-version:" + MobileAds.getVersion().toString());
         Log.d(TAG, "alx-admob-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
         Log.d(TAG, "alx-admob-adapter: loadNativeAd " + Thread.currentThread().getName());
         mMediationLoadCallback = callback;
@@ -120,6 +129,9 @@ public class AlxNativeAdapter extends Adapter {
                     loadAds(context, unitid);
                 }
             });
+            Map<String, Object> extraParameters = getAlxExtraParameters(extras);
+            printExtraParameters(extraParameters);
+            setAlxExtraParameters(extraParameters);
 //            // set GDPR
 //            AlxAdSDK.setSubjectToGDPR(true);
 //            // set GDPR Consent
@@ -189,6 +201,7 @@ public class AlxNativeAdapter extends Adapter {
             token = json.getString("token");
             unitid = json.getString("unitid");
             String debug = json.optString("isdebug");
+            extras = json.optJSONObject("extras");
             if (debug != null) {
                 if (debug.equalsIgnoreCase("true")) {
                     isDebug = Boolean.TRUE;
@@ -201,7 +214,7 @@ public class AlxNativeAdapter extends Adapter {
         }
     }
 
-    private class CustomNativeAdMapper extends UnifiedNativeAdMapper {
+    private class CustomNativeAdMapper extends NativeAdMapper {
 
         private AlxNativeAd bean;
         private Context context;
@@ -400,6 +413,45 @@ public class AlxNativeAdapter extends Adapter {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void setAlxExtraParameters(Map<String, Object> parameters) {
+        if (parameters != null && !parameters.isEmpty()) {
+            for (Map.Entry<String, Object> entry : parameters.entrySet()) {
+                AlxAdSDK.addExtraParameters(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    private Map<String, Object> getAlxExtraParameters(JSONObject extras) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            if (extras == null) {
+                return map;
+            }
+            Iterator<String> keys = extras.keys();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                Object value = extras.get(key);
+                map.put(key, value);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "alx extras field error:" + e.getMessage());
+        }
+        return map;
+    }
+
+    private void printExtraParameters(Map<String, Object> map) {
+        try {
+            if (map == null || map.isEmpty()) {
+                Log.d(TAG, "alx Extra Parameters:null");
+                return;
+            }
+            JSONObject json = new JSONObject(map);
+            Log.d(TAG, "alx Extra Parameters:" + json.toString());
+        } catch (Exception e) {
+            Log.e(TAG, "printExtraParameters error:" + e.getMessage());
+        }
     }
 
 }

@@ -25,11 +25,12 @@ public class AppConfig {
     public static final String TOPON_NATIVE_PID = "n67dcdbef86db6";
     public static final String TOPON_SPLASH_PID = "b611335c2f2678";
 
+    //Admob
     public static final String ADMOB_APP_ID = "ca-app-pub-4885562717451614~4848824427";
     public static final String ADMOB_BANNER_ID = "ca-app-pub-4885562717451614/9675235882";
-    public static final String ADMOB_INTERSTITIAL_ID = "ca-app-pub-4885562717451614/9795659657";
-    public static final String ADMOB_REWARD_ID = "ca-app-pub-4885562717451614/1126832141";
-    public static final String ADMOB_NATIVE_ID = "ca-app-pub-4885562717451614/2332102605";
+    public static final String ADMOB_INTERSTITIAL_ID = "ca-app-pub-2258587227088809/7959894454";
+    public static final String ADMOB_REWARD_ID = "ca-app-pub-2258587227088809/1913360859";
+    public static final String ADMOB_NATIVE_ID = "ca-app-pub-2258587227088809/3086454689";
 
     //TradPlus 平台广告配置信息
     public static final String TRAD_PLUS_APP_ID = "9851676EA9E78F40898FD8128AFF98CD";

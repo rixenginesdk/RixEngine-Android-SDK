@@ -5,6 +5,7 @@ android {
     compileSdk 34
 
     defaultConfig {
+        // applicationId "com.google.android.gms.example.bannerexample" //测试admob
         applicationId "com.rixengine.demo"
         minSdkVersion 21
         targetSdkVersion 34
@@ -45,6 +46,7 @@ dependencies {
     api "com.thinkup.sdk:interstitial-tpn:6.5.16"
     api "com.thinkup.sdk:rewardedvideo-tpn:6.5.16"
     api "com.thinkup.sdk:splash-tpn:6.5.16"
+
     // Taku (Topon老版本，请根据实际使用版本选择不同的topon版本)
     //    api "com.anythink.sdk:core-tpn:6.4.39"
     //    api "com.anythink.sdk:nativead-tpn:6.4.39"
@@ -52,8 +54,11 @@ dependencies {
     //    api "com.anythink.sdk:interstitial-tpn:6.4.39"
     //    api "com.anythink.sdk:rewardedvideo-tpn:6.4.39"
     //    api "com.anythink.sdk:splash-tpn:6.4.39"
-    // Admob
-    api "com.google.android.gms:play-services-ads:20.6.0"
+
+    //Androidx (Necessary)
+    api "androidx.appcompat:appcompat:1.1.0"
+    //Admob
+    api "com.google.android.gms:play-services-ads:23.5.0"
     api "com.google.android.ads.consent:consent-library:1.0.8"
     // Max
     api "com.applovin:applovin-sdk:11.4.4"
