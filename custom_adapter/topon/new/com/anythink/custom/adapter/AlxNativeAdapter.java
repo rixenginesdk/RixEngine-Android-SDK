@@ -7,11 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.anythink.core.api.ATAdConst;
-import com.anythink.core.api.ATBiddingListener;
-import com.anythink.core.api.ATBiddingNotice;
-import com.anythink.core.api.ATBiddingResult;
-import com.anythink.core.api.MediationInitCallback;
+import com.thinkup.core.api.BaseAd;
+import com.thinkup.core.api.MediationInitCallback;
+import com.thinkup.core.api.TUAdConst;
+import com.thinkup.core.api.TUBiddingListener;
+import com.thinkup.core.api.TUBiddingNotice;
+import com.thinkup.core.api.TUBiddingResult;
 import com.rixengine.api.AlxAdParam;
 import com.rixengine.api.AlxAdSDK;
 import com.rixengine.api.AlxImage;
@@ -22,9 +23,9 @@ import com.rixengine.api.nativead.AlxNativeAdLoadedListener;
 import com.rixengine.api.nativead.AlxNativeAdLoader;
 import com.rixengine.api.nativead.AlxNativeAdView;
 import com.rixengine.api.nativead.AlxNativeEventListener;
-import com.anythink.nativead.api.ATNativePrepareInfo;
-import com.anythink.nativead.unitgroup.api.CustomNativeAd;
-import com.anythink.nativead.unitgroup.api.CustomNativeAdapter;
+import com.thinkup.nativead.api.TUNativePrepareInfo;
+import com.thinkup.nativead.unitgroup.api.CustomNativeAd;
+import com.thinkup.nativead.unitgroup.api.CustomNativeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,19 +45,19 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
     private String host = "";
     private Boolean isDebug = null;
 
-    private ATBiddingListener mBiddingListener;
+    private TUBiddingListener mBiddingListener;
 
     public void startBid(Context context) {
-        Log.d(TAG, "startBid ");
+        Log.d(TAG,"startBid ");
         startAdLoad(context);
 
     }
 
     @Override
-    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, Object> localExtra, final ATBiddingListener biddingListener) {
+    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, 	Object> localExtra, final TUBiddingListener biddingListener) {
         //从serverExtra中获取后台配置的自定义平台的广告位ID
         mBiddingListener = biddingListener;
-        loadCustomNetworkAd(context, serverExtra, localExtra);
+        loadCustomNetworkAd(context,serverExtra,localExtra);
         //必须return true
         return true;
     }
@@ -66,7 +67,7 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
         Log.d(TAG, "alx-topon-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
         Log.i(TAG, "loadCustomNetworkAd");
         if (parseServer(serverExtra)) {
-            initSdk(context, serverExtra);
+            initSdk(context,serverExtra);
         } else {
             if (mLoadListener != null) {
                 mLoadListener.onAdLoadError("", "alx host | unitid | token | sid | appid is empty.");
@@ -113,7 +114,7 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
 
         if (TextUtils.isEmpty(host) && !TextUtils.isEmpty(AlxMetaInf.ADAPTER_SDK_HOST_URL)) {
             host = AlxMetaInf.ADAPTER_SDK_HOST_URL;
-            Log.e(TAG, "host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
+            Log.e(TAG,"host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
         }
 
         if (TextUtils.isEmpty(host) || TextUtils.isEmpty(unitid) || TextUtils.isEmpty(token) || TextUtils.isEmpty(sid) || TextUtils.isEmpty(appid)) {
@@ -127,19 +128,38 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
         AlxSdkInitManager.getInstance().initSDK(context, serverExtra, new MediationInitCallback() {
             @Override
             public void onSuccess() {
-                Log.d(TAG, "AlxSdkInit success");
+                Log.d(TAG,"AlxSdkInit success");
                 startBid(context);
             }
 
             @Override
             public void onFail(String s) {
-                Log.d(TAG, "AlxSdkInit fail : " + s);
+                Log.d(TAG,"AlxSdkInit fail : "+s);
                 //通过ATBiddingListener，回调竞价失败
                 if (mBiddingListener != null) {
-                    mBiddingListener.onC2SBiddingResultWithCache(ATBiddingResult.fail(s), null);
+                    mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(s), null);
                 }
             }
         });
+
+
+//        try {
+//            Log.i(TAG, "alx ver:" + AlxAdSDK.getNetWorkVersion() + " alx token: " + token + " alx appid: " + appid + " alx sid: " + sid);
+//
+//            if (isDebug != null) {
+//                AlxAdSDK.setDebug(isDebug.booleanValue());
+//            }
+//            AlxAdSDK.init(context, token, sid, appid, new AlxSdkInitCallback() {
+//                @Override
+//                public void onInit(boolean isOk, String msg) {
+//                    if (isOk){
+//                    startAdLoad(context);
+//                    }
+//                }
+//            });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void startAdLoad(final Context context) {
@@ -162,7 +182,7 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
                 }
 
                 AlgorixNativeAd[] result = new AlgorixNativeAd[ads.size()];
-                AlgorixNativeAd price = new AlgorixNativeAd(context, ads.get(0));
+                AlgorixNativeAd price = new AlgorixNativeAd(context,ads.get(0));
                 boolean isOk = false;
                 try {
                     for (int i = 0; i < ads.size(); i++) {
@@ -171,24 +191,25 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
                         bean.setAdData();
                         result[i] = bean;
 
+                        Log.d(TAG,"startBid  load success");
 
                         //get price
                         double bidPrice = item.getPrice();
-
-                        Log.i(TAG, "Rix Native AD Price:" + bidPrice);
-
+                        Log.d(TAG,"bidPrice: "+bidPrice);
                         //get currency
-                        ATAdConst.CURRENCY currency = ATAdConst.CURRENCY.USD;
+                        TUAdConst.CURRENCY currency = TUAdConst.CURRENCY.USD;
 
                         //uuid
                         String token = UUID.randomUUID().toString();
 
                         //biddingNotice
-                        ATBiddingNotice biddingNotice = null;
+                        TUBiddingNotice biddingNotice = null;
 
+                        Log.d(TAG,"startBid  price "+bidPrice);
+                        Log.d(TAG,"startBid  token "+token);
                         if (mBiddingListener != null) {
                             mBiddingListener.onC2SBiddingResultWithCache(
-                                    ATBiddingResult.success(bidPrice, token, biddingNotice, currency), bean);
+                                    TUBiddingResult.success(bidPrice, token, biddingNotice, currency), bean);
                         }
                     }
                     isOk = true;
@@ -269,7 +290,7 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
         }
 
         @Override
-        public void prepare(View view, ATNativePrepareInfo nativePrepareInfo) {
+        public void prepare(View view, TUNativePrepareInfo nativePrepareInfo) {
             if (view == null) {
                 return;
             }

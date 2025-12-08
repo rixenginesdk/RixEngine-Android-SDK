@@ -6,13 +6,11 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.ViewGroup;
 
-import com.anythink.core.api.ATBiddingListener;
-import com.anythink.core.api.ATBiddingResult;
-import com.anythink.core.api.MediationInitCallback;
 import com.rixengine.api.AlxAdSDK;
+import com.rixengine.api.AlxSdkInitCallback;
 import com.rixengine.api.AlxSplashAd;
 import com.rixengine.api.AlxSplashAdListener;
-import com.anythink.splashad.unitgroup.api.CustomSplashAdapter;
+import com.thinkup.splashad.unitgroup.api.CustomSplashAdapter;
 
 import java.util.Map;
 
@@ -32,16 +30,6 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
     private AlxSplashAd mAdObj;
     private boolean isReady = false;
 
-    private ATBiddingListener mBiddingListener;
-
-    @Override
-    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, Object> localExtra, final ATBiddingListener biddingListener) {
-        //从serverExtra中获取后台配置的自定义平台的广告位ID
-        mBiddingListener = biddingListener;
-        loadCustomNetworkAd(context, serverExtra, localExtra);
-        return true;
-    }
-
 
     @Override
     public void loadCustomNetworkAd(Context context, Map<String, Object> serverExtras, Map<String, Object> localExtras) {
@@ -49,7 +37,7 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
         Log.i(TAG, "loadCustomNetworkAd");
         isReady = false;
         if (parseServer(serverExtras)) {
-            initSdk(context,serverExtras);
+            initSdk(context);
         } else {
             if (mLoadListener != null) {
                 mLoadListener.onAdLoadError("", "alx apppid | token | sid | appid is empty.");
@@ -124,29 +112,24 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
         return true;
     }
 
-    private void initSdk(final Context context, Map<String, Object> serverExtra) {
-        AlxSdkInitManager.getInstance().initSDK(context, serverExtra, new MediationInitCallback() {
-            @Override
-            public void onSuccess() {
-                Log.d(TAG, "AlxSdkInit success");
-                startBid(context);
+    private void initSdk(final Context context) {
+        try {
+            Log.i(TAG, "alx ver:" + AlxAdSDK.getNetWorkVersion() + " alx host: " + host + " alx token: " + token + " alx appid: " + appid + " alx sid: " + sid);
+
+            if (isDebug != null) {
+                AlxAdSDK.setDebug(isDebug.booleanValue());
             }
 
-            @Override
-            public void onFail(String s) {
-                Log.d(TAG, "AlxSdkInit fail : " + s);
-                //通过ATBiddingListener，回调竞价失败
-                if (mBiddingListener != null) {
-                    mBiddingListener.onC2SBiddingResultWithCache(ATBiddingResult.fail(s), null);
+            AlxAdSDK.init(context, host, token, sid, appid, new AlxSdkInitCallback() {
+                @Override
+                public void onInit(boolean isOk, String msg) {
+                    Log.i(TAG, "sdk onInit:" + isOk);
+                    loadAd(context);
                 }
-            }
-        });
-
-    }
-
-    public void startBid(Context context) {
-        Log.d(TAG, "startBid ");
-        loadAd(context);
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadAd(final Context context) {

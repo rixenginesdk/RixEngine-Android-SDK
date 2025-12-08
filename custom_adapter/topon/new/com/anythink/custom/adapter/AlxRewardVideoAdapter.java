@@ -5,16 +5,16 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.anythink.core.api.ATAdConst;
-import com.anythink.core.api.ATBiddingListener;
-import com.anythink.core.api.ATBiddingNotice;
-import com.anythink.core.api.ATBiddingResult;
-import com.anythink.core.api.BaseAd;
-import com.anythink.core.api.MediationInitCallback;
+import com.thinkup.core.api.BaseAd;
+import com.thinkup.core.api.MediationInitCallback;
+import com.thinkup.core.api.TUAdConst;
+import com.thinkup.core.api.TUBiddingListener;
+import com.thinkup.core.api.TUBiddingNotice;
+import com.thinkup.core.api.TUBiddingResult;
 import com.rixengine.api.AlxAdSDK;
 import com.rixengine.api.AlxRewardVideoAD;
 import com.rixengine.api.AlxRewardVideoADListener;
-import com.anythink.rewardvideo.unitgroup.api.CustomRewardVideoAdapter;
+import com.thinkup.rewardvideo.unitgroup.api.CustomRewardVideoAdapter;
 
 import java.util.Map;
 import java.util.UUID;
@@ -33,7 +33,7 @@ public class AlxRewardVideoAdapter extends CustomRewardVideoAdapter {
     private String host = "";
     private Boolean isDebug = null;
 
-    private ATBiddingListener mBiddingListener;
+    private TUBiddingListener mBiddingListener;
 
     public void startBid(Context context) {
         Log.d(TAG,"startBid ");
@@ -42,7 +42,7 @@ public class AlxRewardVideoAdapter extends CustomRewardVideoAdapter {
     }
 
     @Override
-    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, 	Object> localExtra, final ATBiddingListener biddingListener) {
+    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, 	Object> localExtra, final TUBiddingListener biddingListener) {
         //从serverExtra中获取后台配置的自定义平台的广告位ID
         mBiddingListener = biddingListener;
         loadCustomNetworkAd(context,serverExtra,localExtra);
@@ -139,11 +139,51 @@ public class AlxRewardVideoAdapter extends CustomRewardVideoAdapter {
                 Log.d(TAG,"AlxSdkInit fail : "+s);
                 //通过ATBiddingListener，回调竞价失败
                 if (mBiddingListener != null) {
-                    mBiddingListener.onC2SBiddingResultWithCache(ATBiddingResult.fail(s), null);
+                    mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(s), null);
                 }
             }
         });
+
+
+//        try {
+//            Log.i(TAG, "alx ver:" + AlxAdSDK.getNetWorkVersion() + " alx token: " + token + " alx appid: " + appid + " alx sid: " + sid);
+//
+//            if (isDebug != null) {
+//                AlxAdSDK.setDebug(isDebug.booleanValue());
+//            }
+//            AlxAdSDK.init(context, token, sid, appid, new AlxSdkInitCallback() {
+//                @Override
+//                public void onInit(boolean isOk, String msg) {
+//                    if (isOk){
+//                    startAdLoad(context);
+//                    }
+//                }
+//            });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
+
+//    private void initSdk(final Context context) {
+//        try {
+//            Log.i(TAG, "alx ver:" + AlxAdSDK.getNetWorkVersion() + " alx host: " + host + " alx token: " + token + " alx appid: " + appid + " alx sid: " + sid);
+//
+//            if (isDebug != null) {
+//                AlxAdSDK.setDebug(isDebug.booleanValue());
+//            }
+//            AlxAdSDK.init(context, host, token, sid, appid, new AlxSdkInitCallback() {
+//                @Override
+//                public void onInit(boolean isOk, String msg) {
+//                    //if (isOk){
+//                    startAdLoad(context);
+//                    //}
+//                }
+//            });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 
     private void startAdLoad(Context context) {
         alxRewardVideoAD = new AlxRewardVideoAD();
@@ -155,24 +195,26 @@ public class AlxRewardVideoAdapter extends CustomRewardVideoAdapter {
                     mLoadListener.onAdCacheLoaded();
                 }
 
+                Log.d(TAG,"startBid  load success");
                 //get price
                 double bidPrice =alxRewardVideoAD.getPrice();
 
-                Log.i(TAG, "Rix Reward AD Price:" + bidPrice);
+                Log.d(TAG,"bidPrice: "+bidPrice);
+
                 //get currency
-                ATAdConst.CURRENCY currency = ATAdConst.CURRENCY.USD;
+                TUAdConst.CURRENCY currency = TUAdConst.CURRENCY.USD;
 
                 //uuid
                 String token = UUID.randomUUID().toString();
 
                 //biddingNotice
-                ATBiddingNotice biddingNotice = null;
+                TUBiddingNotice biddingNotice = null;
 
                 //native need request BaseAd ,other null
                 BaseAd basead = null;
                 if (mBiddingListener != null) {
                     mBiddingListener.onC2SBiddingResultWithCache(
-                            ATBiddingResult.success(bidPrice, token, biddingNotice, currency), basead);
+                            TUBiddingResult.success(bidPrice, token, biddingNotice, currency), basead);
                 }
 
             }
@@ -183,7 +225,7 @@ public class AlxRewardVideoAdapter extends CustomRewardVideoAdapter {
                     mLoadListener.onAdLoadError(errCode + "", errMsg);
                 }
                 if (mBiddingListener != null) {
-                    mBiddingListener.onC2SBiddingResultWithCache(ATBiddingResult.fail(errMsg), null);
+                    mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(errMsg), null);
                 }
             }
 

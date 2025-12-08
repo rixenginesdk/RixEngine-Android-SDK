@@ -5,16 +5,17 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
-import com.anythink.core.api.ATAdConst;
-import com.anythink.core.api.ATBiddingListener;
-import com.anythink.core.api.ATBiddingNotice;
-import com.anythink.core.api.ATBiddingResult;
-import com.anythink.core.api.BaseAd;
-import com.anythink.core.api.MediationInitCallback;
+
 import com.rixengine.api.AlxAdSDK;
 import com.rixengine.api.AlxBannerView;
 import com.rixengine.api.AlxBannerViewAdListener;
-import com.anythink.banner.unitgroup.api.CustomBannerAdapter;
+import com.thinkup.banner.unitgroup.api.CustomBannerAdapter;
+import com.thinkup.core.api.BaseAd;
+import com.thinkup.core.api.MediationInitCallback;
+import com.thinkup.core.api.TUAdConst;
+import com.thinkup.core.api.TUBiddingListener;
+import com.thinkup.core.api.TUBiddingNotice;
+import com.thinkup.core.api.TUBiddingResult;
 
 import java.util.Map;
 import java.util.UUID;
@@ -31,22 +32,22 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
     private String host = "";
     private Boolean isDebug = null;
     AlxBannerView mBannerView;
-    private ATBiddingListener mBiddingListener;
+    private TUBiddingListener mBiddingListener;
 
 
 
     public void startBid(Context context) {
-        Log.d(TAG, "startBid ");
+        Log.d(TAG,"startBid ");
         mBannerView = new AlxBannerView(context);
         loadAd(context);
 
     }
 
     @Override
-    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, Object> localExtra, final ATBiddingListener biddingListener) {
+    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, 	Object> localExtra, final TUBiddingListener biddingListener) {
         //从serverExtra中获取后台配置的自定义平台的广告位ID
         mBiddingListener = biddingListener;
-        loadCustomNetworkAd(context, serverExtra, localExtra);
+        loadCustomNetworkAd(context,serverExtra,localExtra);
         return true;
     }
 
@@ -55,7 +56,7 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
     public void loadCustomNetworkAd(Context context, Map<String, Object> serverExtra, Map<String, Object> localExtras) {
         Log.d(TAG, "alx-topon-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
         if (parseServer(serverExtra)) {
-            initSdk(context, serverExtra);
+            initSdk(context,serverExtra);
         } else {
             if (mLoadListener != null) {
                 mLoadListener.onAdLoadError("", "alx apppid | token | sid | appid is empty.");
@@ -102,7 +103,7 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
 
         if (TextUtils.isEmpty(host) && !TextUtils.isEmpty(AlxMetaInf.ADAPTER_SDK_HOST_URL)) {
             host = AlxMetaInf.ADAPTER_SDK_HOST_URL;
-            Log.e(TAG, "host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
+            Log.e(TAG,"host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
 
         }
 
@@ -118,16 +119,16 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
         AlxSdkInitManager.getInstance().initSDK(context, serverExtra, new MediationInitCallback() {
             @Override
             public void onSuccess() {
-                Log.d(TAG, "AlxSdkInit success");
+                Log.d(TAG,"AlxSdkInit success");
                 startBid(context);
             }
 
             @Override
             public void onFail(String s) {
-                Log.d(TAG, "AlxSdkInit fail : " + s);
+                Log.d(TAG,"AlxSdkInit fail : "+s);
                 //通过ATBiddingListener，回调竞价失败
                 if (mBiddingListener != null) {
-                    mBiddingListener.onC2SBiddingResultWithCache(ATBiddingResult.fail(s), null);
+                    mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(s), null);
                 }
             }
         });
@@ -147,22 +148,22 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
                 //get price
                 double bidPrice = mBannerView.getPrice();
 
-                Log.i(TAG, "Rix Banner AD Price:" + bidPrice);
+                Log.d(TAG,"bidPrice: "+bidPrice);
 
                 //get currency
-                ATAdConst.CURRENCY currency = ATAdConst.CURRENCY.USD;
+                TUAdConst.CURRENCY currency = TUAdConst.CURRENCY.USD;
 
                 //get uuid
                 String token = UUID.randomUUID().toString();
 
                 //BiddingNotice
-                ATBiddingNotice biddingNotice = null;
+                TUBiddingNotice biddingNotice = null;
 
                 //BaseAd
                 BaseAd basead = null;
                 if (mBiddingListener != null) {
                     mBiddingListener.onC2SBiddingResultWithCache(
-                            ATBiddingResult.success(bidPrice, token, biddingNotice, currency), basead);
+                            TUBiddingResult.success(bidPrice, token, biddingNotice, currency), basead);
                 }
             }
 
@@ -172,7 +173,7 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
                     mLoadListener.onAdLoadError(errorCode + "", errorMsg);
                 }
                 if (mBiddingListener != null) {
-                    mBiddingListener.onC2SBiddingResultWithCache(ATBiddingResult.fail(errorMsg), null);
+                    mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(errorMsg), null);
                 }
             }
 

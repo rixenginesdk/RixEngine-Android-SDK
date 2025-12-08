@@ -1,13 +1,13 @@
 package com.anythink.custom.adapter;
 
 /**
- * Topon 适配器版本信息
+ * 适配器版本信息
  *
- * @date 2025-7-24
+ * @date 2022-2-15
  */
 public interface AlxMetaInf {
 
-    String ADAPTER_VERSION = "3.9.1";
+    String ADAPTER_VERSION = "3.8.2";
     // 服务器请求EndPoint域名, 由平台分配，请手动修改， 例如：https://yoursubdomain.svr.rixengine.com/rtb
-    String ADAPTER_SDK_HOST_URL = "https://demo.svr.rixengine.com/rtb"; //测试HOST，正式需要修改
+    String ADAPTER_SDK_HOST_URL = "https://demo.svr.rixengine.com/rtb";
 }

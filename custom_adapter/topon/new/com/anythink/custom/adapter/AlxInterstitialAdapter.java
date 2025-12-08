@@ -5,16 +5,16 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.anythink.core.api.ATAdConst;
-import com.anythink.core.api.ATBiddingListener;
-import com.anythink.core.api.ATBiddingNotice;
-import com.anythink.core.api.ATBiddingResult;
-import com.anythink.core.api.BaseAd;
-import com.anythink.core.api.MediationInitCallback;
+import com.thinkup.core.api.BaseAd;
+import com.thinkup.core.api.MediationInitCallback;
+import com.thinkup.core.api.TUAdConst;
+import com.thinkup.core.api.TUBiddingListener;
+import com.thinkup.core.api.TUBiddingNotice;
+import com.thinkup.core.api.TUBiddingResult;
 import com.rixengine.api.AlxAdSDK;
 import com.rixengine.api.AlxInterstitialAD;
 import com.rixengine.api.AlxInterstitialADListener;
-import com.anythink.interstitial.unitgroup.api.CustomInterstitialAdapter;
+import com.thinkup.interstitial.unitgroup.api.CustomInterstitialAdapter;
 
 import java.util.Map;
 import java.util.UUID;
@@ -32,19 +32,21 @@ public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
     private String sid = "";
     private String token = "";
     private Boolean isDebug = null;
-    private ATBiddingListener mBiddingListener;
+    private TUBiddingListener mBiddingListener;
+
 
 
     public void startBid(Context context) {
-        Log.d(TAG, "startBid ");
+        Log.d(TAG,"startBid ");
         startAdLoad(context);
+
     }
 
     @Override
-    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, Object> localExtra, final ATBiddingListener biddingListener) {
+    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, 	Object> localExtra, final TUBiddingListener biddingListener) {
         //从serverExtra中获取后台配置的自定义平台的广告位ID
         mBiddingListener = biddingListener;
-        loadCustomNetworkAd(context, serverExtra, localExtra);
+        loadCustomNetworkAd(context,serverExtra,localExtra);
         //必须return true
         return true;
     }
@@ -55,8 +57,8 @@ public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
         Log.d(TAG, "alx-topon-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
         Log.i(TAG, "loadCustomNetworkAd");
         if (parseServer(serverExtra)) {
-            initSdk(context, serverExtra);
-        } else {
+            initSdk(context,serverExtra);
+        }else {
             if (mLoadListener != null) {
                 mLoadListener.onAdLoadError("", "alx unitid | token | sid | appid is empty.");
             }
@@ -107,19 +109,38 @@ public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
         AlxSdkInitManager.getInstance().initSDK(context, serverExtra, new MediationInitCallback() {
             @Override
             public void onSuccess() {
-                Log.d(TAG, "AlxSdkInit success");
+                Log.d(TAG,"AlxSdkInit success");
                 startBid(context);
             }
 
             @Override
             public void onFail(String s) {
-                Log.d(TAG, "AlxSdkInit fail : " + s);
+                Log.d(TAG,"AlxSdkInit fail : "+s);
                 //通过ATBiddingListener，回调竞价失败
                 if (mBiddingListener != null) {
-                    mBiddingListener.onC2SBiddingResultWithCache(ATBiddingResult.fail(s), null);
+                    mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(s), null);
                 }
             }
         });
+
+
+//        try {
+//            Log.i(TAG, "alx ver:" + AlxAdSDK.getNetWorkVersion() + " alx token: " + token + " alx appid: " + appid + " alx sid: " + sid);
+//
+//            if (isDebug != null) {
+//                AlxAdSDK.setDebug(isDebug.booleanValue());
+//            }
+//            AlxAdSDK.init(context, token, sid, appid, new AlxSdkInitCallback() {
+//                @Override
+//                public void onInit(boolean isOk, String msg) {
+//                    if (isOk){
+//                    startAdLoad(context);
+//                    }
+//                }
+//            });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 
@@ -134,23 +155,22 @@ public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
                 }
                 //get price
                 double bidPrice = alxInterstitialAD.getPrice();
-
-                Log.i(TAG, "Rix Interstitial AD Price:" + bidPrice);
+                Log.d(TAG,"bidPrice: "+bidPrice);
 
                 //get currency
-                ATAdConst.CURRENCY currency = ATAdConst.CURRENCY.USD;
+                TUAdConst.CURRENCY currency = TUAdConst.CURRENCY.USD;
 
                 //get uuid
                 String token = UUID.randomUUID().toString();
 
                 //BiddingNotice
-                ATBiddingNotice biddingNotice = null;
+                TUBiddingNotice biddingNotice = null;
 
                 //BaseAd
                 BaseAd basead = null;
                 if (mBiddingListener != null) {
                     mBiddingListener.onC2SBiddingResultWithCache(
-                            ATBiddingResult.success(bidPrice, token, biddingNotice, currency), basead);
+                            TUBiddingResult.success(bidPrice, token, biddingNotice, currency), basead);
                 }
             }
 
@@ -159,9 +179,8 @@ public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
                 if (mLoadListener != null) {
                     mLoadListener.onAdLoadError(errorCode + "", errorMsg);
                 }
-
                 if (mBiddingListener != null) {
-                    mBiddingListener.onC2SBiddingResultWithCache(ATBiddingResult.fail(errorMsg), null);
+                    mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(errorMsg), null);
                 }
 
                 Log.i(TAG, "onInterstitialAdLoadFail:" + errorCode + " msg:" + errorMsg);
