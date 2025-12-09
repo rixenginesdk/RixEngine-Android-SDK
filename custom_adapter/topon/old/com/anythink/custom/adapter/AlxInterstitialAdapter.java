@@ -169,7 +169,7 @@ public class AlxInterstitialAdapterOld extends CustomInterstitialAdapter {
                 ATBiddingNotice biddingNotice = null;
 
                 //BaseAd
-                com.thinkup.core.api.BaseAd basead = null;
+                BaseAd basead = null;
                 if (mBiddingListener != null) {
                     mBiddingListener.onC2SBiddingResultWithCache(
                             ATBiddingResult.success(bidPrice, token, biddingNotice, currency), basead);
