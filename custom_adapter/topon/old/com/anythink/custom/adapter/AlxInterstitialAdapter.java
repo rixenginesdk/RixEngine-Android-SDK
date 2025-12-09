@@ -5,6 +5,9 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.rixengine.api.AlxAdSDK;
+import com.rixengine.api.AlxInterstitialAD;
+import com.rixengine.api.AlxInterstitialADListener;
 import com.anythink.core.api.ATAdConst;
 import com.anythink.core.api.ATBiddingListener;
 import com.anythink.core.api.ATBiddingNotice;
@@ -12,9 +15,6 @@ import com.anythink.core.api.ATBiddingResult;
 import com.anythink.core.api.BaseAd;
 import com.anythink.core.api.MediationInitCallback;
 import com.anythink.interstitial.unitgroup.api.CustomInterstitialAdapter;
-import com.rixengine.api.AlxAdSDK;
-import com.rixengine.api.AlxInterstitialAD;
-import com.rixengine.api.AlxInterstitialADListener;
 
 import java.util.Map;
 import java.util.UUID;
@@ -22,7 +22,7 @@ import java.util.UUID;
 /**
  * TopOn 插屏广告适配器
  */
-public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
+public class AlxInterstitialAdapterOld extends CustomInterstitialAdapter {
 
     private static final String TAG = "AlxInterstitialAdapter";
 
@@ -36,43 +36,10 @@ public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
 
 
 
+
     public void startBid(Context context) {
         Log.d(TAG,"startBid ");
-        alxInterstitialAD = new AlxInterstitialAD();
-        alxInterstitialAD.load(context, unitid, new AlxInterstitialADListener() {
-            @Override
-            public void onInterstitialAdLoaded() {
-
-                //get price
-                double bidPrice = alxInterstitialAD.getPrice();
-                Log.d(TAG,"bidPrice: "+bidPrice);
-
-                //get currency
-                ATAdConst.CURRENCY currency = ATAdConst.CURRENCY.USD;
-
-                //get uuid
-                String token = UUID.randomUUID().toString();
-
-                //BiddingNotice
-                ATBiddingNotice biddingNotice = null;
-
-                //BaseAd
-                BaseAd basead = null;
-                if (mBiddingListener != null) {
-                    mBiddingListener.onC2SBiddingResultWithCache(
-                            ATBiddingResult.success(bidPrice, token, biddingNotice, currency), basead);
-                }
-            }
-
-            @Override
-            public void onInterstitialAdLoadFail(int errorCode, String errorMsg) {
-                Log.d(TAG,"startBid  load fail: "+errorMsg);
-                if (mBiddingListener != null) {
-                    mBiddingListener.onC2SBiddingResultWithCache(ATBiddingResult.fail(errorMsg), null);
-                }
-
-            }
-        });
+        startAdLoad(context);
 
     }
 
@@ -178,6 +145,7 @@ public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
     }
 
 
+
     private void startAdLoad(Context context) {
         alxInterstitialAD = new AlxInterstitialAD();
         alxInterstitialAD.load(context, unitid, new AlxInterstitialADListener() {
@@ -187,12 +155,34 @@ public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
                 if (mLoadListener != null) {
                     mLoadListener.onAdCacheLoaded();
                 }
+                //get price
+                double bidPrice = alxInterstitialAD.getPrice();
+                Log.d(TAG,"bidPrice: "+bidPrice);
+
+                //get currency
+                ATAdConst.CURRENCY currency = ATAdConst.CURRENCY.USD;
+
+                //get uuid
+                String token = UUID.randomUUID().toString();
+
+                //BiddingNotice
+                ATBiddingNotice biddingNotice = null;
+
+                //BaseAd
+                com.thinkup.core.api.BaseAd basead = null;
+                if (mBiddingListener != null) {
+                    mBiddingListener.onC2SBiddingResultWithCache(
+                            ATBiddingResult.success(bidPrice, token, biddingNotice, currency), basead);
+                }
             }
 
             @Override
             public void onInterstitialAdLoadFail(int errorCode, String errorMsg) {
                 if (mLoadListener != null) {
                     mLoadListener.onAdLoadError(errorCode + "", errorMsg);
+                }
+                if (mBiddingListener != null) {
+                    mBiddingListener.onC2SBiddingResultWithCache(ATBiddingResult.fail(errorMsg), null);
                 }
 
                 Log.i(TAG, "onInterstitialAdLoadFail:" + errorCode + " msg:" + errorMsg);
