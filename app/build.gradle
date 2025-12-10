@@ -40,12 +40,12 @@ dependencies {
     api 'io.github.rixenginesdk:rixengine:3.9.1'
 
     // Topon (Topon最新版本，请根据实际使用版本选择不同的topon版本)
-    api "com.thinkup.sdk:core-tpn:6.5.16"
-    api "com.thinkup.sdk:nativead-tpn:6.5.16"
-    api "com.thinkup.sdk:banner-tpn:6.5.16"
-    api "com.thinkup.sdk:interstitial-tpn:6.5.16"
-    api "com.thinkup.sdk:rewardedvideo-tpn:6.5.16"
-    api "com.thinkup.sdk:splash-tpn:6.5.16"
+    api "com.thinkup.sdk:core-tpn:6.5.36"
+    api "com.thinkup.sdk:nativead-tpn:6.5.36"
+    api "com.thinkup.sdk:banner-tpn:6.5.36"
+    api "com.thinkup.sdk:interstitial-tpn:6.5.36"
+    api "com.thinkup.sdk:rewardedvideo-tpn:6.5.36"
+    api "com.thinkup.sdk:splash-tpn:6.5.36"
 
     // Taku (Topon老版本，请根据实际使用版本选择不同的topon版本)
     //    api "com.anythink.sdk:core-tpn:6.4.39"

@@ -38,6 +38,12 @@
         android:layout_height="1dp"
         android:background="#1a000000" />
 
+<!--    <com.anythink.nativead.api.ATNativeAdView-->
+<!--        android:id="@+id/ad_container"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="50dp">-->
+<!--    </com.anythink.nativead.api.ATNativeAdView>-->
 
     <com.thinkup.nativead.api.TUNativeAdView
         android:id="@+id/ad_container"
