@@ -1,6 +1,7 @@
 package com.anythink.custom.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.rixengine.api.AlxAdSDK;
@@ -15,6 +16,10 @@ public class AlxSdkInitManager extends TUInitMediation {
     private volatile static AlxSdkInitManager sInstance;
     private String TAG = "AlxSdkInitManager";
     Boolean success = false;
+    private String appid = "";
+    private String sid = "";
+    private String token = "";
+    private String host = "";
 
     private AlxSdkInitManager() {
 
@@ -35,11 +40,24 @@ public class AlxSdkInitManager extends TUInitMediation {
 
     @Override
     public void initSDK(Context context, Map<String, Object> serviceExtras, MediationInitCallback mediationInitCallback) {
-        String appid = getStringFromMap(serviceExtras, "appid");
-        String sid = getStringFromMap(serviceExtras, "sid");
-        String token = getStringFromMap(serviceExtras, "token");
-        String host = AlxMetaInf.ADAPTER_SDK_HOST_URL;
+        if (serviceExtras.containsKey("host")) {
+            host = (String) serviceExtras.get("host");
+        }
+        if (serviceExtras.containsKey("appid")) {
+            appid = (String) serviceExtras.get("appid");
+        }
+        if (serviceExtras.containsKey("sid")) {
+            sid = (String) serviceExtras.get("sid");
+        }
+        if (serviceExtras.containsKey("token")) {
+            token = (String) serviceExtras.get("token");
+        }
 
+        if (TextUtils.isEmpty(host) && !TextUtils.isEmpty(AlxMetaInf.ADAPTER_SDK_HOST_URL)) {
+            host = AlxMetaInf.ADAPTER_SDK_HOST_URL;
+            Log.e(TAG,"host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
+
+        }
         try {
             AlxAdSDK.init(context, host, token, sid, appid, new AlxSdkInitCallback() {
                 @Override
