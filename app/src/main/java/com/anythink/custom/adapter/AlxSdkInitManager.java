@@ -16,6 +16,8 @@ public class AlxSdkInitManager extends TUInitMediation {
     private volatile static AlxSdkInitManager sInstance;
     private String TAG = "AlxSdkInitManager";
     Boolean success = false;
+
+    private String unitid = "";
     private String appid = "";
     private String sid = "";
     private String token = "";
@@ -24,6 +26,7 @@ public class AlxSdkInitManager extends TUInitMediation {
     private AlxSdkInitManager() {
 
     }
+
     public static AlxSdkInitManager getInstance() {
         if (sInstance == null) {
             synchronized (AlxSdkInitManager.class) {
@@ -40,25 +43,25 @@ public class AlxSdkInitManager extends TUInitMediation {
 
     @Override
     public void initSDK(Context context, Map<String, Object> serviceExtras, MediationInitCallback mediationInitCallback) {
-        if (serviceExtras.containsKey("host")) {
-            host = (String) serviceExtras.get("host");
-        }
-        if (serviceExtras.containsKey("appid")) {
-            appid = (String) serviceExtras.get("appid");
-        }
-        if (serviceExtras.containsKey("sid")) {
-            sid = (String) serviceExtras.get("sid");
-        }
-        if (serviceExtras.containsKey("token")) {
-            token = (String) serviceExtras.get("token");
-        }
-
-        if (TextUtils.isEmpty(host) && !TextUtils.isEmpty(AlxMetaInf.ADAPTER_SDK_HOST_URL)) {
-            host = AlxMetaInf.ADAPTER_SDK_HOST_URL;
-            Log.e(TAG,"host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
-
-        }
         try {
+            if (serviceExtras.containsKey("host")) {
+                host = (String) serviceExtras.get("host");
+            }
+            if (serviceExtras.containsKey("appid")) {
+                appid = (String) serviceExtras.get("appid");
+            }
+            if (serviceExtras.containsKey("sid")) {
+                sid = (String) serviceExtras.get("sid");
+            }
+            if (serviceExtras.containsKey("token")) {
+                token = (String) serviceExtras.get("token");
+            }
+            if (TextUtils.isEmpty(host) && !TextUtils.isEmpty(AlxMetaInf.ADAPTER_SDK_HOST_URL)) {
+                host = AlxMetaInf.ADAPTER_SDK_HOST_URL;
+                Log.e(TAG, "host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
+
+            }
+
             AlxAdSDK.init(context, host, token, sid, appid, new AlxSdkInitCallback() {
                 @Override
                 public void onInit(boolean isOk, String msg) {
@@ -68,7 +71,7 @@ public class AlxSdkInitManager extends TUInitMediation {
                 }
             });
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            Log.e("TAG", "Alx sdk init failed:" + e.getMessage());
         }
 
         if (mediationInitCallback != null) {

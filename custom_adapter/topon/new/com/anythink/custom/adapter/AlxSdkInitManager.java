@@ -1,13 +1,13 @@
 package com.anythink.custom.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.rixengine.api.AlxAdSDK;
 import com.rixengine.api.AlxSdkInitCallback;
 import com.thinkup.core.api.MediationInitCallback;
 import com.thinkup.core.api.TUInitMediation;
-import android.text.TextUtils;
 
 import java.util.Map;
 
@@ -15,15 +15,18 @@ public class AlxSdkInitManager extends TUInitMediation {
 
     private volatile static AlxSdkInitManager sInstance;
     private String TAG = "AlxSdkInitManager";
+    Boolean success = false;
+
+    private String unitid = "";
     private String appid = "";
     private String sid = "";
     private String token = "";
     private String host = "";
-    Boolean success = false;
 
     private AlxSdkInitManager() {
 
     }
+
     public static AlxSdkInitManager getInstance() {
         if (sInstance == null) {
             synchronized (AlxSdkInitManager.class) {
@@ -55,7 +58,7 @@ public class AlxSdkInitManager extends TUInitMediation {
             }
             if (TextUtils.isEmpty(host) && !TextUtils.isEmpty(AlxMetaInf.ADAPTER_SDK_HOST_URL)) {
                 host = AlxMetaInf.ADAPTER_SDK_HOST_URL;
-                Log.e(TAG,"host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
+                Log.e(TAG, "host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
 
             }
 
@@ -68,7 +71,7 @@ public class AlxSdkInitManager extends TUInitMediation {
                 }
             });
         } catch (Exception e) {
-            Log.e("TAG", "Alx sdk init failed:" +e);
+            Log.e("TAG", "Alx sdk init failed:" + e.getMessage());
         }
 
         if (mediationInitCallback != null) {

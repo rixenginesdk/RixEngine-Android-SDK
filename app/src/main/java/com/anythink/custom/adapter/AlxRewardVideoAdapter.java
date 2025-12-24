@@ -5,15 +5,15 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.rixengine.api.AlxAdSDK;
+import com.rixengine.api.AlxRewardVideoAD;
+import com.rixengine.api.AlxRewardVideoADListener;
 import com.thinkup.core.api.BaseAd;
 import com.thinkup.core.api.MediationInitCallback;
 import com.thinkup.core.api.TUAdConst;
 import com.thinkup.core.api.TUBiddingListener;
 import com.thinkup.core.api.TUBiddingNotice;
 import com.thinkup.core.api.TUBiddingResult;
-import com.rixengine.api.AlxAdSDK;
-import com.rixengine.api.AlxRewardVideoAD;
-import com.rixengine.api.AlxRewardVideoADListener;
 import com.thinkup.rewardvideo.unitgroup.api.CustomRewardVideoAdapter;
 
 import java.util.Map;
@@ -36,16 +36,16 @@ public class AlxRewardVideoAdapter extends CustomRewardVideoAdapter {
     private TUBiddingListener mBiddingListener;
 
     public void startBid(Context context) {
-        Log.d(TAG,"startBid ");
+        Log.d(TAG, "startBid ");
         startAdLoad(context);
 
     }
 
     @Override
-    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, 	Object> localExtra, final TUBiddingListener biddingListener) {
+    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, Object> localExtra, final TUBiddingListener biddingListener) {
         //从serverExtra中获取后台配置的自定义平台的广告位ID
         mBiddingListener = biddingListener;
-        loadCustomNetworkAd(context,serverExtra,localExtra);
+        loadCustomNetworkAd(context, serverExtra, localExtra);
         //必须return true
         return true;
     }
@@ -55,10 +55,10 @@ public class AlxRewardVideoAdapter extends CustomRewardVideoAdapter {
         Log.d(TAG, "alx-topon-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
         Log.i(TAG, "loadCustomNetworkAd");
         if (parseServer(serverExtra)) {
-            initSdk(context,serverExtra);
+            initSdk(context, serverExtra);
         } else {
             if (mLoadListener != null) {
-                mLoadListener.onAdLoadError("", "alx apppid | token | sid | appid is empty.");
+                mLoadListener.onAdLoadError("", "alx host | unitid | token | sid | appid is empty.");
             }
         }
     }
@@ -94,6 +94,10 @@ public class AlxRewardVideoAdapter extends CustomRewardVideoAdapter {
                 unitid = (String) serverExtras.get("unitid");
             }
 
+            if (TextUtils.isEmpty(unitid) && serverExtras.containsKey("slot_id")) {
+                unitid = (String) serverExtras.get("slot_id");
+            }
+
             if (serverExtras.containsKey("isdebug")) {
                 Object obj = serverExtras.get("isdebug");
                 String debug = null;
@@ -115,7 +119,7 @@ public class AlxRewardVideoAdapter extends CustomRewardVideoAdapter {
 
         if (TextUtils.isEmpty(host) && !TextUtils.isEmpty(AlxMetaInf.ADAPTER_SDK_HOST_URL)) {
             host = AlxMetaInf.ADAPTER_SDK_HOST_URL;
-            Log.e(TAG,"host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
+            Log.e(TAG, "host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
         }
 
         if (TextUtils.isEmpty(host) || TextUtils.isEmpty(unitid) || TextUtils.isEmpty(token) || TextUtils.isEmpty(sid) || TextUtils.isEmpty(appid)) {
@@ -130,13 +134,13 @@ public class AlxRewardVideoAdapter extends CustomRewardVideoAdapter {
         AlxSdkInitManager.getInstance().initSDK(context, serverExtra, new MediationInitCallback() {
             @Override
             public void onSuccess() {
-                Log.d(TAG,"AlxSdkInit success");
+                Log.d(TAG, "AlxSdkInit success");
                 startBid(context);
             }
 
             @Override
             public void onFail(String s) {
-                Log.d(TAG,"AlxSdkInit fail : "+s);
+                Log.d(TAG, "AlxSdkInit fail : " + s);
                 //通过ATBiddingListener，回调竞价失败
                 if (mBiddingListener != null) {
                     mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(s), null);
@@ -195,11 +199,11 @@ public class AlxRewardVideoAdapter extends CustomRewardVideoAdapter {
                     mLoadListener.onAdCacheLoaded();
                 }
 
-                Log.d(TAG,"startBid  load success");
+                Log.d(TAG, "startBid  load success");
                 //get price
-                double bidPrice =alxRewardVideoAD.getPrice();
+                double bidPrice = alxRewardVideoAD.getPrice();
 
-                Log.d(TAG,"bidPrice: "+bidPrice);
+                Log.d(TAG, "bidPrice: " + bidPrice);
 
                 //get currency
                 TUAdConst.CURRENCY currency = TUAdConst.CURRENCY.USD;

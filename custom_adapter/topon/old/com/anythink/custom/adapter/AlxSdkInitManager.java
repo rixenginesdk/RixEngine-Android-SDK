@@ -69,7 +69,7 @@ public class AlxSdkInitManager extends ATInitMediation {
                 }
             });
         } catch (Exception e) {
-            Log.e("TAG", "Alx sdk init failed:" +e);
+            Log.e("TAG", "Alx sdk init failed:" +e.getMessage());
         }
 
         if (mediationInitCallback != null) {

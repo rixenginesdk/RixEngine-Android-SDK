@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
-
 import com.rixengine.api.AlxAdSDK;
 import com.rixengine.api.AlxBannerView;
 import com.rixengine.api.AlxBannerViewAdListener;
@@ -35,19 +34,18 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
     private TUBiddingListener mBiddingListener;
 
 
-
     public void startBid(Context context) {
-        Log.d(TAG,"startBid ");
+        Log.d(TAG, "startBid ");
         mBannerView = new AlxBannerView(context);
         loadAd(context);
 
     }
 
     @Override
-    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, 	Object> localExtra, final TUBiddingListener biddingListener) {
+    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, Object> localExtra, final TUBiddingListener biddingListener) {
         //从serverExtra中获取后台配置的自定义平台的广告位ID
         mBiddingListener = biddingListener;
-        loadCustomNetworkAd(context,serverExtra,localExtra);
+        loadCustomNetworkAd(context, serverExtra, localExtra);
         return true;
     }
 
@@ -56,10 +54,10 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
     public void loadCustomNetworkAd(Context context, Map<String, Object> serverExtra, Map<String, Object> localExtras) {
         Log.d(TAG, "alx-topon-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
         if (parseServer(serverExtra)) {
-            initSdk(context,serverExtra);
+            initSdk(context, serverExtra);
         } else {
             if (mLoadListener != null) {
-                mLoadListener.onAdLoadError("", "alx apppid | token | sid | appid is empty.");
+                mLoadListener.onAdLoadError("", "alx host | unitid | token | sid | appid is empty.");
             }
         }
     }
@@ -81,6 +79,10 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
             if (serverExtras.containsKey("unitid")) {
                 unitid = (String) serverExtras.get("unitid");
             }
+            if (TextUtils.isEmpty(unitid) && serverExtras.containsKey("slot_id")) {
+                unitid = (String) serverExtras.get("slot_id");
+            }
+
 
             if (serverExtras.containsKey("isdebug")) {
                 Object obj = serverExtras.get("isdebug");
@@ -103,7 +105,7 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
 
         if (TextUtils.isEmpty(host) && !TextUtils.isEmpty(AlxMetaInf.ADAPTER_SDK_HOST_URL)) {
             host = AlxMetaInf.ADAPTER_SDK_HOST_URL;
-            Log.e(TAG,"host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
+            Log.e(TAG, "host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
 
         }
 
@@ -119,13 +121,13 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
         AlxSdkInitManager.getInstance().initSDK(context, serverExtra, new MediationInitCallback() {
             @Override
             public void onSuccess() {
-                Log.d(TAG,"AlxSdkInit success");
+                Log.d(TAG, "AlxSdkInit success");
                 startBid(context);
             }
 
             @Override
             public void onFail(String s) {
-                Log.d(TAG,"AlxSdkInit fail : "+s);
+                Log.d(TAG, "AlxSdkInit fail : " + s);
                 //通过ATBiddingListener，回调竞价失败
                 if (mBiddingListener != null) {
                     mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(s), null);
@@ -148,7 +150,7 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
                 //get price
                 double bidPrice = mBannerView.getPrice();
 
-                Log.d(TAG,"bidPrice: "+bidPrice);
+                Log.d(TAG, "bidPrice: " + bidPrice);
 
                 //get currency
                 TUAdConst.CURRENCY currency = TUAdConst.CURRENCY.USD;

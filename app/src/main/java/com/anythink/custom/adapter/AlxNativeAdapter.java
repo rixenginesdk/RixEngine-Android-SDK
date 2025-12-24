@@ -7,12 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.thinkup.core.api.BaseAd;
-import com.thinkup.core.api.MediationInitCallback;
-import com.thinkup.core.api.TUAdConst;
-import com.thinkup.core.api.TUBiddingListener;
-import com.thinkup.core.api.TUBiddingNotice;
-import com.thinkup.core.api.TUBiddingResult;
 import com.rixengine.api.AlxAdParam;
 import com.rixengine.api.AlxAdSDK;
 import com.rixengine.api.AlxImage;
@@ -23,6 +17,11 @@ import com.rixengine.api.nativead.AlxNativeAdLoadedListener;
 import com.rixengine.api.nativead.AlxNativeAdLoader;
 import com.rixengine.api.nativead.AlxNativeAdView;
 import com.rixengine.api.nativead.AlxNativeEventListener;
+import com.thinkup.core.api.MediationInitCallback;
+import com.thinkup.core.api.TUAdConst;
+import com.thinkup.core.api.TUBiddingListener;
+import com.thinkup.core.api.TUBiddingNotice;
+import com.thinkup.core.api.TUBiddingResult;
 import com.thinkup.nativead.api.TUNativePrepareInfo;
 import com.thinkup.nativead.unitgroup.api.CustomNativeAd;
 import com.thinkup.nativead.unitgroup.api.CustomNativeAdapter;
@@ -48,16 +47,16 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
     private TUBiddingListener mBiddingListener;
 
     public void startBid(Context context) {
-        Log.d(TAG,"startBid ");
+        Log.d(TAG, "startBid ");
         startAdLoad(context);
 
     }
 
     @Override
-    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, 	Object> localExtra, final TUBiddingListener biddingListener) {
+    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, Object> localExtra, final TUBiddingListener biddingListener) {
         //从serverExtra中获取后台配置的自定义平台的广告位ID
         mBiddingListener = biddingListener;
-        loadCustomNetworkAd(context,serverExtra,localExtra);
+        loadCustomNetworkAd(context, serverExtra, localExtra);
         //必须return true
         return true;
     }
@@ -67,7 +66,7 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
         Log.d(TAG, "alx-topon-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
         Log.i(TAG, "loadCustomNetworkAd");
         if (parseServer(serverExtra)) {
-            initSdk(context,serverExtra);
+            initSdk(context, serverExtra);
         } else {
             if (mLoadListener != null) {
                 mLoadListener.onAdLoadError("", "alx host | unitid | token | sid | appid is empty.");
@@ -92,6 +91,9 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
             if (serverExtras.containsKey("unitid")) {
                 unitid = (String) serverExtras.get("unitid");
             }
+            if (TextUtils.isEmpty(unitid) && serverExtras.containsKey("slot_id")) {
+                unitid = (String) serverExtras.get("slot_id");
+            }
 
             if (serverExtras.containsKey("isdebug")) {
                 Object obj = serverExtras.get("isdebug");
@@ -114,7 +116,7 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
 
         if (TextUtils.isEmpty(host) && !TextUtils.isEmpty(AlxMetaInf.ADAPTER_SDK_HOST_URL)) {
             host = AlxMetaInf.ADAPTER_SDK_HOST_URL;
-            Log.e(TAG,"host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
+            Log.e(TAG, "host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
         }
 
         if (TextUtils.isEmpty(host) || TextUtils.isEmpty(unitid) || TextUtils.isEmpty(token) || TextUtils.isEmpty(sid) || TextUtils.isEmpty(appid)) {
@@ -128,13 +130,13 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
         AlxSdkInitManager.getInstance().initSDK(context, serverExtra, new MediationInitCallback() {
             @Override
             public void onSuccess() {
-                Log.d(TAG,"AlxSdkInit success");
+                Log.d(TAG, "AlxSdkInit success");
                 startBid(context);
             }
 
             @Override
             public void onFail(String s) {
-                Log.d(TAG,"AlxSdkInit fail : "+s);
+                Log.d(TAG, "AlxSdkInit fail : " + s);
                 //通过ATBiddingListener，回调竞价失败
                 if (mBiddingListener != null) {
                     mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(s), null);
@@ -182,7 +184,7 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
                 }
 
                 AlgorixNativeAd[] result = new AlgorixNativeAd[ads.size()];
-                AlgorixNativeAd price = new AlgorixNativeAd(context,ads.get(0));
+                AlgorixNativeAd price = new AlgorixNativeAd(context, ads.get(0));
                 boolean isOk = false;
                 try {
                     for (int i = 0; i < ads.size(); i++) {
@@ -191,11 +193,11 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
                         bean.setAdData();
                         result[i] = bean;
 
-                        Log.d(TAG,"startBid  load success");
+                        Log.d(TAG, "startBid  load success");
 
                         //get price
                         double bidPrice = item.getPrice();
-                        Log.d(TAG,"bidPrice: "+bidPrice);
+                        Log.d(TAG, "bidPrice: " + bidPrice);
                         //get currency
                         TUAdConst.CURRENCY currency = TUAdConst.CURRENCY.USD;
 
@@ -205,8 +207,8 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
                         //biddingNotice
                         TUBiddingNotice biddingNotice = null;
 
-                        Log.d(TAG,"startBid  price "+bidPrice);
-                        Log.d(TAG,"startBid  token "+token);
+                        Log.d(TAG, "startBid  price " + bidPrice);
+                        Log.d(TAG, "startBid  token " + token);
                         if (mBiddingListener != null) {
                             mBiddingListener.onC2SBiddingResultWithCache(
                                     TUBiddingResult.success(bidPrice, token, biddingNotice, currency), bean);
