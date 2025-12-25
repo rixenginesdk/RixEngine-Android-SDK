@@ -45,21 +45,57 @@ public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
     public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, Object> localExtra, final TUBiddingListener biddingListener) {
         //从serverExtra中获取后台配置的自定义平台的广告位ID
         mBiddingListener = biddingListener;
-        loadCustomNetworkAd(context, serverExtra, localExtra);
-        //必须return true
+        if (parseServer(serverExtra)) {
+            AlxSdkInitManager.getInstance().initSDK(context, serverExtra, new MediationInitCallback() {
+                @Override
+                public void onSuccess() {
+                    Log.d(TAG, "AlxSdkInit success");
+                    startBid(context);
+                }
+
+                @Override
+                public void onFail(String s) {
+                    Log.d(TAG, "AlxSdkInit fail : " + s);
+                    //通过ATBiddingListener，回调竞价失败
+                    if (mBiddingListener != null) {
+                        mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(s), null);
+                    }
+                }
+            });
+        } else {
+            if (mBiddingListener != null) {
+                mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail("alx  unitid | token | sid | appid is empty"), null);
+            }
+        }
+
         return true;
     }
 
 
     @Override
-    public void loadCustomNetworkAd(Context context, Map<String, Object> serverExtra, Map<String, Object> map1) {
+    public void loadCustomNetworkAd(Context context, Map<String, Object> serverExtra, Map<String, Object> localExtras) {
+
         Log.d(TAG, "alx-topon-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
-        Log.i(TAG, "loadCustomNetworkAd");
         if (parseServer(serverExtra)) {
-            initSdk(context, serverExtra);
+            AlxSdkInitManager.getInstance().initSDK(context, serverExtra, new MediationInitCallback() {
+                @Override
+                public void onSuccess() {
+                    Log.d(TAG, "AlxSdkInit success");
+                    startBid(context);
+                }
+
+                @Override
+                public void onFail(String s) {
+                    Log.d(TAG, "AlxSdkInit fail : " + s);
+                    //通过ATBiddingListener，回调竞价失败
+                    if (mLoadListener != null) {
+                        mLoadListener.onAdLoadError("", "alx unitid | token | sid | appid is empty.");
+                    }
+                }
+            });
         } else {
             if (mLoadListener != null) {
-                mLoadListener.onAdLoadError("", "alx host | unitid | token | sid | appid is empty.");
+                mLoadListener.onAdLoadError("", "alx unitid | token | sid | appid is empty..");
             }
         }
     }
@@ -155,22 +191,23 @@ public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
                 if (mLoadListener != null) {
                     mLoadListener.onAdCacheLoaded();
                 }
-                //get price
-                double bidPrice = alxInterstitialAD.getPrice();
-                Log.d(TAG, "bidPrice: " + bidPrice);
 
-                //get currency
-                TUAdConst.CURRENCY currency = TUAdConst.CURRENCY.USD;
-
-                //get uuid
-                String token = UUID.randomUUID().toString();
-
-                //BiddingNotice
-                TUBiddingNotice biddingNotice = null;
-
-                //BaseAd
-                BaseAd basead = null;
                 if (mBiddingListener != null) {
+                    //get price
+                    double bidPrice = alxInterstitialAD.getPrice();
+                    Log.d(TAG, "bidPrice: " + bidPrice);
+
+                    //get currency
+                    TUAdConst.CURRENCY currency = TUAdConst.CURRENCY.USD;
+
+                    //get uuid
+                    String token = UUID.randomUUID().toString();
+
+                    //BiddingNotice
+                    TUBiddingNotice biddingNotice = null;
+
+                    //BaseAd
+                    BaseAd basead = null;
                     mBiddingListener.onC2SBiddingResultWithCache(
                             TUBiddingResult.success(bidPrice, token, biddingNotice, currency), basead);
                 }
