@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "Alx AdDemo"
+rootProject.name = "Alx Ad Demo"
