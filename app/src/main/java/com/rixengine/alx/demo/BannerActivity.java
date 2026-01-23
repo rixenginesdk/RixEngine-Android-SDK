@@ -73,9 +73,7 @@ public class BannerActivity extends AppCompatActivity implements View.OnClickLis
                 bnShow();
                 break;
             case R.id.bn_load_show:
-              //  bnLoadAndShow();
-                WebView webView = new WebView(this);
-                webView.loadUrl("chrome://crash");
+                bnLoadAndShow();
                 break;
         }
     }

@@ -5,7 +5,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        // applicationId "com.google.android.gms.example.bannerexample" //测试admob
+        //applicationId "com.google.android.gms.example.bannerexample" //测试admob
         applicationId "com.rixengine.demo"
         minSdkVersion 21
         targetSdkVersion 34
@@ -35,9 +35,9 @@ repositories {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    // implementation (name:"rixengine.3.8.3",ext:"aar")
+     //implementation (name:"rixengine.3.9.4",ext:"aar")
     //RixEngine Android SDK (Necessary)
-    api 'io.github.rixenginesdk:rixengine:3.9.1'
+    api 'io.github.rixenginesdk:rixengine:3.9.5'
 
     // Topon (Topon最新版本，请根据实际使用版本选择不同的topon版本)
     api "com.thinkup.sdk:core-tpn:6.5.36"

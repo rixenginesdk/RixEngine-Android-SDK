@@ -5,12 +5,12 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.rixengine.api.AlxAdSDK;
-import com.rixengine.api.AlxSdkInitCallback;
 import com.ironsource.mediationsdk.adunit.adapter.BaseAdapter;
 import com.ironsource.mediationsdk.adunit.adapter.listener.NetworkInitializationListener;
 import com.ironsource.mediationsdk.adunit.adapter.utility.AdData;
 import com.ironsource.mediationsdk.adunit.adapter.utility.AdapterErrors;
+import com.rixengine.api.AlxAdSDK;
+import com.rixengine.api.AlxSdkInitCallback;
 
 import java.util.Map;
 
