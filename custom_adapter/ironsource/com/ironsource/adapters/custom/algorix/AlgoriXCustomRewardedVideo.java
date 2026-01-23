@@ -5,14 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import com.rixengine.api.AlxRewardVideoAD;
-import com.rixengine.api.AlxRewardVideoADListener;
-import com.ironsource.mediationsdk.adunit.adapter.listener.RewardedVideoAdListener;
 import com.ironsource.mediationsdk.adunit.adapter.BaseRewardedVideo;
 import com.ironsource.mediationsdk.adunit.adapter.listener.NetworkInitializationListener;
+import com.ironsource.mediationsdk.adunit.adapter.listener.RewardedVideoAdListener;
 import com.ironsource.mediationsdk.adunit.adapter.utility.AdData;
 import com.ironsource.mediationsdk.adunit.adapter.utility.AdapterErrorType;
 import com.ironsource.mediationsdk.model.NetworkSettings;
+import com.rixengine.api.AlxRewardVideoAD;
+import com.rixengine.api.AlxRewardVideoADListener;
 
 /**
  * IronSource 激励广告适配器

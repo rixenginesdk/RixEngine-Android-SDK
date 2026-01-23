@@ -7,12 +7,9 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.rixengine.api.AlxAdSDK;
-import com.rixengine.api.AlxBannerView;
-import com.rixengine.api.AlxBannerViewAdListener;
-import com.rixengine.api.AlxSdkInitCallback;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.VersionInfo;
 import com.google.android.gms.ads.mediation.Adapter;
 import com.google.android.gms.ads.mediation.InitializationCompleteCallback;
 import com.google.android.gms.ads.mediation.MediationAdLoadCallback;
@@ -20,7 +17,10 @@ import com.google.android.gms.ads.mediation.MediationBannerAd;
 import com.google.android.gms.ads.mediation.MediationBannerAdCallback;
 import com.google.android.gms.ads.mediation.MediationBannerAdConfiguration;
 import com.google.android.gms.ads.mediation.MediationConfiguration;
-import com.google.android.gms.ads.VersionInfo;
+import com.rixengine.api.AlxAdSDK;
+import com.rixengine.api.AlxBannerView;
+import com.rixengine.api.AlxBannerViewAdListener;
+import com.rixengine.api.AlxSdkInitCallback;
 
 import org.json.JSONObject;
 

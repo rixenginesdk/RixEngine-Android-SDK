@@ -5,14 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import com.rixengine.api.AlxInterstitialAD;
-import com.rixengine.api.AlxInterstitialADListener;
 import com.ironsource.mediationsdk.adunit.adapter.BaseInterstitial;
 import com.ironsource.mediationsdk.adunit.adapter.listener.InterstitialAdListener;
 import com.ironsource.mediationsdk.adunit.adapter.listener.NetworkInitializationListener;
 import com.ironsource.mediationsdk.adunit.adapter.utility.AdData;
 import com.ironsource.mediationsdk.adunit.adapter.utility.AdapterErrorType;
 import com.ironsource.mediationsdk.model.NetworkSettings;
+import com.rixengine.api.AlxInterstitialAD;
+import com.rixengine.api.AlxInterstitialADListener;
 
 /**
  * IronSource 激励广告适配器

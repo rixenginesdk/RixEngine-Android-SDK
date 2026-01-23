@@ -6,8 +6,6 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.rixengine.api.AlxBannerView;
-import com.rixengine.api.AlxBannerViewAdListener;
 import com.ironsource.mediationsdk.ISBannerSize;
 import com.ironsource.mediationsdk.adunit.adapter.BaseBanner;
 import com.ironsource.mediationsdk.adunit.adapter.listener.BannerAdListener;
@@ -15,6 +13,8 @@ import com.ironsource.mediationsdk.adunit.adapter.listener.NetworkInitialization
 import com.ironsource.mediationsdk.adunit.adapter.utility.AdData;
 import com.ironsource.mediationsdk.adunit.adapter.utility.AdapterErrorType;
 import com.ironsource.mediationsdk.model.NetworkSettings;
+import com.rixengine.api.AlxBannerView;
+import com.rixengine.api.AlxBannerViewAdListener;
 
 public class AlgoriXCustomBanner extends BaseBanner<AlgoriXCustomAdapter> {
     public static final String TAG = "AlgoriXCustomBanner";
