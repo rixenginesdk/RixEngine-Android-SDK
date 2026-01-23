@@ -21,7 +21,7 @@ RixEngine SDK. To get started with the demo apps, follow the instructions below:
     
     //RixEngine Android SDK (Necessary)
     
-    api 'io.github.rixenginesdk:rixengine:3.9.1'
+    api 'io.github.rixenginesdk:rixengine:3.9.5'
     
     }
 
@@ -34,3 +34,4 @@ have already created in the RixEngine dashboard.
 4.Update the unique RixEngine ad unit ID value within the activity code for each ad format.
 Each ad format corresponds to a unique RixEngine ad unit ID you create in the RixEngine 
 dashboard for the package used before.
+
