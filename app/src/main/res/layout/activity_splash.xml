@@ -19,6 +19,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo"
+        android:contentDescription="@string/banner_ad"/>
 
 </RelativeLayout>

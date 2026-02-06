@@ -1,0 +1,22 @@
+[versions]
+agp = "8.13.0"
+constraintlayout = "2.2.1"
+appcompat = "1.6.1"
+coreKtx = "1.17.0"
+multidex = "2.0.1"
+recyclerview = "1.4.0"
+
+[libraries]
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+multidex = { module = "com.android.support:multidex", version.ref = "multidex" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+
+
+
+

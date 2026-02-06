@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">RixEngine SDK Demo</string>
+    <string name="ads_tag">AD</string>
+
+    <string name="admob_banner_id">ca-app-pub-4920936244266233/6225547012</string>
+    <string name="gam_banner_id">ca-app-pub-4885562717451614/9675235882</string>
+
+    <string name="banner_ad">banner广告</string>
+    <string name="reward_ad">激励广告</string>
+    <string name="interstitial_ad">插屏广告</string>
+    <string name="interstitial_video_ad">插屏-视频广告</string>
+    <string name="interstitial_banner_ad">插屏-banner广告</string>
+    <string name="native_ad">原生广告</string>
+    <string name="splash_ad">开屏广告</string>
+    <string name="banner_ad_in_listview">Banner广告在listView中展示</string>
+    <string name="banner_ad_in_recyclerview">Banner广告在RecyclerView中展示</string>
+
+    <string name="load_ad">加载广告</string>
+    <string name="show_ad">展示广告</string>
+    <string name="load_and_show_ad">加载并展示广告</string>
+    <string name="tip_message">广告未加载</string>
+
+    <string name="loading">广告加载中……</string>
+    <string name="load_success">广告加载成功</string>
+    <string name="load_failed">广告加载失败</string>
+    <string name="show_ad_no_load">请先加载广告</string>
+    <string name="format_load_failed">加载失败: %s</string>
+    <string name="format_load_success">广告加载成功--耗时%d秒</string>
+
+    <string name="banner_ad_preload_mode">banner广告预加载模式</string>
+    <string name="banner_ad_normal_mode">banner广告常规模式</string>
+
+    <string name="list_item_banner_title">banner广告测试标题</string>
+    <string name="list_item_banner_desc">banner广告测试描述</string>
+    <string name="list_item_native_title">原生广告测试标题</string>
+    <string name="list_item_native_desc">原生广告测试描述</string>
+    <string name="other_platform_demo">聚合平台 Demo</string>
+
+</resources>

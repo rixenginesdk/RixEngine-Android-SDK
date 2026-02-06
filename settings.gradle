@@ -1,2 +1,30 @@
+pluginManagement {
+    repositories {
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
+        mavenCentral()
+        gradlePluginPortal()
+
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+
+        //Anythink(Core)
+        maven {  url = uri("https://jfrog.anythinktech.com/artifactory/overseas_sdk") }
+
+        //Iron Source平台
+        maven { url = uri("https://android-sdk.is.com/") }
+
+    }
+}
+rootProject.name = "Alx-Ads-Android-SDK-Demo"
 include ':app'
-rootProject.name = "Alx AdDemo"

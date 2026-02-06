@@ -1,25 +1,35 @@
-apply plugin: 'com.android.application'
+plugins {
+    alias(libs.plugins.android.application)
+}
 
 android {
-    namespace 'com.rixengine'
-    compileSdk 34
+    namespace 'com.alxad.sdk.demo'
+    compileSdk {
+        version = release(36)
+    }
 
     defaultConfig {
         //applicationId "com.google.android.gms.example.bannerexample" //测试admob
         applicationId "com.rixengine.demo"
-        minSdkVersion 21
-        targetSdkVersion 34
+        minSdk 21
+        targetSdk 36
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        release {
+        debug{
             minifyEnabled false
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
@@ -27,14 +37,15 @@ android {
 
 }
 
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
-
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation libs.multidex
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.recyclerview
+    implementation libs.androidx.core.ktx
+
+    implementation 'com.github.bumptech.glide:glide:5.0.5'
+
      //implementation (name:"rixengine.3.9.4",ext:"aar")
     //RixEngine Android SDK (Necessary)
     api 'io.github.rixenginesdk:rixengine:3.9.5'
@@ -56,14 +67,16 @@ dependencies {
     //    api "com.anythink.sdk:splash-tpn:6.4.39"
 
     //Androidx (Necessary)
-    api "androidx.appcompat:appcompat:1.1.0"
     //Admob
     api "com.google.android.gms:play-services-ads:23.5.0"
     api "com.google.android.ads.consent:consent-library:1.0.8"
+
     // Max
     api "com.applovin:applovin-sdk:13.3.1"
+
     // IronSource
-    api "com.ironsource.sdk:mediationsdk:7.3.0.1"
+    api "com.unity3d.ads-mediation:mediation-sdk:9.2.0"
+
     // TradPlus
     api "com.tradplusad:tradplus:14.5.0.1"
 
@@ -71,10 +84,5 @@ dependencies {
     implementation 'com.uid2:uid2-android-sdk:1.6.0'
     implementation("com.myopenpass.sdk:openpass-android-sdk:2.0.0")
 
-    //Androidx (Necessary)
-    api "androidx.appcompat:appcompat:1.1.0"
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     
 }

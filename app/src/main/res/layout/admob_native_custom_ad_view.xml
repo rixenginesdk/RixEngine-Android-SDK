@@ -62,21 +62,21 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/adapter_ad_source"
+                android:id="@+id/ad_call_to_action"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:layout_toRightOf="@+id/logo"
-                android:background="@drawable/btn_bg_creative"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
+                android:background="@drawable/native_button_round"
                 android:paddingLeft="3dp"
                 android:paddingRight="3dp"
-                android:textSize="14sp"
-                android:textColor="#3399cc"
-                tools:text="来源"/>
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:text="call to action"/>
 
             <ImageView
-                android:id="@+id/adapter_ad_close"
+                android:id="@+id/ad_close"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_alignParentRight="true"

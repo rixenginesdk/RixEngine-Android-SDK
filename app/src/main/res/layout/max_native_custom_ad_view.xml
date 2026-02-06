@@ -70,11 +70,11 @@
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/btn_bg_creative"
+            android:background="@drawable/native_button_round"
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
-            android:textColor="#3399cc"
-            android:textSize="14sp"
+            android:textColor="#ffffff"
+            android:textSize="10sp"
             tools:text="call to action" />
 
 <!--        <ImageView-->

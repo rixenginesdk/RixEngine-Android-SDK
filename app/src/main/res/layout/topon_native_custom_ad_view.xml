@@ -102,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dp"
-                android:text="@string/group_ad_tag"
+                android:text="@string/ads_tag"
                 android:textColor="#ffffff"
                 android:textSize="10sp"/>
 
@@ -120,14 +120,13 @@
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:layout_toRightOf="@+id/logo"
-            android:background="@drawable/btn_bg_creative"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:gravity="center"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:textSize="14sp"
-            android:textColor="#3399cc"
+            android:textSize="12sp"
+            android:textColor="#666666"
             tools:text="来源"/>
 
         <ImageView
