@@ -165,9 +165,26 @@
 
 
         <!--ironsource平台——start -->
-
-
-
+<!--        <activity-->
+<!--            android:name="com.ironsource.sdk.controller.ControllerActivity"-->
+<!--            android:configChanges="orientation|screenSize"-->
+<!--            android:hardwareAccelerated="true"-->
+<!--            android:theme="@android:style/Theme.NoTitleBar" />-->
+<!--        <activity-->
+<!--            android:name="com.ironsource.sdk.controller.InterstitialActivity"-->
+<!--            android:configChanges="orientation|screenSize"-->
+<!--            android:hardwareAccelerated="true"-->
+<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
+<!--        <activity-->
+<!--            android:name="com.ironsource.sdk.controller.OpenUrlActivity"-->
+<!--            android:configChanges="orientation|screenSize"-->
+<!--            android:hardwareAccelerated="true"-->
+<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
+<!--        <activity-->
+<!--            android:name="com.ironsource.mediationsdk.testSuite.TestSuiteActivity"-->
+<!--            android:configChanges="orientation|screenSize"-->
+<!--            android:hardwareAccelerated="true"-->
+<!--            android:theme="@android:style/Theme.NoTitleBar" />-->
         <provider
             android:name="com.ironsource.lifecycle.IronsourceLifecycleProvider"
             android:authorities="${applicationId}.IronsourceLifecycleProvider" />
