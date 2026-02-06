@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.alxad.api.nativead.AlxNativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.rixengine.api.nativead.AlxNativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/native_ad_view"
     android:layout_width="match_parent"
@@ -63,7 +63,7 @@
 
         </LinearLayout>
 
-        <com.alxad.api.nativead.AlxMediaView
+        <com.rixengine.api.nativead.AlxMediaView
             android:id="@+id/ad_media"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -138,4 +138,4 @@
     </LinearLayout>
 
 
-</com.alxad.api.nativead.AlxNativeAdView>
+</com.rixengine.api.nativead.AlxNativeAdView>

@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/load_and_show_ad" />
 
-            <com.alxad.api.AlxBannerView
+            <com.rixengine.api.AlxBannerView
                 android:id="@+id/do_ad_banner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

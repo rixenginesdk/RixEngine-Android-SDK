@@ -16,12 +16,10 @@ RixEngine SDK. To get started with the demo apps, follow the instructions below:
 2.Verify that the dependency 
 
     dependencies {
-
-    implementation fileTree(dir: "libs", include: ["*.jar"])
     
     //RixEngine Android SDK (Necessary)
     
-    api 'io.github.rixenginesdk:rixengine:3.9.5'
+    implementation 'io.github.rixenginesdk:rixengine:3.9.6'
     
     }
 
