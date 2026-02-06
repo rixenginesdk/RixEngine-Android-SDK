@@ -26,5 +26,5 @@ dependencyResolutionManagement {
 
     }
 }
-rootProject.name = "Alx-Ads-Android-SDK-Demo"
+rootProject.name = "Rix-Ads-Android-SDK-Demo"
 include ':app'
