@@ -11,8 +11,26 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.applovin.impl.sdk.utils.BundleUtils;
+import com.applovin.mediation.MaxAdFormat;
+import com.applovin.mediation.adapter.MaxAdViewAdapter;
+import com.applovin.mediation.adapter.MaxAdapterError;
+import com.applovin.mediation.adapter.MaxInterstitialAdapter;
+import com.applovin.mediation.adapter.MaxNativeAdAdapter;
+import com.applovin.mediation.adapter.MaxRewardedAdapter;
+import com.applovin.mediation.adapter.listeners.MaxAdViewAdapterListener;
+import com.applovin.mediation.adapter.listeners.MaxInterstitialAdapterListener;
+import com.applovin.mediation.adapter.listeners.MaxNativeAdAdapterListener;
+import com.applovin.mediation.adapter.listeners.MaxRewardedAdapterListener;
+import com.applovin.mediation.adapter.parameters.MaxAdapterInitializationParameters;
 import com.applovin.mediation.adapter.parameters.MaxAdapterParameters;
+import com.applovin.mediation.adapter.parameters.MaxAdapterResponseParameters;
+import com.applovin.mediation.nativeAds.MaxNativeAd;
+import com.applovin.mediation.nativeAds.MaxNativeAdView;
+import com.applovin.sdk.AppLovinPrivacySettings;
+import com.applovin.sdk.AppLovinSdk;
 import com.applovin.sdk.AppLovinSdkSettings;
+import com.applovin.sdk.AppLovinSdkUtils;
 import com.rixengine.api.AlxAdParam;
 import com.rixengine.api.AlxAdSDK;
 import com.rixengine.api.AlxBannerView;
@@ -30,25 +48,6 @@ import com.rixengine.api.nativead.AlxNativeAdLoadedListener;
 import com.rixengine.api.nativead.AlxNativeAdLoader;
 import com.rixengine.api.nativead.AlxNativeAdView;
 import com.rixengine.api.nativead.AlxNativeEventListener;
-import com.applovin.impl.sdk.utils.BundleUtils;
-import com.applovin.mediation.MaxAdFormat;
-import com.applovin.mediation.adapter.MaxAdViewAdapter;
-import com.applovin.mediation.adapter.MaxAdapterError;
-import com.applovin.mediation.adapter.MaxInterstitialAdapter;
-import com.applovin.mediation.adapter.MaxNativeAdAdapter;
-import com.applovin.mediation.adapter.MaxRewardedAdapter;
-import com.applovin.mediation.adapter.listeners.MaxAdViewAdapterListener;
-import com.applovin.mediation.adapter.listeners.MaxInterstitialAdapterListener;
-import com.applovin.mediation.adapter.listeners.MaxNativeAdAdapterListener;
-import com.applovin.mediation.adapter.listeners.MaxRewardedAdapterListener;
-import com.applovin.mediation.adapter.parameters.MaxAdapterInitializationParameters;
-import com.applovin.mediation.adapter.parameters.MaxAdapterResponseParameters;
-import com.applovin.mediation.nativeAds.MaxNativeAd;
-import com.applovin.mediation.nativeAds.MaxNativeAdView;
-import com.applovin.sdk.AppLovinPrivacySettings;
-import com.applovin.sdk.AppLovinSdk;
-import com.applovin.sdk.AppLovinSdkUtils;
-
 
 import org.json.JSONObject;
 
@@ -61,17 +60,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * MAX RixEngine Adapter
- *
- * AlxMediationAdapter is recommended; AlgorixMediationAdapter is deprecated
  */
-@Deprecated
-public class AlgorixMediationAdapter extends MediationAdapterBase implements MaxAdViewAdapter, MaxInterstitialAdapter, MaxRewardedAdapter, MaxNativeAdAdapter {
+public class AlxMediationAdapter extends MediationAdapterBase implements MaxAdViewAdapter, MaxInterstitialAdapter, MaxRewardedAdapter, MaxNativeAdAdapter {
 
     String ADAPTER_VERSION = "3.9.5";
     // 服务器请求EndPoint域名, 由平台分配，请手动修改， 例如：https://yoursubdomain.svr.rixengine.com/rtb
     String ADAPTER_SDK_HOST_URL = "https://demo.svr.rixengine.com/rtb"; //测试HOST，正式需要修改
 
-    private static final String TAG = "AlgorixMediationAdapter";
+    private static final String TAG = "AlxMediationAdapter";
 
     private static final int DEFAULT_IMAGE_TASK_TIMEOUT_SECONDS = 10;
 
@@ -85,7 +81,7 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
     private AlxNativeAd nativeAD;
     private AlxNativeAdView nativeAdView;
 
-    public AlgorixMediationAdapter(AppLovinSdk appLovinSdk) {
+    public AlxMediationAdapter(AppLovinSdk appLovinSdk) {
         super(appLovinSdk);
     }
 
@@ -572,7 +568,7 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
 
         @Override
         public void prepareViewForInteraction(final MaxNativeAdView maxNativeAdView) {
-            final AlxNativeAd nativeAD = AlgorixMediationAdapter.this.nativeAD;
+            final AlxNativeAd nativeAD = AlxMediationAdapter.this.nativeAD;
             if (nativeAD == null) {
                 e("Failed to register native ad view. Native ad is null");
                 return;

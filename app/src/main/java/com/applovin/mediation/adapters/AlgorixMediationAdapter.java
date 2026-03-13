@@ -60,7 +60,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * MAX RixEngine Adapter
+ *
+ * AlxMediationAdapter is recommended; AlgorixMediationAdapter is deprecated
  */
+@Deprecated
 public class AlgorixMediationAdapter extends MediationAdapterBase implements MaxAdViewAdapter, MaxInterstitialAdapter, MaxRewardedAdapter, MaxNativeAdAdapter {
 
     String ADAPTER_VERSION = "3.9.5";
