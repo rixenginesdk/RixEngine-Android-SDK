@@ -55,10 +55,10 @@ public class AdConfig {
     public static final String IRON_SOURCE_INTERSTITIAL_AD = "l7p3bbv8007y1fvd";
 
     //Max 平台广告配置信息
-    public static final String MAX_APP_KEY = "";
-    public static final String MAX_BANNER_AD = "706e91b7aca6adcc";
-    public static final String MAX_INTERSTITIAL_AD = "06331c3416cee0af";
-    public static final String MAX_REWARD_VIDEO_AD = "1ff5f019e67f67b1";
-    public static final String MAX_NATIVE_AD = "e98ea7ad78d91b85";
+    public static final String MAX_APP_KEY = "LXrxVNFmMFIZBeGqQIGfBOUQTt13Ng_m5n8rDOi-StwquDUCgSP99c9Mo2ta_ypss-BEDB-OrP1T3r5Hhru8S2";
+    public static final String MAX_BANNER_AD = "1144ab9b94036722";
+    public static final String MAX_INTERSTITIAL_AD = "3baefbf3a4bc0f5a";
+    public static final String MAX_REWARD_VIDEO_AD = "681616810a8bbf5d";
+    public static final String MAX_NATIVE_AD = "754a8d58b75c9563";
 
 }
