@@ -60,14 +60,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * MAX RixEngine Adapter
+ *
+ * New Max Adapter
  */
-public class AlxMediationAdapter extends MediationAdapterBase implements MaxAdViewAdapter, MaxInterstitialAdapter, MaxRewardedAdapter, MaxNativeAdAdapter {
+public class AlxMaxMediationAdapter extends MediationAdapterBase implements MaxAdViewAdapter, MaxInterstitialAdapter, MaxRewardedAdapter, MaxNativeAdAdapter {
 
     String ADAPTER_VERSION = "3.9.5";
     // 服务器请求EndPoint域名, 由平台分配，请手动修改， 例如：https://yoursubdomain.svr.rixengine.com/rtb
     String ADAPTER_SDK_HOST_URL = "https://demo.svr.rixengine.com/rtb"; //测试HOST，正式需要修改
 
-    private static final String TAG = "AlxMediationAdapter";
+    private static final String TAG = "AlxMaxMediationAdapter";
 
     private static final int DEFAULT_IMAGE_TASK_TIMEOUT_SECONDS = 10;
 
@@ -81,7 +83,7 @@ public class AlxMediationAdapter extends MediationAdapterBase implements MaxAdVi
     private AlxNativeAd nativeAD;
     private AlxNativeAdView nativeAdView;
 
-    public AlxMediationAdapter(AppLovinSdk appLovinSdk) {
+    public AlxMaxMediationAdapter(AppLovinSdk appLovinSdk) {
         super(appLovinSdk);
     }
 
@@ -568,7 +570,7 @@ public class AlxMediationAdapter extends MediationAdapterBase implements MaxAdVi
 
         @Override
         public void prepareViewForInteraction(final MaxNativeAdView maxNativeAdView) {
-            final AlxNativeAd nativeAD = AlxMediationAdapter.this.nativeAD;
+            final AlxNativeAd nativeAD = AlxMaxMediationAdapter.this.nativeAD;
             if (nativeAD == null) {
                 e("Failed to register native ad view. Native ad is null");
                 return;
