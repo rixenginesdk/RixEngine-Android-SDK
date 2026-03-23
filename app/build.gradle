@@ -48,7 +48,7 @@ dependencies {
 
      //implementation (name:"rixengine.3.9.4",ext:"aar")
     //RixEngine Android SDK (Necessary)
-    implementation 'io.github.rixenginesdk:rixengine:3.9.6'
+    implementation 'io.github.rixenginesdk:rixengine:3.9.7'
 
     // Topon (Topon最新版本，请根据实际使用版本选择不同的topon版本)
     api "com.thinkup.sdk:core-tpn:6.5.36"
