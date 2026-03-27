@@ -73,7 +73,7 @@ public class MainActivity extends BaseListViewActivity {
         item = new AdapterData("GAM AD Demo", GamDemoListActivity.class);
         list.add(item);
 
-        item = new AdapterData("IronSource AD Demo", IronSourceDemoListActivity.class);
+        item = new AdapterData("LevelPlay AD Demo", IronSourceDemoListActivity.class);
         list.add(item);
 
         return list;

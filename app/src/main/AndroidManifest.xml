@@ -101,16 +101,16 @@
             android:label="TradPlus Ad: native"/>
 
 
-        <!-- IronSource平台 demo案例 -->
+        <!-- LevelPlay平台 demo案例 -->
         <activity
             android:name=".ironsource.IronSourceDemoListActivity"
-            android:label="Ironsource Ad"/>
+            android:label="LevelPlay Ad"/>
         <activity android:name=".ironsource.IronSourceInterstitialActivity"
-            android:label="Ironsource Ad: interstitial"/>
+            android:label="LevelPlay Ad: interstitial"/>
         <activity android:name=".ironsource.IronSourceRewardedVideoActivity"
-            android:label="Ironsource Ad: reward video"/>
+            android:label="LevelPlay Ad: reward video"/>
         <activity android:name=".ironsource.IronSourceBannerActivity"
-            android:label="Ironsource Ad: banner"/>
+            android:label="LevelPlay Ad: banner"/>
 
 
         <!-- max平台 demo案例 -->
