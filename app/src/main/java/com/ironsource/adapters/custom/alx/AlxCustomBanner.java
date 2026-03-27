@@ -1,6 +1,7 @@
 package com.ironsource.adapters.custom.alx;
 
 import android.app.Activity;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -109,8 +110,21 @@ public class AlxCustomBanner extends BaseBanner<AlxCustomAdapter> {
 
     @Override
     public void destroyAd(@NonNull AdData adData) {
-        if (mBannerView != null) {
-            mBannerView.destroy();
+        if (Looper.getMainLooper() == Looper.myLooper()) {
+            if (mBannerView != null) {
+                mBannerView.destroy();
+            }
+        } else {
+            if (mBannerView != null) {
+                mBannerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mBannerView != null) {
+                            mBannerView.destroy();
+                        }
+                    }
+                });
+            }
         }
     }
 }
