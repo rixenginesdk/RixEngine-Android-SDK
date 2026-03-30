@@ -4,15 +4,16 @@ plugins {
 
 android {
     namespace 'com.alxad.sdk.demo'
+//    compileSdk 34
     compileSdk {
-        version = release(36)
+        version = release(34)
     }
 
     defaultConfig {
         //applicationId "com.google.android.gms.example.bannerexample" //测试admob
         applicationId "com.rixengine.android"
         minSdk 21
-        targetSdk 36
+        targetSdk 33
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
