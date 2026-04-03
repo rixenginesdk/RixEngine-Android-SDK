@@ -109,7 +109,6 @@ public class AlxCustomAdapter extends BaseAdapter {
             Log.i(TAG, "alx host | unitid | token | sid | appid is empty");
             return false;
         }
-        Log.i(TAG, "alx host:" + host);
         return true;
     }
 
