@@ -22,9 +22,9 @@ import com.applovin.mediation.nativeAds.MaxNativeAdViewBinder;
 public class MaxNativeActivity extends BaseActivity implements View.OnClickListener {
     private final String TAG = "MaxNativeActivity";
 
-    private TextView mTvLoad;
+    private View mBnLoad;
     private TextView mTvTip;
-    private FrameLayout mAdContainer;
+    private FrameLayout mAdContainerView;
     private long mStartTime;
 
     private MaxNativeAdLoader mAdLoader;
@@ -34,21 +34,21 @@ public class MaxNativeActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_max_native);
+        setContentView(R.layout.activity_load_ads);
+        setActionBar();
         initView();
     }
 
     private void initView() {
-        mTvLoad = (TextView) findViewById(R.id.tv_load);
-        mTvTip = (TextView) findViewById(R.id.tv_tip);
-        mAdContainer = (FrameLayout) findViewById(R.id.ad_container);
-
-        mTvLoad.setOnClickListener(this);
+        mAdContainerView = (FrameLayout) findViewById(R.id.ad_container);
+        mTvTip = findViewById(R.id.tv_tip);
+        mBnLoad = findViewById(R.id.bn_load);
+        mBnLoad.setOnClickListener(this);
     }
 
     private void loadAd() {
         mTvTip.setText(R.string.loading);
-        mTvLoad.setEnabled(false);
+        mBnLoad.setEnabled(false);
         mStartTime = System.currentTimeMillis();
 
         mAdLoader = new MaxNativeAdLoader(AdConfig.MAX_NATIVE_AD, this);
@@ -59,7 +59,7 @@ public class MaxNativeActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.tv_load) {
+        if (v.getId() == R.id.bn_load) {
             loadAd();
         }
     }
@@ -68,7 +68,7 @@ public class MaxNativeActivity extends BaseActivity implements View.OnClickListe
         @Override
         public void onNativeAdLoaded(@Nullable MaxNativeAdView maxNativeAdView, MaxAd maxAd) {
             Log.d(TAG, "onNativeAdLoaded |ecpm:" + maxAd.getRevenue());
-            mTvLoad.setEnabled(true);
+            mBnLoad.setEnabled(true);
             mTvTip.setText(getString(R.string.load_success) + "| ecpm:" + maxAd.getRevenue());
 
             if (mMaxAd != null) {
@@ -77,8 +77,8 @@ public class MaxNativeActivity extends BaseActivity implements View.OnClickListe
             mMaxAd = maxAd;
 
             if (maxNativeAdView != null) {
-                mAdContainer.removeAllViews();
-                mAdContainer.addView(maxNativeAdView);
+                mAdContainerView.removeAllViews();
+                mAdContainerView.addView(maxNativeAdView);
             } else {
                 Log.d(TAG, "maxNativeAdView is empty");
             }
@@ -87,7 +87,7 @@ public class MaxNativeActivity extends BaseActivity implements View.OnClickListe
         @Override
         public void onNativeAdLoadFailed(String s, MaxError maxError) {
             Log.d(TAG, "onNativeAdLoadFailed:" + s + ";" + ";" + maxError.getCode() + ";" + maxError.getMessage());
-            mTvLoad.setEnabled(true);
+            mBnLoad.setEnabled(true);
             mTvTip.setText(getString(R.string.format_load_failed, maxError.getMessage()));
         }
 

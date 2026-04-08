@@ -32,6 +32,7 @@ public class IronSourceRewardedVideoActivity extends BaseActivity implements Vie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_and_show);
+        setActionBar();
         initView();
     }
 

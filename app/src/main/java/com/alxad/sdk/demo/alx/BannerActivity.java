@@ -30,7 +30,8 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_banner);
-        setTitle(getString(R.string.banner_ad));
+        setActionBar();
+        checkNavigationBar(findViewById(R.id.root_view));
 
         mTvTip = (TextView) findViewById(R.id.tv_tip);
         mBnLoad = (Button) findViewById(R.id.bn_load);

@@ -14,7 +14,7 @@ import com.rixengine.api.AlxInterstitialAD;
 import com.rixengine.api.AlxInterstitialADListener;
 
 public class InterstitialBannerActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = "AlxInterstitialBanner";
+    private static final String TAG = "AlxInterstitialBannerActivity";
 
     private TextView mTvTip;
     private TextView mTvShow;
@@ -25,6 +25,7 @@ public class InterstitialBannerActivity extends BaseActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_and_show);
+        setActionBar();
         initView();
     }
 

@@ -31,7 +31,8 @@ public class MaxBannerActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_load_with_viewgroup);
+        setContentView(R.layout.activity_load_ads);
+        setActionBar();
         initView();
     }
 

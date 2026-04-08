@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.multidex.MultiDex;
+
 import com.rixengine.api.AlxAdSDK;
 import com.rixengine.api.AlxSdkInitCallback;
 
@@ -43,11 +44,13 @@ public class MainApp extends Application {
                 }
             });
             AlxAdSDK.setDebug(true);
+
+//            用户扩展参数
+            AlxAdSDK.addExtraParameters("uid2_token","NewAdvertisingTokenIjb6u6KcMAtd0/4ZIAYkXvFrMdlZVqfb9LNf99B+1ysE/lBzYVt64pxYxjobJMGbh5q/HsKY7KC0Xo5Rb/Vo8HC4dYOoWXyuGUaL7Jmbw4bzh+3pgokelUGyTX19DfArTeIg7n+8cxWQ=");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
 
 }

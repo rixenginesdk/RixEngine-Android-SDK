@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
+
+    <include layout="@layout/layout_action_bar" />
 
     <TextView
         android:id="@+id/tv_load"
@@ -40,12 +41,12 @@
         android:background="#1a000000" />
 
 
-    <com.anythink.nativead.api.ATNativeAdView
+    <com.thinkup.nativead.api.TUNativeAdView
         android:id="@+id/ad_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp">
-    </com.anythink.nativead.api.ATNativeAdView>
+    </com.thinkup.nativead.api.TUNativeAdView>
 
 
 </LinearLayout>

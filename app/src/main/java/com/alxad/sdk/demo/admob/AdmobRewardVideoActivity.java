@@ -32,6 +32,7 @@ public class AdmobRewardVideoActivity extends BaseActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_and_show);
+        setActionBar();
         initView();
     }
 

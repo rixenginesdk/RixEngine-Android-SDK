@@ -13,7 +13,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
 
-
 public class AdmobBannerActivity extends BaseActivity {
     private final String TAG = "AdmobBannerActivity";
 
@@ -23,6 +22,7 @@ public class AdmobBannerActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admob_banner);
+        setActionBar();
         initView();
         loadAd();
     }

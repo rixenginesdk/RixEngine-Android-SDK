@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">RixEngine SDK Demo</string>
+    <string name="app_name">RixEngine Ads Demo</string>
     <string name="ads_tag">AD</string>
 
-    <string name="admob_banner_id">ca-app-pub-4885562717451614/8650098944</string>
+    <string name="admob_app_id">ca-app-pub-2258587227088809~4790418597</string>
+    <string name="admob_banner_id">ca-app-pub-2258587227088809/4048182567</string>
     <string name="gam_banner_id">ca-app-pub-4885562717451614/9675235882</string>
 
     <string name="banner_ad">banner Ad</string>
@@ -12,8 +13,6 @@
     <string name="interstitial_banner_ad">interstitial Ad - banner</string>
     <string name="native_ad">native Ad</string>
     <string name="splash_ad">splash Ad</string>
-    <string name="banner_ad_in_listview">Banner ads are displayed in ListView</string>
-    <string name="banner_ad_in_recyclerview">Banner ads are displayed in RecyclerView</string>
 
     <string name="load_ad">load Ad</string>
     <string name="show_ad">show Ad</string>
@@ -34,6 +33,7 @@
     <string name="list_item_banner_desc">Banner test desc ad</string>
     <string name="list_item_native_title">native test title ad</string>
     <string name="list_item_native_desc">native test desc ad</string>
-    <string name="other_platform_demo">Other platforms Demo</string>
+    <string name="other_platform_demo">Aggregated Ad Platform Demo</string>
+    <string name="alx_sdk_demo">Alx Ad Demo</string>
 
 </resources>

@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseListViewActivity;
 import com.alxad.sdk.demo.R;
-
 import com.unity3d.mediation.LevelPlay;
 import com.unity3d.mediation.LevelPlayConfiguration;
 import com.unity3d.mediation.LevelPlayInitError;

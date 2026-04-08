@@ -4,7 +4,6 @@ plugins {
 
 android {
     namespace 'com.alxad.sdk.demo'
-//    compileSdk 34
     compileSdk {
         version = release(34)
     }
@@ -12,12 +11,11 @@ android {
     defaultConfig {
         //applicationId "com.google.android.gms.example.bannerexample" //测试admob
         applicationId "com.rixengine.android"
-        minSdk 21
+        minSdk 23
         targetSdk 34
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -39,26 +37,32 @@ android {
 }
 
 dependencies {
-    implementation libs.multidex
     implementation libs.androidx.appcompat
+    implementation libs.androidx.multidex
     implementation libs.androidx.constraintlayout
     implementation libs.androidx.recyclerview
-    implementation libs.androidx.core.ktx
+    implementation libs.material
 
-    implementation 'com.github.bumptech.glide:glide:5.0.5'
+    implementation libs.glide
 
      //implementation (name:"rixengine.3.9.4",ext:"aar")
     //RixEngine Android SDK (Necessary)
     implementation 'io.github.rixenginesdk:rixengine:3.9.7'
 
-    // Topon (Topon最新版本，请根据实际使用版本选择不同的topon版本)
-    implementation "com.thinkup.sdk:core-tpn:6.5.36"
-    implementation "com.thinkup.sdk:nativead-tpn:6.5.36"
-    implementation "com.thinkup.sdk:banner-tpn:6.5.36"
-    implementation "com.thinkup.sdk:interstitial-tpn:6.5.36"
-    implementation "com.thinkup.sdk:rewardedvideo-tpn:6.5.36"
-    implementation "com.thinkup.sdk:splash-tpn:6.5.36"
+//     Admob SDK
+    implementation libs.ads.admob
 
+
+    // Topon (Topon最新版本，请根据实际使用版本选择不同的topon版本)
+    implementation libs.ads.topon.core
+    implementation libs.ads.topon.nativead
+    implementation libs.ads.topon.banner
+    implementation libs.ads.topon.interstitial
+    implementation libs.ads.topon.rewardedvideo
+    implementation libs.ads.topon.splash
+    //Androidx (Necessary)
+//    implementation libs.androidx.appcompat //上面已经有了
+    implementation libs.androidx.browser
     // Taku (Topon老版本，请根据实际使用版本选择不同的topon版本)
     //    implementation "com.anythink.sdk:core-tpn:6.4.39"
     //    implementation "com.anythink.sdk:nativead-tpn:6.4.39"
@@ -67,23 +71,25 @@ dependencies {
     //    implementation "com.anythink.sdk:rewardedvideo-tpn:6.4.39"
     //    implementation "com.anythink.sdk:splash-tpn:6.4.39"
 
-    //Androidx (Necessary)
-    //Admob
-    implementation "com.google.android.gms:play-services-ads:23.5.0"
-    implementation "com.google.android.ads.consent:consent-library:1.0.8"
 
-    // Max
-    implementation "com.applovin:applovin-sdk:13.3.1"
 
-    // IronSource
-    implementation "com.unity3d.ads-mediation:mediation-sdk:9.2.0"
+//    MAX SDK
+    implementation libs.ads.max
 
-    // TradPlus
-    implementation "com.tradplusad:tradplus:14.5.0.1"
+
+//    LevelPlay(原IronSource) SDK
+    implementation libs.ads.ironsource
+
+//    TradPlus SDK
+    implementation libs.ads.tradplus
+    //noinspection Gradle Compatible
+    implementation libs.androidx.legacy.support.v4
+    implementation libs.androidx.appcompat
+
 
     //  支持UID2的库
     implementation 'com.uid2:uid2-android-sdk:1.6.0'
-    implementation("com.myopenpass.sdk:openpass-android-sdk:2.0.0")
+    implementation "com.myopenpass.sdk:openpass-android-sdk:2.0.0"
 
     
 }

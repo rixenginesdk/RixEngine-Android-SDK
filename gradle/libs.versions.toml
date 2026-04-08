@@ -1,17 +1,41 @@
 [versions]
 agp = "8.13.0"
-constraintlayout = "2.2.1"
 appcompat = "1.1.0"
-coreKtx = "1.13.0"
+constraintlayout = "2.2.1"
+material = "1.1.0"
+browser = "1.6.0"
 multidex = "2.0.1"
 recyclerview = "1.2.1"
+adsAdmob = "23.5.0"
+adsTopon = "6.5.36"
+adsMax = "13.6.0"
+adsIronsource = "9.2.0"
+gmsAdsIdentifier = "18.0.1"
+adsTradplus = "14.5.0.1"
+glide = "5.0.5"
+legacySupportV4 = "1.0.0"
+
 
 [libraries]
-androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
-androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
-androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-multidex = { module = "com.android.support:multidex", version.ref = "multidex" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }
+androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "multidex" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+androidx-legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "legacySupportV4" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+ads-admob = { module = "com.google.android.gms:play-services-ads", version.ref = "adsAdmob" }
+ads-topon-core = { module = "com.thinkup.sdk:core-tpn", version.ref = "adsTopon" }
+ads-topon-nativead = { module = "com.thinkup.sdk:nativead-tpn", version.ref = "adsTopon" }
+ads-topon-banner = { module = "com.thinkup.sdk:banner-tpn", version.ref = "adsTopon" }
+ads-topon-interstitial = { module = "com.thinkup.sdk:interstitial-tpn", version.ref = "adsTopon" }
+ads-topon-rewardedvideo = { module = "com.thinkup.sdk:rewardedvideo-tpn", version.ref = "adsTopon" }
+ads-topon-splash = { module = "com.thinkup.sdk:splash-tpn", version.ref = "adsTopon" }
+ads-ironsource = { module = "com.unity3d.ads-mediation:mediation-sdk", version.ref = "adsIronsource" }
+gms-ads-identifier = { module = "com.google.android.gms:play-services-ads-identifier", version.ref = "gmsAdsIdentifier" }
+ads-max = { module = "com.applovin:applovin-sdk", version.ref = "adsMax" }
+ads-tradplus = { module = "com.tradplusad:tradplus", version.ref = "adsTradplus" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

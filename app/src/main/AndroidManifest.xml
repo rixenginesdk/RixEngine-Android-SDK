@@ -38,9 +38,13 @@
         </activity>
         <activity android:name=".MainActivity"
             android:launchMode="singleInstance"/>
+        <activity android:name=".OtherPlatformActivity"
+            android:label="@string/other_platform_demo"/>
 
-        <!-- Alx demo案例-->
-        <activity android:name=".alx.AlxDemoListActivity" />
+
+        <!-- Alx demo：start-->
+        <activity android:name=".alx.AlxDemoListActivity"
+            android:label="Alx Ad"/>
         <activity android:name=".alx.BannerActivity"
             android:label="Alx Ad: banner"/>
         <activity android:name=".alx.RewardVideoActivity"
@@ -52,7 +56,7 @@
         <activity
             android:name=".alx.NativeActivity"
             android:label="Alx Ad: native" />
-
+        <!-- Alx demo：end -->
 
         <!-- TopOn平台 demo案例 -->
         <activity
@@ -69,7 +73,6 @@
         <activity android:name=".topon.TopOnSplashActivity"
             android:label="TopOn Ad: splash"/>
 
-
         <!-- Admob平台 demo案例 -->
         <activity
             android:name=".admob.AdmobDemoListActivity"
@@ -83,6 +86,19 @@
         <activity android:name=".admob.AdmobNativeActivity"
             android:label="Admob Ad: native"/>
 
+
+        <!-- GAM平台 demo案例 -->
+        <activity
+            android:name=".gam.GamDemoListActivity"
+            android:label="Gam Ad" />
+        <activity android:name=".gam.GamBannerActivity"
+            android:label="Gam Ad: banner"/>
+        <activity android:name=".gam.GamRewardVideoActivity"
+            android:label="Gam Ad: reward video"/>
+        <activity android:name=".gam.GamInterstitialActivity"
+            android:label="Gam Ad: interstitial"/>
+        <activity android:name=".gam.GamNativeActivity"
+            android:label="Gam Ad: native"/>
 
 
         <!-- TradPlus平台 demo案例 -->
@@ -101,7 +117,7 @@
             android:label="TradPlus Ad: native"/>
 
 
-        <!-- LevelPlay平台 demo案例 -->
+        <!-- LevelPlay(原 IronSource)平台 demo案例 -->
         <activity
             android:name=".ironsource.IronSourceDemoListActivity"
             android:label="LevelPlay Ad"/>
@@ -131,21 +147,6 @@
             android:label="max Ad:native" />
 
 
-        <!-- GAM平台 demo案例 -->
-        <activity
-            android:name=".gam.GamDemoListActivity"
-            android:label="Gam Ad" />
-        <activity android:name=".gam.GamBannerActivity"
-            android:label="Gam Ad: banner"/>
-        <activity android:name=".gam.GamRewardVideoActivity"
-            android:label="Gam Ad: reward video"/>
-        <activity android:name=".gam.GamInterstitialActivity"
-            android:label="Gam Ad: interstitial"/>
-        <activity android:name=".gam.GamNativeActivity"
-            android:label="Gam Ad: native"/>
-
-
-
         <!-- 下面是配置信息 -->
         <!--Admob平台——start -->
         <meta-data
@@ -164,36 +165,11 @@
         <!--TopOn平台——end -->
 
 
-        <!--ironsource平台——start -->
-<!--        <activity-->
-<!--            android:name="com.ironsource.sdk.controller.ControllerActivity"-->
-<!--            android:configChanges="orientation|screenSize"-->
-<!--            android:hardwareAccelerated="true"-->
-<!--            android:theme="@android:style/Theme.NoTitleBar" />-->
-<!--        <activity-->
-<!--            android:name="com.ironsource.sdk.controller.InterstitialActivity"-->
-<!--            android:configChanges="orientation|screenSize"-->
-<!--            android:hardwareAccelerated="true"-->
-<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
-<!--        <activity-->
-<!--            android:name="com.ironsource.sdk.controller.OpenUrlActivity"-->
-<!--            android:configChanges="orientation|screenSize"-->
-<!--            android:hardwareAccelerated="true"-->
-<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
-<!--        <activity-->
-<!--            android:name="com.ironsource.mediationsdk.testSuite.TestSuiteActivity"-->
-<!--            android:configChanges="orientation|screenSize"-->
-<!--            android:hardwareAccelerated="true"-->
-<!--            android:theme="@android:style/Theme.NoTitleBar" />-->
+        <!--LevelPlay(原 IronSource)平台——start -->
         <provider
             android:name="com.ironsource.lifecycle.IronsourceLifecycleProvider"
             android:authorities="${applicationId}.IronsourceLifecycleProvider" />
-        <!--ironsource平台——end -->
-
-        <!--max平台——start -->
-        <!--        <meta-data android:name="applovin.sdk.key"-->
-        <!--            android:value="95-ffs7CG-uU8Z3exG1oky-tAdQGD1z1kHK365gIQdSIH90WNUv2fTCPFMBhVmH9Fx0o1GhhAX7DQDrnACsVIv"/>-->
-        <!--max平台——end -->
+        <!--LevelPlay(原 IronSource)平台——end -->
 
     </application>
 

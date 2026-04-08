@@ -45,11 +45,18 @@ public class AdmobDemoListActivity extends BaseListViewActivity {
         }
         Log.d(TAG, "Admob SDK start initialize");
 
-        MobileAds.initialize(getApplicationContext(), new OnInitializationCompleteListener() {
+        new Thread(new Runnable() {
             @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            public void run() {
+                MobileAds.initialize(getApplicationContext(), new OnInitializationCompleteListener() {
+                    @Override
+                    public void onInitializationComplete(InitializationStatus status) {
+                        Log.d(TAG,status.toString());
+                    }
+                });
             }
-        });
+        }).start();
+
     }
 
 }

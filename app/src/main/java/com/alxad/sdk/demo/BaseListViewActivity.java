@@ -19,11 +19,11 @@ public abstract class BaseListViewActivity extends BaseActivity implements Adapt
 
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        ListView listView = new ListView(this);
-        listView.setFitsSystemWindows(true);
-        listView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        setContentView(listView);
+        setContentView(R.layout.activity_list);
+        setActionBar();
+        checkNavigationBar(findViewById(R.id.root_view));
 
+        ListView listView = (ListView)findViewById(R.id.listView);
         mAdapter = new MyAdapter(this, initAdapterData());
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(this);

@@ -4,17 +4,13 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.alxad.sdk.demo.admob.AdmobDemoListActivity;
 import com.alxad.sdk.demo.alx.AlxDemoListActivity;
-import com.alxad.sdk.demo.gam.GamDemoListActivity;
-import com.alxad.sdk.demo.ironsource.IronSourceDemoListActivity;
-import com.alxad.sdk.demo.max.MaxDemoListActivity;
-import com.alxad.sdk.demo.topon.TopOnDemoListActivity;
-import com.alxad.sdk.demo.tradplus.TradPlusDemoListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +29,10 @@ public class MainActivity extends BaseListViewActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        toolbar.setNavigationIcon(null);
         initPermission();
     }
-
 
 
     /**
@@ -55,27 +52,8 @@ public class MainActivity extends BaseListViewActivity {
     @Override
     public List<AdapterData> initAdapterData() {
         List<AdapterData> list = new ArrayList<>();
-        AdapterData item = new AdapterData("Alx AD Demo", AlxDemoListActivity.class);
-        list.add(item);
-
-        item = new AdapterData("Admob AD Demo", AdmobDemoListActivity.class);
-        list.add(item);
-
-        item = new AdapterData("Max AD Demo", MaxDemoListActivity.class);
-        list.add(item);
-
-        item = new AdapterData("TopOn AD Demo", TopOnDemoListActivity.class);
-        list.add(item);
-
-        item = new AdapterData("TradPlus AD Demo", TradPlusDemoListActivity.class);
-        list.add(item);
-
-        item = new AdapterData("GAM AD Demo", GamDemoListActivity.class);
-        list.add(item);
-
-        item = new AdapterData("LevelPlay AD Demo", IronSourceDemoListActivity.class);
-        list.add(item);
-
+        list.add(new AdapterData(getString(R.string.alx_sdk_demo), AlxDemoListActivity.class));
+        list.add(new AdapterData(getString(R.string.other_platform_demo), OtherPlatformActivity.class));
         return list;
     }
 

@@ -28,7 +28,8 @@ public class TradPlusBannerActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_load_with_viewgroup);
+        setContentView(R.layout.activity_load_ads);
+        setActionBar();
         initView();
     }
 
