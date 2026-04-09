@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -54,6 +53,7 @@ public class MainActivity extends BaseListViewActivity {
         List<AdapterData> list = new ArrayList<>();
         list.add(new AdapterData(getString(R.string.alx_sdk_demo), AlxDemoListActivity.class));
         list.add(new AdapterData(getString(R.string.other_platform_demo), OtherPlatformActivity.class));
+
         return list;
     }
 

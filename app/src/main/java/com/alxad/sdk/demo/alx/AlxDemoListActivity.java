@@ -8,7 +8,7 @@ import com.alxad.sdk.demo.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlxDemoListActivity extends BaseListViewActivity  {
+public class AlxDemoListActivity extends BaseListViewActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +23,7 @@ public class AlxDemoListActivity extends BaseListViewActivity  {
         list.add(new AdapterData(getString(R.string.interstitial_video_ad), InterstitialVideoActivity.class));
         list.add(new AdapterData(getString(R.string.interstitial_banner_ad), InterstitialBannerActivity.class));
         list.add(new AdapterData(getString(R.string.native_ad), NativeActivity.class));
+
         return list;
     }
 
