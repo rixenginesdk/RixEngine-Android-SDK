@@ -23,7 +23,6 @@ public class AlxDemoListActivity extends BaseListViewActivity {
         list.add(new AdapterData(getString(R.string.interstitial_video_ad), InterstitialVideoActivity.class));
         list.add(new AdapterData(getString(R.string.interstitial_banner_ad), InterstitialBannerActivity.class));
         list.add(new AdapterData(getString(R.string.native_ad), NativeActivity.class));
-
         return list;
     }
 

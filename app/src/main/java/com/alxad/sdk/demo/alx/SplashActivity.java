@@ -8,12 +8,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.rixengine.api.AlxSplashAd;
+import com.rixengine.api.AlxSplashAdListener;
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.MainActivity;
 import com.alxad.sdk.demo.R;
-import com.rixengine.api.AlxSplashAd;
-import com.rixengine.api.AlxSplashAdListener;
 
 public class SplashActivity extends BaseActivity {
     private final String TAG = "AlxSplashActivity";

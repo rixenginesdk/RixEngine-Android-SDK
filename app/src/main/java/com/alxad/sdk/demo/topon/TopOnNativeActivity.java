@@ -12,10 +12,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.R;
-import com.bumptech.glide.Glide;
 import com.thinkup.core.api.AdError;
 import com.thinkup.core.api.TUAdInfo;
 import com.thinkup.nativead.api.NativeAd;

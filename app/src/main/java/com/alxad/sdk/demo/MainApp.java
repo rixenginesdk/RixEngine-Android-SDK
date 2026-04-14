@@ -14,7 +14,7 @@ public class MainApp extends Application {
 
     private static MainApp mApp;
 
-    public static MainApp getInstance(){
+    public static MainApp getInstance() {
         return mApp;
     }
 
@@ -27,17 +27,17 @@ public class MainApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        mApp=this;
+        mApp = this;
         initAd();
     }
 
     /**
-     * 广告配置
+     * Alx SDK init
      */
-    public void initAd(){
+    public void initAd() {
         try {
             //Alx Ad Init
-            AlxAdSDK.init(this,AdConfig.ALX_HOST, AdConfig.ALX_TOKEN, AdConfig.ALX_SID, AdConfig.ALX_APP_ID, new AlxSdkInitCallback() {
+            AlxAdSDK.init(this, AdConfig.ALX_HOST, AdConfig.ALX_TOKEN, AdConfig.ALX_SID, AdConfig.ALX_APP_ID, new AlxSdkInitCallback() {
                 @Override
                 public void onInit(boolean isOk, String msg) {
                     Log.i(TAG, Thread.currentThread().getName() + ":" + isOk + "-" + msg);
@@ -46,10 +46,10 @@ public class MainApp extends Application {
             AlxAdSDK.setDebug(true);
 
 //            用户扩展参数
-            AlxAdSDK.addExtraParameters("uid2_token","NewAdvertisingTokenIjb6u6KcMAtd0/4ZIAYkXvFrMdlZVqfb9LNf99B+1ysE/lBzYVt64pxYxjobJMGbh5q/HsKY7KC0Xo5Rb/Vo8HC4dYOoWXyuGUaL7Jmbw4bzh+3pgokelUGyTX19DfArTeIg7n+8cxWQ=");
+            AlxAdSDK.addExtraParameters("uid2_token", "NewAdvertisingTokenIjb6u6KcMAtd0/4ZIAYkXvFrMdlZVqfb9LNf99B+1ysE/lBzYVt64pxYxjobJMGbh5q/HsKY7KC0Xo5Rb/Vo8HC4dYOoWXyuGUaL7Jmbw4bzh+3pgokelUGyTX19DfArTeIg7n+8cxWQ=");
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "error:" + e.getMessage());
         }
     }
 

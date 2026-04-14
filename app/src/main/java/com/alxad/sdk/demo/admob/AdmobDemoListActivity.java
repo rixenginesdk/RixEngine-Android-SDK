@@ -3,11 +3,11 @@ package com.alxad.sdk.demo.admob;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.alxad.sdk.demo.BaseListViewActivity;
-import com.alxad.sdk.demo.R;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.alxad.sdk.demo.BaseListViewActivity;
+import com.alxad.sdk.demo.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class AdmobDemoListActivity extends BaseListViewActivity {
     }
 
     @Override
-    public List<AdapterData> initAdapterData() {
+    public List<BaseListViewActivity.AdapterData> initAdapterData() {
         List<AdapterData> list = new ArrayList<>();
 
         AdapterData bannerItem = new AdapterData(getString(R.string.banner_ad), AdmobBannerActivity.class);

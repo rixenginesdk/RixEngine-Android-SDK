@@ -6,12 +6,12 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.alxad.sdk.demo.BaseActivity;
-import com.alxad.sdk.demo.R;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.admanager.AdManagerAdRequest;
 import com.google.android.gms.ads.admanager.AdManagerAdView;
+import com.alxad.sdk.demo.BaseActivity;
+import com.alxad.sdk.demo.R;
 
 public class GamBannerActivity extends BaseActivity {
     private final String TAG = "GamBannerActivity";

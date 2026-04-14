@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.alxad.sdk.demo">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -14,7 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name=".MainApp"
+        android:name="com.alxad.sdk.demo.MainApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -25,10 +24,10 @@
         android:usesCleartextTraffic="true"
         android:debuggable="true"
         tools:ignore="HardcodedDebugMode"
-        tools:replace="android:networkSecurityConfig,allowBackup,icon">
+        tools:replace="android:networkSecurityConfig,android:allowBackup,android:icon">
 
         <activity
-            android:name=".alx.SplashActivity"
+            android:name="com.alxad.sdk.demo.alx.SplashActivity"
             android:theme="@style/splash_theme"
             android:exported="true">
             <intent-filter>
@@ -36,114 +35,114 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name="com.alxad.sdk.demo.MainActivity"
             android:launchMode="singleInstance"/>
-        <activity android:name=".OtherPlatformActivity"
+        <activity android:name="com.alxad.sdk.demo.OtherPlatformActivity"
             android:label="@string/other_platform_demo"/>
 
 
         <!-- Alx demo：start-->
-        <activity android:name=".alx.AlxDemoListActivity"
+        <activity android:name="com.alxad.sdk.demo.alx.AlxDemoListActivity"
             android:label="Alx Ad"/>
-        <activity android:name=".alx.BannerActivity"
+        <activity android:name="com.alxad.sdk.demo.alx.BannerActivity"
             android:label="Alx Ad: banner"/>
-        <activity android:name=".alx.RewardVideoActivity"
+        <activity android:name="com.alxad.sdk.demo.alx.RewardVideoActivity"
             android:label="Alx Ad: reward video"/>
-        <activity android:name=".alx.InterstitialVideoActivity"
+        <activity android:name="com.alxad.sdk.demo.alx.InterstitialVideoActivity"
             android:label="Alx Ad: interstitial Ad - video"/>
-        <activity android:name=".alx.InterstitialBannerActivity"
+        <activity android:name="com.alxad.sdk.demo.alx.InterstitialBannerActivity"
             android:label="Alx Ad: interstitial Ad - banner"/>
         <activity
-            android:name=".alx.NativeActivity"
+            android:name="com.alxad.sdk.demo.alx.NativeActivity"
             android:label="Alx Ad: native" />
         <!-- Alx demo：end -->
 
         <!-- TopOn平台 demo案例 -->
         <activity
-            android:name=".topon.TopOnDemoListActivity"
+            android:name="com.alxad.sdk.demo.topon.TopOnDemoListActivity"
             android:label="TopOn Ad" />
-        <activity android:name=".topon.TopOnBannerActivity"
+        <activity android:name="com.alxad.sdk.demo.topon.TopOnBannerActivity"
             android:label="TopOn Ad: banner"/>
-        <activity android:name=".topon.TopOnNativeActivity"
+        <activity android:name="com.alxad.sdk.demo.topon.TopOnNativeActivity"
             android:label="TopOn Ad: native"/>
-        <activity android:name=".topon.TopOnRewardVideoActivity"
+        <activity android:name="com.alxad.sdk.demo.topon.TopOnRewardVideoActivity"
             android:label="TopOn Ad: reward video"/>
-        <activity android:name=".topon.TopOnInterstitialActivity"
+        <activity android:name="com.alxad.sdk.demo.topon.TopOnInterstitialActivity"
             android:label="TopOn Ad: interstitial"/>
-        <activity android:name=".topon.TopOnSplashActivity"
+        <activity android:name="com.alxad.sdk.demo.topon.TopOnSplashActivity"
             android:label="TopOn Ad: splash"/>
 
         <!-- Admob平台 demo案例 -->
         <activity
-            android:name=".admob.AdmobDemoListActivity"
+            android:name="com.alxad.sdk.demo.admob.AdmobDemoListActivity"
             android:label="Admob Ad" />
-        <activity android:name=".admob.AdmobBannerActivity"
+        <activity android:name="com.alxad.sdk.demo.admob.AdmobBannerActivity"
             android:label="Admob Ad: banner"/>
-        <activity android:name=".admob.AdmobRewardVideoActivity"
+        <activity android:name="com.alxad.sdk.demo.admob.AdmobRewardVideoActivity"
             android:label="Admob Ad: reward video"/>
-        <activity android:name=".admob.AdmobInterstitialActivity"
+        <activity android:name="com.alxad.sdk.demo.admob.AdmobInterstitialActivity"
             android:label="Admob Ad: interstitial"/>
-        <activity android:name=".admob.AdmobNativeActivity"
+        <activity android:name="com.alxad.sdk.demo.admob.AdmobNativeActivity"
             android:label="Admob Ad: native"/>
 
 
         <!-- GAM平台 demo案例 -->
         <activity
-            android:name=".gam.GamDemoListActivity"
+            android:name="com.alxad.sdk.demo.gam.GamDemoListActivity"
             android:label="Gam Ad" />
-        <activity android:name=".gam.GamBannerActivity"
+        <activity android:name="com.alxad.sdk.demo.gam.GamBannerActivity"
             android:label="Gam Ad: banner"/>
-        <activity android:name=".gam.GamRewardVideoActivity"
+        <activity android:name="com.alxad.sdk.demo.gam.GamRewardVideoActivity"
             android:label="Gam Ad: reward video"/>
-        <activity android:name=".gam.GamInterstitialActivity"
+        <activity android:name="com.alxad.sdk.demo.gam.GamInterstitialActivity"
             android:label="Gam Ad: interstitial"/>
-        <activity android:name=".gam.GamNativeActivity"
+        <activity android:name="com.alxad.sdk.demo.gam.GamNativeActivity"
             android:label="Gam Ad: native"/>
 
 
         <!-- TradPlus平台 demo案例 -->
         <activity
-            android:name=".tradplus.TradPlusDemoListActivity"
+            android:name="com.alxad.sdk.demo.tradplus.TradPlusDemoListActivity"
             android:label="TradPlus Ad" />
-        <activity android:name=".tradplus.TradPlusSplashActivity"
+        <activity android:name="com.alxad.sdk.demo.tradplus.TradPlusSplashActivity"
             android:label="TradPlus Ad: splash"/>
-        <activity android:name=".tradplus.TradPlusBannerActivity"
+        <activity android:name="com.alxad.sdk.demo.tradplus.TradPlusBannerActivity"
             android:label="TradPlus Ad: banner"/>
-        <activity android:name=".tradplus.TradPlusRewardVideoActivity"
+        <activity android:name="com.alxad.sdk.demo.tradplus.TradPlusRewardVideoActivity"
             android:label="TradPlus Ad: reward video"/>
-        <activity android:name=".tradplus.TradPlusInterstitialActivity"
+        <activity android:name="com.alxad.sdk.demo.tradplus.TradPlusInterstitialActivity"
             android:label="TradPlus Ad: interstitial"/>
-        <activity android:name=".tradplus.TradPlusNativeActivity"
+        <activity android:name="com.alxad.sdk.demo.tradplus.TradPlusNativeActivity"
             android:label="TradPlus Ad: native"/>
 
 
         <!-- LevelPlay(原 IronSource)平台 demo案例 -->
         <activity
-            android:name=".ironsource.IronSourceDemoListActivity"
+            android:name="com.alxad.sdk.demo.ironsource.IronSourceDemoListActivity"
             android:label="LevelPlay Ad"/>
-        <activity android:name=".ironsource.IronSourceInterstitialActivity"
+        <activity android:name="com.alxad.sdk.demo.ironsource.IronSourceInterstitialActivity"
             android:label="LevelPlay Ad: interstitial"/>
-        <activity android:name=".ironsource.IronSourceRewardedVideoActivity"
+        <activity android:name="com.alxad.sdk.demo.ironsource.IronSourceRewardedVideoActivity"
             android:label="LevelPlay Ad: reward video"/>
-        <activity android:name=".ironsource.IronSourceBannerActivity"
+        <activity android:name="com.alxad.sdk.demo.ironsource.IronSourceBannerActivity"
             android:label="LevelPlay Ad: banner"/>
 
 
         <!-- max平台 demo案例 -->
         <activity
-            android:name=".max.MaxDemoListActivity"
+            android:name="com.alxad.sdk.demo.max.MaxDemoListActivity"
             android:label="max Ad" />
         <activity
-            android:name=".max.MaxBannerActivity"
+            android:name="com.alxad.sdk.demo.max.MaxBannerActivity"
             android:label="max Ad:banner" />
         <activity
-            android:name=".max.MaxInterstitialActivity"
+            android:name="com.alxad.sdk.demo.max.MaxInterstitialActivity"
             android:label="max Ad:interstitial" />
         <activity
-            android:name=".max.MaxRewardVideoActivity"
+            android:name="com.alxad.sdk.demo.max.MaxRewardVideoActivity"
             android:label="max Ad:reward video" />
         <activity
-            android:name=".max.MaxNativeActivity"
+            android:name="com.alxad.sdk.demo.max.MaxNativeActivity"
             android:label="max Ad:native" />
 
 
@@ -172,5 +171,6 @@
         <!--LevelPlay(原 IronSource)平台——end -->
 
     </application>
+
 
 </manifest>

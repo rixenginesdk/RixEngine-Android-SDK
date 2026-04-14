@@ -6,12 +6,12 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.alxad.sdk.demo.BaseActivity;
-import com.alxad.sdk.demo.R;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
+import com.alxad.sdk.demo.BaseActivity;
+import com.alxad.sdk.demo.R;
 
 public class AdmobBannerActivity extends BaseActivity {
     private final String TAG = "AdmobBannerActivity";

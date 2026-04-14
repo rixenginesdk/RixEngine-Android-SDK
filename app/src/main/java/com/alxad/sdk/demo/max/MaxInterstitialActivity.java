@@ -6,13 +6,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alxad.sdk.demo.AdConfig;
-import com.alxad.sdk.demo.BaseActivity;
-import com.alxad.sdk.demo.R;
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdListener;
 import com.applovin.mediation.MaxError;
 import com.applovin.mediation.ads.MaxInterstitialAd;
+import com.alxad.sdk.demo.AdConfig;
+import com.alxad.sdk.demo.BaseActivity;
+import com.alxad.sdk.demo.R;
 
 public class MaxInterstitialActivity extends BaseActivity implements View.OnClickListener {
     private static String TAG = "MaxInterstitialActivity";
