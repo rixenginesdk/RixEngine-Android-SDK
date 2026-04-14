@@ -8,6 +8,7 @@ import com.rixengine.api.AlxAdSDK;
 import com.rixengine.api.AlxSdkInitCallback;
 import com.thinkup.core.api.MediationInitCallback;
 import com.thinkup.core.api.TUInitMediation;
+import com.thinkup.core.api.TUSDK;
 
 import java.util.Map;
 
@@ -82,6 +83,11 @@ public class AlxSdkInitManager extends TUInitMediation {
             }
         }
 
+    }
+
+    public static void printSDKInfo(String tag){
+        Log.d(tag, "alx-topon-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        Log.d(tag, "topon-sdk-version:" + TUSDK.getSDKVersionName());
     }
 
 }

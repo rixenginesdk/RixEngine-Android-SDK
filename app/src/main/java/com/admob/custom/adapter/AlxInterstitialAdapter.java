@@ -53,7 +53,6 @@ public class AlxInterstitialAdapter extends Adapter implements MediationIntersti
     @Override
     public void initialize(Context context, InitializationCompleteCallback initializationCompleteCallback, List<MediationConfiguration> list) {
         Log.d(TAG, "alx-admob-adapter: initialize");
-        Log.d(TAG, "sdk-version:" + MobileAds.getVersion().toString());
         if (context == null) {
             initializationCompleteCallback.onInitializationFailed(
                     "Initialization Failed: Context is null.");
@@ -64,8 +63,8 @@ public class AlxInterstitialAdapter extends Adapter implements MediationIntersti
 
     @Override
     public void loadInterstitialAd(@NonNull MediationInterstitialAdConfiguration configuration, @NonNull MediationAdLoadCallback<MediationInterstitialAd, MediationInterstitialAdCallback> callback) {
-        Log.d(TAG, "sdk-version:" + MobileAds.getVersion().toString());
         Log.d(TAG, "alx-admob-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        Log.d(TAG, "admob-sdk-version:" + MobileAds.getVersion().toString());
         Log.d(TAG, "alx-admob-adapter: loadInterstitialAd");
         mMediationLoadCallback = callback;
         String parameter = configuration.getServerParameters().getString("parameter");

@@ -7,9 +7,12 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.VersionInfo;
+import com.rixengine.api.AlxAdSDK;
+import com.rixengine.api.AlxInterstitialAD;
+import com.rixengine.api.AlxInterstitialADListener;
+import com.rixengine.api.AlxSdkInitCallback;
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.mediation.Adapter;
 import com.google.android.gms.ads.mediation.InitializationCompleteCallback;
 import com.google.android.gms.ads.mediation.MediationAdLoadCallback;
@@ -17,10 +20,7 @@ import com.google.android.gms.ads.mediation.MediationConfiguration;
 import com.google.android.gms.ads.mediation.MediationInterstitialAd;
 import com.google.android.gms.ads.mediation.MediationInterstitialAdCallback;
 import com.google.android.gms.ads.mediation.MediationInterstitialAdConfiguration;
-import com.rixengine.api.AlxAdSDK;
-import com.rixengine.api.AlxInterstitialAD;
-import com.rixengine.api.AlxInterstitialADListener;
-import com.rixengine.api.AlxSdkInitCallback;
+import com.google.android.gms.ads.VersionInfo;
 
 import org.json.JSONObject;
 
@@ -53,7 +53,6 @@ public class AlxInterstitialAdapter extends Adapter implements MediationIntersti
     @Override
     public void initialize(Context context, InitializationCompleteCallback initializationCompleteCallback, List<MediationConfiguration> list) {
         Log.d(TAG, "alx-admob-adapter: initialize");
-        Log.d(TAG, "sdk-version:" + MobileAds.getVersion().toString());
         if (context == null) {
             initializationCompleteCallback.onInitializationFailed(
                     "Initialization Failed: Context is null.");
@@ -64,8 +63,8 @@ public class AlxInterstitialAdapter extends Adapter implements MediationIntersti
 
     @Override
     public void loadInterstitialAd(@NonNull MediationInterstitialAdConfiguration configuration, @NonNull MediationAdLoadCallback<MediationInterstitialAd, MediationInterstitialAdCallback> callback) {
-        Log.d(TAG, "sdk-version:" + MobileAds.getVersion().toString());
         Log.d(TAG, "alx-admob-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        Log.d(TAG, "admob-sdk-version:" + MobileAds.getVersion().toString());
         Log.d(TAG, "alx-admob-adapter: loadInterstitialAd");
         mMediationLoadCallback = callback;
         String parameter = configuration.getServerParameters().getString("parameter");

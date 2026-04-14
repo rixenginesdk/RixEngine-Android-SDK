@@ -21,6 +21,7 @@ import com.tradplus.ads.base.adapter.nativead.TPNativeAdView;
 import com.tradplus.ads.base.adapter.nativead.TPNativeAdapter;
 import com.tradplus.ads.base.bean.TPBaseAd;
 import com.tradplus.ads.base.common.TPError;
+import com.tradplus.ads.open.TradPlusSdk;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,8 +29,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TradPlus平台 信息流广告适配器
+ * Chinese: TradPlus平台 信息流广告适配器
  * 【tradPlus 无法获取三方平台的容器getCustomAdContainer()（部分三方源需要用他们提供的容器），导致没法上报，所以不推荐使用原生广告适配器】
+ * English: TradPlus Native Adapter
+ * 【tradPlus does not have access to the third-party container getCustomAdContainer() (some third-party sources need their container), which makes it impossible to report, so it is not recommended to use native AD adapters】
  */
 public class AlxNativeAdapter extends TPNativeAdapter {
     private final String TAG = "AlxNativeAdapter";
@@ -50,6 +53,7 @@ public class AlxNativeAdapter extends TPNativeAdapter {
     @Override
     public void loadCustomAd(Context context, Map<String, Object> userParams, Map<String, String> tpParams) {
         Log.d(TAG, "alx-tradplus-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        Log.d(TAG, "tradplus-sdk-version:" + TradPlusSdk.getSdkVersion());
         Log.i(TAG, "loadCustomAd");
         if (tpParams != null && parseServer(tpParams)) {
             initSdk(context);
@@ -70,15 +74,17 @@ public class AlxNativeAdapter extends TPNativeAdapter {
     }
 
     /**
-     * 竞价失败时的上报接⼝ V10.1.0.1 support
+     * Chinese: 竞价失败时的上报接⼝ V10.1.0.1 support
+     * English: C2S Bidding Failed Reporting Interface V10.1.0.1 support
      *
-     * @param auctionPrice    胜出者的第⼀名价格，单位是美元
-     * @param auctionPriceCny 胜出者的第⼀名价格，单位是元（人民币）
-     * @param lossReason      竞价失败的原因 返回null，原因 竞价失败
+     * @param auctionPrice    胜出者的第⼀名价格，单位是美元 [English: The winner's first-place price, in dollars]
+     * @param auctionPriceCny 胜出者的第⼀名价格，单位是元（人民币） [English: The winner's first-place price in yuan (RMB)]
+     * @param lossReason      竞价失败的原因 返回null，原因 竞价失败 [English: The reason for bid failure returns null, and the reason bid failed]
      */
     @Override
     public void setLossNotifications(String auctionPrice, String auctionPriceCny, String lossReason) {
-        // auctionPrice和 auctionPriceCny均需要判空，部分平台规定不可以回传价格
+        // Chinese: auctionPrice和 auctionPriceCny均需要判空，部分平台规定不可以回传价格
+        // English: auctionPrice and auctionPriceCny need to be judged for null, some platforms require that prices cannot be reported
     }
 
     private boolean parseServer(Map<String, String> serverExtras) {

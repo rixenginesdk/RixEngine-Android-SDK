@@ -20,7 +20,8 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * TopOn 插屏广告适配器
+ * Chinese: TopOn 插屏广告适配器
+ * English: TopOn interstitial advertising adapter
  */
 public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
 
@@ -43,7 +44,7 @@ public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
 
     @Override
     public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, Object> localExtra, final TUBiddingListener biddingListener) {
-        //从serverExtra中获取后台配置的自定义平台的广告位ID
+        AlxSdkInitManager.printSDKInfo(TAG);
         mBiddingListener = biddingListener;
         if (parseServer(serverExtra)) {
             AlxSdkInitManager.getInstance().initSDK(context, serverExtra, new MediationInitCallback() {
@@ -56,7 +57,8 @@ public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
                 @Override
                 public void onFail(String s) {
                     Log.d(TAG, "AlxSdkInit fail : " + s);
-                    //通过ATBiddingListener，回调竞价失败
+                    //Chinese: 通过ATBiddingListener，回调竞价失败
+                    //English: With ATBiddingListener, the callback bid fails
                     if (mBiddingListener != null) {
                         mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(s), null);
                     }
@@ -74,8 +76,8 @@ public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
 
     @Override
     public void loadCustomNetworkAd(Context context, Map<String, Object> serverExtra, Map<String, Object> localExtras) {
+        AlxSdkInitManager.printSDKInfo(TAG);
 
-        Log.d(TAG, "alx-topon-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
         if (parseServer(serverExtra)) {
             AlxSdkInitManager.getInstance().initSDK(context, serverExtra, new MediationInitCallback() {
                 @Override

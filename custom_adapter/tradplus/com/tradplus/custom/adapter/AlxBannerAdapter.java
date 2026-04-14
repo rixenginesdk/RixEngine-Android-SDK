@@ -11,12 +11,14 @@ import com.rixengine.api.AlxSdkInitCallback;
 import com.tradplus.ads.base.adapter.banner.TPBannerAdImpl;
 import com.tradplus.ads.base.adapter.banner.TPBannerAdapter;
 import com.tradplus.ads.base.common.TPError;
+import com.tradplus.ads.open.TradPlusSdk;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TradPlus平台 Banner广告适配器
+ * Chinese: TradPlus平台 Banner广告适配器
+ * English: TradPlus Banner Adapter
  */
 public class AlxBannerAdapter extends TPBannerAdapter {
     private static final String TAG = "AlxBannerAdapter";
@@ -35,6 +37,7 @@ public class AlxBannerAdapter extends TPBannerAdapter {
     @Override
     public void loadCustomAd(Context context, Map<String, Object> userParams, Map<String, String> tpParams) {
         Log.d(TAG, "alx-tradplus-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        Log.d(TAG, "tradplus-sdk-version:" + TradPlusSdk.getSdkVersion());
         Log.i(TAG, "loadCustomAd");
         if (tpParams != null && parseServer(tpParams)) {
             initSdk(context);

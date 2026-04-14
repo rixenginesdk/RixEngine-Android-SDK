@@ -64,7 +64,6 @@ public class AlxNativeAdapter extends Adapter {
     @Override
     public void initialize(@NonNull Context context, @NonNull InitializationCompleteCallback initializationCompleteCallback, @NonNull List<MediationConfiguration> list) {
         Log.d(TAG, "alx-admob-adapter: initialize");
-        Log.d(TAG, "sdk-version:" + MobileAds.getVersion().toString());
         if (context == null) {
             initializationCompleteCallback.onInitializationFailed(
                     "Initialization Failed: Context is null.");
@@ -75,8 +74,8 @@ public class AlxNativeAdapter extends Adapter {
 
     @Override
     public void loadNativeAdMapper(@NonNull MediationNativeAdConfiguration configuration, @NonNull MediationAdLoadCallback<NativeAdMapper, MediationNativeAdCallback> callback) throws RemoteException {
-        Log.d(TAG, "sdk-version:" + MobileAds.getVersion().toString());
         Log.d(TAG, "alx-admob-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        Log.d(TAG, "admob-sdk-version:" + MobileAds.getVersion().toString());
         Log.d(TAG, "alx-admob-adapter: loadNativeAd " + Thread.currentThread().getName());
         mMediationLoadCallback = callback;
         String parameter = configuration.getServerParameters().getString("parameter");

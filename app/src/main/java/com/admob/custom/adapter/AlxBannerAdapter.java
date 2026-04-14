@@ -52,7 +52,6 @@ public class AlxBannerAdapter extends Adapter implements MediationBannerAd {
     @Override
     public void initialize(Context context, InitializationCompleteCallback initializationCompleteCallback, List<MediationConfiguration> list) {
         Log.d(TAG, "alx-admob-adapter: initialize");
-        Log.d(TAG, "sdk-version:" + MobileAds.getVersion().toString());
         if (context == null) {
             initializationCompleteCallback.onInitializationFailed(
                     "Initialization Failed: Context is null.");
@@ -63,8 +62,8 @@ public class AlxBannerAdapter extends Adapter implements MediationBannerAd {
 
     @Override
     public void loadBannerAd(@NonNull MediationBannerAdConfiguration configuration, @NonNull MediationAdLoadCallback<MediationBannerAd, MediationBannerAdCallback> callback) {
-        Log.d(TAG, "sdk-version:" + MobileAds.getVersion().toString());
         Log.d(TAG, "alx-admob-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        Log.d(TAG, "admob-sdk-version:" + MobileAds.getVersion().toString());
         Log.d(TAG, "alx-admob-adapter: loadBannerAd");
         mMediationLoadCallback = callback;
         String parameter = configuration.getServerParameters().getString("parameter");

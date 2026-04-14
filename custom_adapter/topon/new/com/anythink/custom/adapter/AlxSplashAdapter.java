@@ -7,15 +7,18 @@ import android.util.Log;
 import android.view.ViewGroup;
 
 import com.rixengine.api.AlxAdSDK;
-import com.rixengine.api.AlxSdkInitCallback;
 import com.rixengine.api.AlxSplashAd;
 import com.rixengine.api.AlxSplashAdListener;
+import com.thinkup.core.api.MediationInitCallback;
+import com.thinkup.core.api.TUBiddingListener;
+import com.thinkup.core.api.TUBiddingResult;
 import com.thinkup.splashad.unitgroup.api.CustomSplashAdapter;
 
 import java.util.Map;
 
 /**
- * TopOn 开屏广告适配器
+ * Chinese: TopOn 开屏广告适配器
+ * English: TopOn Splash Adapter
  */
 public class AlxSplashAdapter extends CustomSplashAdapter {
     private static final String TAG = "AlxSplashAdapter";
@@ -24,20 +27,68 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
     private String sid = "";
     private String token = "";
     private String host = "";
-    private int mImageWidth; //请求广告图的宽度：单位px
-    private int mImageHeight; //请求广告图的高度: 单位px
     private Boolean isDebug = null;
     private AlxSplashAd mAdObj;
     private boolean isReady = false;
 
 
     @Override
+    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, Object> localExtra, final TUBiddingListener biddingListener) {
+        AlxSdkInitManager.printSDKInfo(TAG);
+        //从serverExtra中获取后台配置的自定义平台的广告位ID
+        mBiddingListener = biddingListener;
+        isReady = false;
+        if (parseServer(serverExtra)) {
+            AlxSdkInitManager.getInstance().initSDK(context, serverExtra, new MediationInitCallback() {
+                @Override
+                public void onSuccess() {
+                    Log.d(TAG, "AlxSdkInit success");
+                    startBid(context);
+                }
+
+                @Override
+                public void onFail(String s) {
+                    Log.d(TAG, "AlxSdkInit fail : " + s);
+                    //Chinese: 通过ATBiddingListener，回调竞价失败
+                    //English: With ATBiddingListener, the callback bid fails
+                    if (mBiddingListener != null) {
+                        mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(s), null);
+                    }
+                }
+            });
+        } else {
+            if (mBiddingListener != null) {
+                mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail("alx  unitid | token | sid | appid is empty"), null);
+            }
+        }
+
+        return true;
+    }
+
+
+    @Override
     public void loadCustomNetworkAd(Context context, Map<String, Object> serverExtras, Map<String, Object> localExtras) {
-        Log.d(TAG, "alx-topon-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        AlxSdkInitManager.printSDKInfo(TAG);
         Log.i(TAG, "loadCustomNetworkAd");
         isReady = false;
         if (parseServer(serverExtras)) {
-            initSdk(context);
+            AlxSdkInitManager.getInstance().initSDK(context, serverExtras, new MediationInitCallback() {
+                @Override
+                public void onSuccess() {
+                    Log.d(TAG, "AlxSdkInit success");
+                    startBid(context);
+                }
+
+                @Override
+                public void onFail(String s) {
+                    Log.d(TAG, "AlxSdkInit fail : " + s);
+                    //Chinese: 通过ATBiddingListener，回调竞价失败
+                    //English: With ATBiddingListener, the callback bid fails
+                    if (mLoadListener != null) {
+                        mLoadListener.onAdLoadError("", "alx unitid | token | sid | appid is empty.");
+                    }
+                }
+            });
         } else {
             if (mLoadListener != null) {
                 mLoadListener.onAdLoadError("", "alx apppid | token | sid | appid is empty.");
@@ -79,23 +130,6 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
                 }
             }
 
-            try {
-                String width = null;
-                String height = null;
-                if (serverExtras.containsKey("imageWidth")) {
-                    width = (String) serverExtras.get("imageWidth");
-                }
-                if (serverExtras.containsKey("imageHeight")) {
-                    height = (String) serverExtras.get("imageHeight");
-                }
-                if (!TextUtils.isEmpty(width) && !TextUtils.isEmpty(height)) {
-                    mImageWidth = Integer.parseInt(width);
-                    mImageHeight = Integer.parseInt(height);
-                }
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
-            }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -110,26 +144,6 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
             return false;
         }
         return true;
-    }
-
-    private void initSdk(final Context context) {
-        try {
-            Log.i(TAG, "alx ver:" + AlxAdSDK.getNetWorkVersion() + " alx host: " + host + " alx token: " + token + " alx appid: " + appid + " alx sid: " + sid);
-
-            if (isDebug != null) {
-                AlxAdSDK.setDebug(isDebug.booleanValue());
-            }
-
-            AlxAdSDK.init(context, host, token, sid, appid, new AlxSdkInitCallback() {
-                @Override
-                public void onInit(boolean isOk, String msg) {
-                    Log.i(TAG, "sdk onInit:" + isOk);
-                    loadAd(context);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void loadAd(final Context context) {
@@ -186,6 +200,11 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
         if (mAdObj != null && isReady) {
             mAdObj.showAd(viewGroup);
         }
+    }
+
+    public void startBid(Context context) {
+        Log.d(TAG, "startBid ");
+        loadAd(context);
     }
 
     @Override

@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.VersionInfo;
+import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.mediation.Adapter;
 import com.google.android.gms.ads.mediation.InitializationCompleteCallback;
 import com.google.android.gms.ads.mediation.MediationAdLoadCallback;
@@ -22,7 +22,7 @@ import com.google.android.gms.ads.mediation.MediationConfiguration;
 import com.google.android.gms.ads.mediation.MediationNativeAdCallback;
 import com.google.android.gms.ads.mediation.MediationNativeAdConfiguration;
 import com.google.android.gms.ads.mediation.NativeAdMapper;
-import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.VersionInfo;
 import com.rixengine.api.AlxAdParam;
 import com.rixengine.api.AlxAdSDK;
 import com.rixengine.api.AlxImage;
@@ -64,7 +64,6 @@ public class AlxNativeAdapter extends Adapter {
     @Override
     public void initialize(@NonNull Context context, @NonNull InitializationCompleteCallback initializationCompleteCallback, @NonNull List<MediationConfiguration> list) {
         Log.d(TAG, "alx-admob-adapter: initialize");
-        Log.d(TAG, "sdk-version:" + MobileAds.getVersion().toString());
         if (context == null) {
             initializationCompleteCallback.onInitializationFailed(
                     "Initialization Failed: Context is null.");
@@ -75,8 +74,8 @@ public class AlxNativeAdapter extends Adapter {
 
     @Override
     public void loadNativeAdMapper(@NonNull MediationNativeAdConfiguration configuration, @NonNull MediationAdLoadCallback<NativeAdMapper, MediationNativeAdCallback> callback) throws RemoteException {
-        Log.d(TAG, "sdk-version:" + MobileAds.getVersion().toString());
         Log.d(TAG, "alx-admob-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        Log.d(TAG, "admob-sdk-version:" + MobileAds.getVersion().toString());
         Log.d(TAG, "alx-admob-adapter: loadNativeAd " + Thread.currentThread().getName());
         mMediationLoadCallback = callback;
         String parameter = configuration.getServerParameters().getString("parameter");

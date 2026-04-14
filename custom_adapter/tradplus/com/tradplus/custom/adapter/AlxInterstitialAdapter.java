@@ -11,12 +11,14 @@ import com.rixengine.api.AlxInterstitialADListener;
 import com.rixengine.api.AlxSdkInitCallback;
 import com.tradplus.ads.base.adapter.interstitial.TPInterstitialAdapter;
 import com.tradplus.ads.base.common.TPError;
+import com.tradplus.ads.open.TradPlusSdk;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TradPlus平台 插屏广告适配器
+ * Chinese: TradPlus平台 插屏广告适配器
+ * English: TradPlus Interstitial Adapter
  */
 public class AlxInterstitialAdapter extends TPInterstitialAdapter {
 
@@ -35,6 +37,7 @@ public class AlxInterstitialAdapter extends TPInterstitialAdapter {
     @Override
     public void loadCustomAd(Context context, Map<String, Object> userParams, Map<String, String> tpParams) {
         Log.d(TAG, "alx-tradplus-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        Log.d(TAG, "tradplus-sdk-version:" + TradPlusSdk.getSdkVersion());
         Log.i(TAG, "loadCustomAd");
         mContext = context;
         if (tpParams != null && parseServer(tpParams)) {

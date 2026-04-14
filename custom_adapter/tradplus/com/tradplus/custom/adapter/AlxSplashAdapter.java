@@ -10,11 +10,13 @@ import com.rixengine.api.AlxSplashAd;
 import com.rixengine.api.AlxSplashAdListener;
 import com.tradplus.ads.base.adapter.splash.TPSplashAdapter;
 import com.tradplus.ads.base.common.TPError;
+import com.tradplus.ads.open.TradPlusSdk;
 
 import java.util.Map;
 
 /**
- * TradPlus 开屏广告适配器
+ * Chinese: TradPlus 开屏广告适配器
+ * English: TradPlus Splash Adapter
  */
 public class AlxSplashAdapter extends TPSplashAdapter {
     private static final String TAG = "AlxSplashAdapter";
@@ -30,6 +32,7 @@ public class AlxSplashAdapter extends TPSplashAdapter {
     @Override
     public void loadCustomAd(Context context, Map<String, Object> map, Map<String, String> tpParams) {
         Log.d(TAG, "alx-tradplus-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        Log.d(TAG, "tradplus-sdk-version:" + TradPlusSdk.getSdkVersion());
         Log.i(TAG, "loadCustomAd");
         isReady = false;
         if (tpParams != null && parseServer(tpParams)) {

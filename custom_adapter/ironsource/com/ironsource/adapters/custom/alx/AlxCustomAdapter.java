@@ -13,6 +13,7 @@ import com.ironsource.mediationsdk.adunit.adapter.BaseAdapter;
 import com.ironsource.mediationsdk.adunit.adapter.listener.NetworkInitializationListener;
 import com.ironsource.mediationsdk.adunit.adapter.utility.AdData;
 import com.ironsource.mediationsdk.adunit.adapter.utility.AdapterErrors;
+import com.unity3d.mediation.LevelPlay;
 
 import java.util.Map;
 
@@ -29,7 +30,8 @@ public class AlxCustomAdapter extends BaseAdapter {
 
     @Override
     public void init(@NonNull AdData adData, @NonNull Context context, NetworkInitializationListener networkInitializationListener) {
-        Log.d(TAG, "alx-ironsource-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        Log.d(TAG, "alx-levelPlay-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        Log.d(TAG, "levelPlay-sdk-version:" + LevelPlay.getSdkVersion());
         Log.i(TAG, "Alx SDK Init");
 
         mNetworkInitializationListener = networkInitializationListener;

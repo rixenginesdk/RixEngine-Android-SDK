@@ -20,7 +20,8 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * TopOn Banner广告适配器
+ * Chinese: TopOn Banner广告适配器
+ * English: TopOn Banner AD Adapter
  */
 public class AlxBannerAdapter extends CustomBannerAdapter {
     private static final String TAG = "AlxBannerAdapter";
@@ -43,7 +44,7 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
 
     @Override
     public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, Object> localExtra, final TUBiddingListener biddingListener) {
-        //从serverExtra中获取后台配置的自定义平台的广告位ID
+        AlxSdkInitManager.printSDKInfo(TAG);
         mBiddingListener = biddingListener;
         if (parseServer(serverExtra)) {
             AlxSdkInitManager.getInstance().initSDK(context, serverExtra, new MediationInitCallback() {
@@ -56,7 +57,8 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
                 @Override
                 public void onFail(String s) {
                     Log.d(TAG, "AlxSdkInit fail : " + s);
-                    //通过ATBiddingListener，回调竞价失败
+                    //Chinese: 通过ATBiddingListener，回调竞价失败
+                    //English: With ATBiddingListener, the callback bid fails
                     if (mBiddingListener != null) {
                         mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(s), null);
                     }
@@ -74,8 +76,7 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
 
     @Override
     public void loadCustomNetworkAd(Context context, Map<String, Object> serverExtra, Map<String, Object> localExtras) {
-
-        Log.d(TAG, "alx-topon-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        AlxSdkInitManager.printSDKInfo(TAG);
         if (parseServer(serverExtra)) {
             AlxSdkInitManager.getInstance().initSDK(context, serverExtra, new MediationInitCallback() {
                 @Override
@@ -87,7 +88,6 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
                 @Override
                 public void onFail(String s) {
                     Log.d(TAG, "AlxSdkInit fail : " + s);
-                    //通过ATBiddingListener，回调竞价失败
                     if (mLoadListener != null) {
                         mLoadListener.onAdLoadError("", "alx unitid | token | sid | appid is empty.");
                     }

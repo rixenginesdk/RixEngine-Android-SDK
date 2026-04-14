@@ -51,9 +51,7 @@ public class AlxRewardVideoAdapter extends Adapter implements MediationRewardedA
     @Override
     public void initialize(Context context, InitializationCompleteCallback initializationCompleteCallback
             , List<MediationConfiguration> list) {
-        Log.d(TAG, "alx-admob-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
-        Log.e(TAG, "alx initialize...");
-        Log.d(TAG, "sdk-version:" + MobileAds.getVersion().toString());
+        Log.e(TAG, "initialize");
         for (MediationConfiguration configuration : list) {
             Bundle serverParameters = configuration.getServerParameters();
             String serviceString = serverParameters.getString(ALX_AD_UNIT_KEY);
@@ -119,9 +117,9 @@ public class AlxRewardVideoAdapter extends Adapter implements MediationRewardedA
     @Override
     public void loadRewardedAd(MediationRewardedAdConfiguration configuration
             , MediationAdLoadCallback<MediationRewardedAd, MediationRewardedAdCallback> mediationAdLoadCallback) {
-        Log.d(TAG, "sdk-version:" + MobileAds.getVersion().toString());
         Log.d(TAG, "alx-admob-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
-        Log.d(TAG, "alx loadRewardedAd");
+        Log.d(TAG, "admob-sdk-version:" + MobileAds.getVersion().toString());
+        Log.d(TAG, "loadRewardedAd");
         Context context = configuration.getContext();
         mediationAdLoadCallBack = mediationAdLoadCallback;
         Bundle serverParameters = configuration.getServerParameters();

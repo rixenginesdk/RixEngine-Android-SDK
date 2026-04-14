@@ -10,12 +10,14 @@ import com.rixengine.api.AlxRewardVideoADListener;
 import com.rixengine.api.AlxSdkInitCallback;
 import com.tradplus.ads.base.adapter.reward.TPRewardAdapter;
 import com.tradplus.ads.base.common.TPError;
+import com.tradplus.ads.open.TradPlusSdk;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TradPlus 激励广告适配器
+ * Chinese: TradPlus 激励广告适配器
+ * English: TradPlus Reward Video Adapter
  */
 public class AlxRewardVideoAdapter extends TPRewardAdapter {
 
@@ -34,6 +36,7 @@ public class AlxRewardVideoAdapter extends TPRewardAdapter {
     @Override
     public void loadCustomAd(Context context, Map<String, Object> map, Map<String, String> tpParams) {
         Log.d(TAG, "alx-tradplus-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
+        Log.d(TAG, "tradplus-sdk-version:" + TradPlusSdk.getSdkVersion());
         Log.i(TAG, "loadCustomAd");
         if (tpParams != null && parseServer(tpParams)) {
             initSdk(context);
@@ -51,15 +54,19 @@ public class AlxRewardVideoAdapter extends TPRewardAdapter {
         this.isBiddingLoaded = false;
         loadCustomAd(context, localParams, tpParams);
     }
+
     /**
-     * 竞价失败时的上报接⼝ V10.1.0.1 support
-     * @param auctionPrice 胜出者的第⼀名价格，单位是美元
-     * @param auctionPriceCny 胜出者的第⼀名价格，单位是元（人民币）
-     * @param lossReason 竞价失败的原因 返回null，原因 竞价失败
+     * Chinese: 竞价失败时的上报接⼝ V10.1.0.1 support
+     * English: C2S Bidding Failed Reporting Interface V10.1.0.1 support
+     *
+     * @param auctionPrice    胜出者的第⼀名价格，单位是美元 [English: The winner's first-place price, in dollars]
+     * @param auctionPriceCny 胜出者的第⼀名价格，单位是元（人民币） [English: The winner's first-place price in yuan (RMB)]
+     * @param lossReason      竞价失败的原因 返回null，原因 竞价失败 [English: The reason for bid failure returns null, and the reason bid failed]
      */
     @Override
     public void setLossNotifications(String auctionPrice, String auctionPriceCny, String lossReason) {
-        // auctionPrice和 auctionPriceCny均需要判空，部分平台规定不可以回传价格
+        // Chinese: auctionPrice和 auctionPriceCny均需要判空，部分平台规定不可以回传价格
+        // English: auctionPrice and auctionPriceCny need to be judged for null, some platforms require that prices cannot be reported
     }
 
     private boolean parseServer(Map<String, String> serverExtras) {
