@@ -8,16 +8,24 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.rixengine.api.AlxSplashAd;
-import com.rixengine.api.AlxSplashAdListener;
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.MainActivity;
 import com.alxad.sdk.demo.R;
+import com.rixengine.api.AlxAdParam;
+import com.rixengine.api.AlxSplashAd;
+import com.rixengine.api.AlxSplashAdListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SplashActivity extends BaseActivity {
     private final String TAG = "AlxSplashActivity";
-    private final int AD_TIMEOUT = 5 * 1000;//开屏广告加载的超时时间5s
+
+    //[ZH] 开屏广告加载的超时时间5s
+    //[EN] Splash Ad Load Timeout 5s
+    private final int AD_TIMEOUT = 5 * 1000;
+
 
     private FrameLayout mAdContainer;
     private ImageView mIvWelcome;
@@ -44,8 +52,13 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void initSplashAd() {
-        //初始化广告位。仅调用一次。
-        mSlashAd = new AlxSplashAd(this, AdConfig.ALX_SPLASH_AD_ID);
+        //[ZH] 初始化广告位。仅调用一次。
+        //[EN] Initialize the ad spot. Only call once.
+        Map<String, String> userExtras = new HashMap<>();
+        userExtras.put("bid_floor", "1.5");
+        AlxAdParam.Builder builder = new AlxAdParam.Builder().setUserExtras(userExtras);
+
+        mSlashAd = new AlxSplashAd(this, AdConfig.ALX_SPLASH_AD_ID, builder.build());
         Log.d(TAG, "ad start load");
         mSlashAd.load(new AlxSplashAdListener() {
             @Override

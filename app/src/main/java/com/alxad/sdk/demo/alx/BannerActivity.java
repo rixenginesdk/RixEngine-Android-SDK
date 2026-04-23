@@ -11,8 +11,12 @@ import android.widget.Toast;
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.R;
+import com.rixengine.api.AlxAdParam;
 import com.rixengine.api.AlxBannerView;
 import com.rixengine.api.AlxBannerViewAdListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BannerActivity extends BaseActivity implements View.OnClickListener {
     private final String TAG = "AlxBannerActivity";
@@ -61,9 +65,9 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         if (v.getId() == R.id.bn_load) {
             bnPreLoad();
-        }else if (v.getId() == R.id.bn_show) {
+        } else if (v.getId() == R.id.bn_show) {
             bnShow();
-        }else if (v.getId() == R.id.bn_load_show) {
+        } else if (v.getId() == R.id.bn_load_show) {
             bnLoadAndShow();
         }
     }
@@ -74,9 +78,12 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
 
         mAlxBannerView2 = new AlxBannerView(this);
         mAlxBannerView2.setBannerCanClose(false);
-        mAlxBannerView2.setBannerRefresh(0);//不自动刷新
+        mAlxBannerView2.setBannerRefresh(0);//[ZH]不自动刷新  |  [EN]No automatic refresh
         mAlxBannerView2.setVisibility(View.VISIBLE);
-        mAlxBannerView2.loadAd(AdConfig.ALX_BANNER_AD_ID, new AlxBannerViewAdListener() {
+        Map<String, String> userExtras = new HashMap<>();
+        userExtras.put("bid_floor", "1.5");
+        AlxAdParam.Builder builder = new AlxAdParam.Builder().setUserExtras(userExtras);
+        mAlxBannerView2.loadAd(AdConfig.ALX_BANNER_AD_ID, builder.build(), new AlxBannerViewAdListener() {
             @Override
             public void onAdLoaded() {
                 Log.d(TAG, "onAdLoaded");

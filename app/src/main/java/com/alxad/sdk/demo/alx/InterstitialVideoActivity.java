@@ -7,11 +7,15 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.rixengine.api.AlxInterstitialAD;
-import com.rixengine.api.AlxInterstitialADListener;
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.R;
+import com.rixengine.api.AlxAdParam;
+import com.rixengine.api.AlxInterstitialAD;
+import com.rixengine.api.AlxInterstitialADListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class InterstitialVideoActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "AlxInterstitialVideoActivity";
@@ -41,9 +45,9 @@ public class InterstitialVideoActivity extends BaseActivity implements View.OnCl
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.tv_load){
+        if (v.getId() == R.id.tv_load) {
             loadAd();
-        }else if (v.getId() == R.id.tv_show){
+        } else if (v.getId() == R.id.tv_show) {
             if (mInterstitialAD == null) {
                 Toast.makeText(this, getString(R.string.show_ad_no_load), Toast.LENGTH_SHORT).show();
                 return;
@@ -63,8 +67,11 @@ public class InterstitialVideoActivity extends BaseActivity implements View.OnCl
         mTvTip.setText(R.string.loading);
         startTime = System.currentTimeMillis();
 
+        Map<String, String> userExtras = new HashMap<>();
+        userExtras.put("bid_floor", "1.5");
+        AlxAdParam.Builder builder = new AlxAdParam.Builder().setUserExtras(userExtras);
         mInterstitialAD = new AlxInterstitialAD();
-        mInterstitialAD.load(this, AdConfig.ALX_INTERSTITIAL_VIDEO_AD_ID, new AlxInterstitialADListener() {
+        mInterstitialAD.load(this, AdConfig.ALX_INTERSTITIAL_VIDEO_AD_ID, builder.build(), new AlxInterstitialADListener() {
 
             @Override
             public void onInterstitialAdLoaded() {

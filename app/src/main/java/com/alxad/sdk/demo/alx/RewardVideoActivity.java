@@ -7,11 +7,15 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.rixengine.api.AlxRewardVideoAD;
-import com.rixengine.api.AlxRewardVideoADListener;
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.R;
+import com.rixengine.api.AlxAdParam;
+import com.rixengine.api.AlxRewardVideoAD;
+import com.rixengine.api.AlxRewardVideoADListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RewardVideoActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "AlxRewardVideoActivity";
@@ -43,7 +47,7 @@ public class RewardVideoActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         if (v.getId() == R.id.tv_load) {
             loadAd();
-        }else if (v.getId() == R.id.tv_show) {
+        } else if (v.getId() == R.id.tv_show) {
             if (mVideoAD == null) {
                 Toast.makeText(this, getString(R.string.show_ad_no_load), Toast.LENGTH_SHORT).show();
                 return;
@@ -62,8 +66,12 @@ public class RewardVideoActivity extends BaseActivity implements View.OnClickLis
     public void loadAd() {
         mTvTip.setText(R.string.loading);
         startTime = System.currentTimeMillis();
+
+        Map<String, String> userExtras = new HashMap<>();
+        userExtras.put("bid_floor", "1.5");
+        AlxAdParam.Builder builder = new AlxAdParam.Builder().setUserExtras(userExtras);
         mVideoAD = new AlxRewardVideoAD();
-        mVideoAD.load(this, AdConfig.ALX_REWARD_VIDEO_AD_ID, new AlxRewardVideoADListener() {
+        mVideoAD.load(this, AdConfig.ALX_REWARD_VIDEO_AD_ID, builder.build(), new AlxRewardVideoADListener() {
 
             @Override
             public void onRewardedVideoAdLoaded(AlxRewardVideoAD var1) {

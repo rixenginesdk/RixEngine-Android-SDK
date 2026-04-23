@@ -12,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alxad.sdk.demo.AdConfig;
+import com.alxad.sdk.demo.BaseActivity;
+import com.alxad.sdk.demo.R;
+import com.bumptech.glide.Glide;
 import com.rixengine.api.AlxAdParam;
 import com.rixengine.api.nativead.AlxMediaContent;
 import com.rixengine.api.nativead.AlxMediaView;
@@ -20,12 +24,10 @@ import com.rixengine.api.nativead.AlxNativeAdLoadedListener;
 import com.rixengine.api.nativead.AlxNativeAdLoader;
 import com.rixengine.api.nativead.AlxNativeAdView;
 import com.rixengine.api.nativead.AlxNativeEventListener;
-import com.alxad.sdk.demo.AdConfig;
-import com.alxad.sdk.demo.BaseActivity;
-import com.alxad.sdk.demo.R;
-import com.bumptech.glide.Glide;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * native Ad
@@ -73,8 +75,11 @@ public class NativeActivity extends BaseActivity {
     }
 
     private void loadAd() {
+        Map<String, String> userExtras = new HashMap<>();
+        userExtras.put("bid_floor", "1.5");
+        AlxAdParam.Builder builder = new AlxAdParam.Builder().setUserExtras(userExtras);
         AlxNativeAdLoader loader = new AlxNativeAdLoader.Builder(this, AdConfig.ALX_NATIVE_AD_ID).build();
-        loader.loadAd(new AlxAdParam.Builder().build(), new AlxNativeAdLoadedListener() {
+        loader.loadAd(builder.build(), new AlxNativeAdLoadedListener() {
             @Override
             public void onAdFailed(int errorCode, String errorMsg) {
                 Log.i(TAG, "onAdFailed:" + errorCode + ";" + errorMsg);
