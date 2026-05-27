@@ -8,15 +8,15 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.alxad.sdk.demo.AdConfig;
+import com.alxad.sdk.demo.BaseActivity;
+import com.alxad.sdk.demo.R;
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxError;
 import com.applovin.mediation.nativeAds.MaxNativeAdListener;
 import com.applovin.mediation.nativeAds.MaxNativeAdLoader;
 import com.applovin.mediation.nativeAds.MaxNativeAdView;
 import com.applovin.mediation.nativeAds.MaxNativeAdViewBinder;
-import com.alxad.sdk.demo.AdConfig;
-import com.alxad.sdk.demo.BaseActivity;
-import com.alxad.sdk.demo.R;
 
 
 public class MaxNativeActivity extends BaseActivity implements View.OnClickListener {
@@ -67,9 +67,11 @@ public class MaxNativeActivity extends BaseActivity implements View.OnClickListe
     private MaxNativeAdListener mMaxNativeAdListener = new MaxNativeAdListener() {
         @Override
         public void onNativeAdLoaded(@Nullable MaxNativeAdView maxNativeAdView, MaxAd maxAd) {
-            Log.d(TAG, "onNativeAdLoaded |ecpm:" + maxAd.getRevenue());
+            double revenue = maxAd.getRevenue() * 1000;
+            String message = " NetworkName:" + maxAd.getNetworkName() + "; ecpm:" + revenue;
+            Log.d(TAG, "onNativeAdLoaded |" + message);
+            mTvTip.setText(getString(R.string.load_success) + message);
             mBnLoad.setEnabled(true);
-            mTvTip.setText(getString(R.string.load_success) + "| ecpm:" + maxAd.getRevenue());
 
             if (mMaxAd != null) {
                 mAdLoader.destroy(mMaxAd);

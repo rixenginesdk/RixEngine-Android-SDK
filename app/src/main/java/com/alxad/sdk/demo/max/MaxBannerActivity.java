@@ -11,13 +11,13 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.alxad.sdk.demo.AdConfig;
+import com.alxad.sdk.demo.BaseActivity;
+import com.alxad.sdk.demo.R;
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdViewAdListener;
 import com.applovin.mediation.MaxError;
 import com.applovin.mediation.ads.MaxAdView;
-import com.alxad.sdk.demo.AdConfig;
-import com.alxad.sdk.demo.BaseActivity;
-import com.alxad.sdk.demo.R;
 
 public class MaxBannerActivity extends BaseActivity implements View.OnClickListener {
     private final String TAG = "MaxBannerActivity";
@@ -66,9 +66,11 @@ public class MaxBannerActivity extends BaseActivity implements View.OnClickListe
 
         @Override
         public void onAdLoaded(MaxAd ad) {
-            Log.d(TAG, "onAdLoaded ecpm:" + ad.getRevenue());
+            double revenue = ad.getRevenue() * 1000;
+            String message = " NetworkName:" + ad.getNetworkName() + "; ecpm:" + revenue;
+            Log.d(TAG, "onAdLoaded |" + message);
+            mTvTip.setText(getString(R.string.load_success) + message);
             mBnLoad.setEnabled(true);
-            mTvTip.setText(getString(R.string.load_success) + "|ecpm:" + ad.getRevenue());
             showAd();
         }
 

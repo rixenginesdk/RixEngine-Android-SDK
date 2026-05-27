@@ -6,14 +6,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alxad.sdk.demo.AdConfig;
+import com.alxad.sdk.demo.BaseActivity;
+import com.alxad.sdk.demo.R;
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxError;
 import com.applovin.mediation.MaxReward;
 import com.applovin.mediation.MaxRewardedAdListener;
 import com.applovin.mediation.ads.MaxRewardedAd;
-import com.alxad.sdk.demo.AdConfig;
-import com.alxad.sdk.demo.BaseActivity;
-import com.alxad.sdk.demo.R;
 
 public class MaxRewardVideoActivity extends BaseActivity implements View.OnClickListener {
     private static String TAG = "MaxRewardVideoActivity";
@@ -85,8 +85,10 @@ public class MaxRewardVideoActivity extends BaseActivity implements View.OnClick
 
         @Override
         public void onAdLoaded(MaxAd ad) {
-            Log.d(TAG, "onAdLoaded |ecpm:" + ad.getRevenue());
-            mTvTip.setText(getString(R.string.load_success) + "|ecpm:" + ad.getRevenue());
+            double revenue = ad.getRevenue() * 1000;
+            String message = " NetworkName:" + ad.getNetworkName() + "; ecpm:" + revenue;
+            Log.d(TAG, "onAdLoaded |" + message);
+            mTvTip.setText(getString(R.string.load_success) + message);
             mTvShow.setEnabled(true);
         }
 

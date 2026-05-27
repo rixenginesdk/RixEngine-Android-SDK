@@ -6,13 +6,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alxad.sdk.demo.AdConfig;
+import com.alxad.sdk.demo.BaseActivity;
+import com.alxad.sdk.demo.R;
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdListener;
 import com.applovin.mediation.MaxError;
 import com.applovin.mediation.ads.MaxInterstitialAd;
-import com.alxad.sdk.demo.AdConfig;
-import com.alxad.sdk.demo.BaseActivity;
-import com.alxad.sdk.demo.R;
 
 public class MaxInterstitialActivity extends BaseActivity implements View.OnClickListener {
     private static String TAG = "MaxInterstitialActivity";
@@ -85,9 +85,10 @@ public class MaxInterstitialActivity extends BaseActivity implements View.OnClic
 
         @Override
         public void onAdLoaded(MaxAd ad) {
-            Log.d(TAG, "onAdLoaded |ecpm:" + ad.getRevenue());
-            Toast.makeText(getBaseContext(), getString(R.string.load_success), Toast.LENGTH_SHORT).show();
-            mTvTip.setText(getString(R.string.load_success) + "|ecpm:" + ad.getRevenue());
+            double revenue = ad.getRevenue() * 1000;
+            String message = " NetworkName:" + ad.getNetworkName() + "; ecpm:" + revenue;
+            Log.d(TAG, "onAdLoaded |" + message);
+            mTvTip.setText(getString(R.string.load_success) + message);
             mTvShow.setEnabled(true);
         }
 
