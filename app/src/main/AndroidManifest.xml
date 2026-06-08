@@ -23,6 +23,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:debuggable="true"
+        android:enableOnBackInvokedCallback="true"
         tools:ignore="HardcodedDebugMode"
         tools:replace="android:networkSecurityConfig,android:allowBackup,android:icon">
 
