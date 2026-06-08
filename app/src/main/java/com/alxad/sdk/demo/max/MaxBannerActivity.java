@@ -11,13 +11,13 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.alxad.sdk.demo.AdConfig;
-import com.alxad.sdk.demo.BaseActivity;
-import com.alxad.sdk.demo.R;
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdViewAdListener;
 import com.applovin.mediation.MaxError;
 import com.applovin.mediation.ads.MaxAdView;
+import com.alxad.sdk.demo.AdConfig;
+import com.alxad.sdk.demo.BaseActivity;
+import com.alxad.sdk.demo.R;
 
 public class MaxBannerActivity extends BaseActivity implements View.OnClickListener {
     private final String TAG = "MaxBannerActivity";
@@ -33,6 +33,7 @@ public class MaxBannerActivity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_ads);
         setActionBar();
+        checkNavigationBar(findViewById(R.id.root_view));
         initView();
     }
 

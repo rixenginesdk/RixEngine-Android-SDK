@@ -27,6 +27,7 @@ public class TopOnInterstitialActivity extends BaseActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_and_show);
         setActionBar();
+        checkNavigationBar(findViewById(R.id.root_view));
         initView();
     }
 

@@ -23,6 +23,7 @@ public class AdmobBannerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admob_banner);
         setActionBar();
+        checkNavigationBar(findViewById(R.id.root_view));
         initView();
         loadAd();
     }

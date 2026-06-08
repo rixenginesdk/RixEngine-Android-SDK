@@ -7,12 +7,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alxad.sdk.demo.AdConfig;
-import com.alxad.sdk.demo.BaseActivity;
-import com.alxad.sdk.demo.R;
 import com.rixengine.api.AlxAdParam;
 import com.rixengine.api.AlxInterstitialAD;
 import com.rixengine.api.AlxInterstitialADListener;
+import com.alxad.sdk.demo.AdConfig;
+import com.alxad.sdk.demo.BaseActivity;
+import com.alxad.sdk.demo.R;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +30,7 @@ public class InterstitialBannerActivity extends BaseActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_and_show);
         setActionBar();
+        checkNavigationBar(findViewById(R.id.root_view));
         initView();
     }
 

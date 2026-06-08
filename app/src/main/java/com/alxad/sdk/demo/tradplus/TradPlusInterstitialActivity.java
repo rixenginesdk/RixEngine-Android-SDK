@@ -29,6 +29,7 @@ public class TradPlusInterstitialActivity extends BaseActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_and_show);
         setActionBar();
+        checkNavigationBar(findViewById(R.id.root_view));
         initView();
     }
 

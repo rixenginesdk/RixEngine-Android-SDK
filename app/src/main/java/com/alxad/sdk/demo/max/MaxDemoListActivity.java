@@ -3,13 +3,13 @@ package com.alxad.sdk.demo.max;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.alxad.sdk.demo.AdConfig;
-import com.alxad.sdk.demo.BaseListViewActivity;
-import com.alxad.sdk.demo.R;
 import com.applovin.sdk.AppLovinMediationProvider;
 import com.applovin.sdk.AppLovinSdk;
 import com.applovin.sdk.AppLovinSdkConfiguration;
 import com.applovin.sdk.AppLovinSdkInitializationConfiguration;
+import com.alxad.sdk.demo.AdConfig;
+import com.alxad.sdk.demo.BaseListViewActivity;
+import com.alxad.sdk.demo.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -32,6 +32,7 @@ public class IronSourceBannerActivity extends BaseActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_ads);
         setActionBar();
+        checkNavigationBar(findViewById(R.id.root_view));
         initView();
     }
 

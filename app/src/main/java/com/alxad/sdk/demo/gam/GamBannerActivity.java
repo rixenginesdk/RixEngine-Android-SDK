@@ -23,6 +23,7 @@ public class GamBannerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gam_banner);
         setActionBar();
+        checkNavigationBar(findViewById(R.id.root_view));
         initView();
         loadAd();
     }

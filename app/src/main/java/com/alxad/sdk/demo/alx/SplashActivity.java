@@ -8,13 +8,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.rixengine.api.AlxAdParam;
+import com.rixengine.api.AlxSplashAd;
+import com.rixengine.api.AlxSplashAdListener;
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.MainActivity;
 import com.alxad.sdk.demo.R;
-import com.rixengine.api.AlxAdParam;
-import com.rixengine.api.AlxSplashAd;
-import com.rixengine.api.AlxSplashAdListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +30,8 @@ public class SplashActivity extends BaseActivity {
     private FrameLayout mAdContainer;
     private ImageView mIvWelcome;
 
-    //控制开屏广告点击跳转
+    //[ZH] 控制开屏广告点击跳转
+    //[EN] Control the click-through of in-screen advertisements
     private boolean canJump = false;
     private AlxSplashAd mSlashAd;
 
