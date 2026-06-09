@@ -37,7 +37,6 @@ public class TradPlusNativeActivity extends BaseActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_ads);
         setActionBar();
-        checkNavigationBar(findViewById(R.id.root_view));
         initView();
     }
 

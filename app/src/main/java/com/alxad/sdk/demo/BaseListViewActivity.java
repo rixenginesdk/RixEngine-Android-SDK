@@ -26,7 +26,7 @@ public abstract class BaseListViewActivity extends BaseActivity implements Adapt
         super.onCreate(bundle);
         setContentView(R.layout.activity_list);
         setActionBar();
-        checkNavigationBar(findViewById(R.id.root_view));
+//        checkNavigationBar(findViewById(R.id.root_view));
 
         ListView listView = (ListView)findViewById(R.id.listView);
         mAdapter = new MyAdapter(this, initAdapterData());

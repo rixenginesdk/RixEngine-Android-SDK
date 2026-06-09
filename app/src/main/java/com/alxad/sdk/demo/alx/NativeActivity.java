@@ -66,7 +66,6 @@ public class NativeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native);
         setActionBar();
-        checkNavigationBar(findViewById(R.id.root_view));
         initView();
         loadAd();
     }

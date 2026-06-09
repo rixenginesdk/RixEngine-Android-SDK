@@ -29,7 +29,6 @@ public class TopOnBannerActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_ads);
         setActionBar();
-        checkNavigationBar(findViewById(R.id.root_view));
         initView();
     }
 

@@ -28,7 +28,6 @@ public class MaxInterstitialActivity extends BaseActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_and_show);
         setActionBar();
-        checkNavigationBar(findViewById(R.id.root_view));
         initView();
     }
 
