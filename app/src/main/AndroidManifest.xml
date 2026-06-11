@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.alxad.sdk.demo.MainActivity"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleTask"/>
         <activity android:name="com.alxad.sdk.demo.OtherPlatformActivity"
             android:label="@string/other_platform_demo"/>
 
