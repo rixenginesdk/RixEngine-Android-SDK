@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.gms.ads.nativead.NativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_native_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/icon_source_layout"
+            layout="@layout/adapter_native_header_layout" />
+
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/iv_image"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="200dp"-->
+        <!--            android:layout_marginLeft="10dp"-->
+        <!--            android:layout_marginRight="10dp"-->
+        <!--            android:scaleType="centerCrop"-->
+        <!--            android:layout_below="@id/icon_source_layout"-->
+        <!--            tools:background="@drawable/ad_begin_bg"/>-->
+
+        <com.google.android.gms.ads.nativead.MediaView
+            android:id="@+id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/icon_source_layout"/>
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical"
+            android:layout_below="@+id/iv_image"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <LinearLayout
+                android:id="@+id/logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ad_logo_bg"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                android:orientation="horizontal"
+                android:layout_centerVertical="true">
+                <TextView
+                    android:id="@+id/ad_advertiser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:text="ad"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/ad_call_to_action"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_toRightOf="@+id/logo"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/native_button_round"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:text="call to action"/>
+
+            <ImageView
+                android:id="@+id/ad_close"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ad_close_icon"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</com.google.android.gms.ads.nativead.NativeAdView>

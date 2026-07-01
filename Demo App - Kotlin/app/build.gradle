@@ -1,0 +1,103 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+}
+
+android {
+    namespace 'com.alxad.sdk.demo'
+    compileSdk {
+        version = release(libs.versions.compileSdkVersion.get().toInteger())
+    }
+    defaultConfig {
+        applicationId "com.rixengine.android"
+        minSdk libs.versions.minSdkVersion.get().toInteger()
+        targetSdk libs.versions.targetSdkVersions.get().toInteger()
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        config {
+            keyAlias 'alxsdk'
+            keyPassword 'alxsdk'
+            storeFile file('alxsdk.jks')
+            storePassword 'alxsdk'
+        }
+    }
+
+    buildTypes {
+        debug{
+            minifyEnabled false
+            signingConfig signingConfigs.config
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.config
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlin {
+        compilerOptions {
+            languageVersion = KotlinVersion.KOTLIN_2_1
+            jvmTarget = JvmTarget.JVM_11
+        }
+    }
+}
+
+dependencies {
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.multidex
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.recyclerview
+    implementation libs.material
+
+    implementation libs.glide
+
+    //RixEngine Android SDK (Necessary)
+//    implementation files('libs/rixengine.***.aar')
+    implementation 'io.github.rixenginesdk:rixengine:4.1.0'
+
+//     Admob SDK
+    implementation libs.ads.admob
+
+
+    // Topon (Topon最新版本，请根据实际使用版本选择不同的topon版本)
+    implementation libs.ads.topon.core
+    implementation libs.ads.topon.nativead
+    implementation libs.ads.topon.banner
+    implementation libs.ads.topon.interstitial
+    implementation libs.ads.topon.rewardedvideo
+    implementation libs.ads.topon.splash
+    //Androidx (Necessary)
+//    implementation libs.androidx.appcompat //上面已经有了
+    implementation libs.androidx.browser
+
+//    MAX SDK
+    implementation libs.ads.max
+
+
+//    LevelPlay(原IronSource) SDK
+    implementation libs.ads.ironsource
+
+//    TradPlus SDK
+    implementation libs.ads.tradplus
+    //noinspection Gradle Compatible
+    implementation libs.androidx.legacy.support.v4
+    implementation libs.androidx.appcompat
+
+
+//    支持UID2的库
+    implementation 'com.uid2:uid2-android-sdk:1.6.0'
+    implementation "com.myopenpass.sdk:openpass-android-sdk:2.0.0"
+
+}
