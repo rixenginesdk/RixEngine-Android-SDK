@@ -6,7 +6,7 @@ import android.util.Log
 import androidx.multidex.MultiDex
 import com.rixengine.api.AlxAdSDK
 
-open class MainApp : Application() {
+class MainApp : Application() {
     private val TAG = "MainApp"
 
     companion object {
