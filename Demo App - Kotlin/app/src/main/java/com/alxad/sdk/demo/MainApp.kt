@@ -7,7 +7,7 @@ import androidx.multidex.MultiDex
 import com.rixengine.api.AlxAdSDK
 
 class MainApp : Application() {
-    private val TAG = "MainApp"
+    private val TAG = "MainAppTest"
 
     companion object {
         lateinit var mApp: MainApp
