@@ -16,7 +16,7 @@ import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.R;
 
 public class MaxRewardVideoActivity extends BaseActivity implements View.OnClickListener {
-    private static String TAG = "MaxRewardVideoActivity";
+    private static final String TAG = "MaxRewardVideoActivity";
 
     private TextView mTvTip;
     private TextView mTvShow;

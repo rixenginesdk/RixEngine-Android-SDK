@@ -72,14 +72,14 @@ public class TopOnNativeActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void loadNativeAd() {
-        mTvTip.setText("Ad loading...");
+        mTvTip.setText(R.string.loading);
         mTvLoad.setEnabled(false);
         mStartTime = System.currentTimeMillis();
 
-        mATNative = new TUNative(this, AdConfig.TOPON_NATIVE_PID, new TUNativeNetworkListener() {
+        mATNative = new TUNative(this, AdConfig.TOPON_NATIVE_ID, new TUNativeNetworkListener() {
             @Override
             public void onNativeAdLoaded() {
-                Log.i(TAG, "onNativeAdLoaded：" + getThreadName());
+                Log.i(TAG, "onNativeAdLoaded：" + getCurrentThreadName());
                 mTvLoad.setEnabled(true);
                 mTvTip.setText(getString(R.string.format_load_success,(System.currentTimeMillis() - mStartTime) / 1000));
                 showNativeAd();
@@ -176,7 +176,7 @@ public class TopOnNativeActivity extends BaseActivity implements View.OnClickLis
                 nativePrepareInfo = renderNativeAdView(mNativeAd, view);
                 mNativeAd.renderAdContainer(mATNativeAdView, view);
             } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
+                Log.e(TAG, "error:"+e.getMessage());
             }
         } else {
             Log.d(TAG,"native express");
@@ -321,10 +321,6 @@ public class TopOnNativeActivity extends BaseActivity implements View.OnClickLis
             ((TUNativePrepareExInfo) nativePrepareInfo).setCreativeClickViewList(creativeClickViewList);//bind custom view list
         }
         return nativePrepareInfo;
-    }
-
-    private String getThreadName() {
-        return Thread.currentThread().getName();
     }
 
     public int dip2px(float dipValue) {

@@ -18,7 +18,7 @@ import com.thinkup.rewardvideo.api.TURewardVideoExListener;
 
 public class TopOnRewardVideoActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final String TAG = "TopOnRewardActivity";
+    private static final String TAG = "TopOnRewardVideoActivity";
     private TextView mTvTip;
     private TextView mTvShow;
     private TURewardVideoAd mVideoAD;
@@ -66,7 +66,7 @@ public class TopOnRewardVideoActivity extends BaseActivity implements View.OnCli
         mTvTip.setText(R.string.loading);
         startTime = System.currentTimeMillis();
 
-        mVideoAD = new TURewardVideoAd(this, AdConfig.TOPON_VIDEO_AD_PID);
+        mVideoAD = new TURewardVideoAd(this, AdConfig.TOPON_VIDEO_AD_ID);
         mVideoAD.setAdListener(new TURewardVideoExListener() {
 
             @Override
@@ -76,7 +76,7 @@ public class TopOnRewardVideoActivity extends BaseActivity implements View.OnCli
 
             @Override
             public void onDeeplinkCallback(TUAdInfo adInfo, boolean isSuccess) {
-                Log.i(TAG, "onDeeplinkCallback:" + adInfo.toString() + "--status:" + isSuccess + ";" + getThreadName());
+                Log.i(TAG, "onDeeplinkCallback:" + adInfo.toString() + "--status:" + isSuccess + ";" + getCurrentThreadName());
             }
 
             @Override
@@ -116,7 +116,7 @@ public class TopOnRewardVideoActivity extends BaseActivity implements View.OnCli
 
             @Override
             public void onRewardedVideoAdLoaded() {
-                Log.i(TAG, "onRewardedVideoAdLoaded:" + getThreadName());
+                Log.i(TAG, "onRewardedVideoAdLoaded:" + getCurrentThreadName());
                 Toast.makeText(getBaseContext(), getString(R.string.load_success), Toast.LENGTH_SHORT).show();
                 mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000));
                 mTvShow.setEnabled(true);
@@ -124,7 +124,7 @@ public class TopOnRewardVideoActivity extends BaseActivity implements View.OnCli
 
             @Override
             public void onRewardedVideoAdFailed(AdError errorCode) {
-                Log.i(TAG, "onRewardedVideoAdFailed:" + errorCode.getCode() + " " + errorCode.getDesc() + ";" + getThreadName());
+                Log.i(TAG, "onRewardedVideoAdFailed:" + errorCode.getCode() + " " + errorCode.getDesc() + ";" + getCurrentThreadName());
                 Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
                 mTvTip.setText(R.string.load_failed);
                 mTvShow.setEnabled(false);
@@ -132,41 +132,37 @@ public class TopOnRewardVideoActivity extends BaseActivity implements View.OnCli
 
             @Override
             public void onRewardedVideoAdPlayStart(TUAdInfo entity) {
-                Log.i(TAG, "onRewardedVideoAdPlayStart:" + getThreadName());
+                Log.i(TAG, "onRewardedVideoAdPlayStart:" + getCurrentThreadName());
             }
 
             @Override
             public void onRewardedVideoAdPlayEnd(TUAdInfo entity) {
-                Log.i(TAG, "onRewardedVideoAdPlayEnd:" + getThreadName());
+                Log.i(TAG, "onRewardedVideoAdPlayEnd:" + getCurrentThreadName());
             }
 
             @Override
             public void onRewardedVideoAdPlayFailed(AdError errorCode, TUAdInfo entity) {
-                Log.i(TAG, "onRewardedVideoAdPlayFailed:" + getThreadName());
+                Log.i(TAG, "onRewardedVideoAdPlayFailed:" + getCurrentThreadName());
             }
 
             @Override
             public void onRewardedVideoAdClosed(TUAdInfo entity) {
-                Log.i(TAG, "onRewardedVideoAdClosed:" + getThreadName());
+                Log.i(TAG, "onRewardedVideoAdClosed:" + getCurrentThreadName());
                 mTvShow.setEnabled(false);
                 mTvTip.setText("");
             }
 
             @Override
             public void onRewardedVideoAdPlayClicked(TUAdInfo entity) {
-                Log.i(TAG, "onRewardedVideoAdPlayClicked:" + getThreadName());
+                Log.i(TAG, "onRewardedVideoAdPlayClicked:" + getCurrentThreadName());
             }
 
             @Override
             public void onReward(TUAdInfo entity) {
-                Log.i(TAG, "onReward: " + getThreadName());
+                Log.i(TAG, "onReward: " + getCurrentThreadName());
             }
         });
         mVideoAD.load();
     }
-
-    private String getThreadName() {
-        return Thread.currentThread().getName();
-    }
-
+    
 }

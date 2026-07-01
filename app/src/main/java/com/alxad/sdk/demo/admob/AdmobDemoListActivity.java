@@ -3,7 +3,10 @@ package com.alxad.sdk.demo.admob;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.AdapterStatus;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.alxad.sdk.demo.BaseListViewActivity;
@@ -11,6 +14,7 @@ import com.alxad.sdk.demo.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AdmobDemoListActivity extends BaseListViewActivity {
@@ -38,7 +42,7 @@ public class AdmobDemoListActivity extends BaseListViewActivity {
         return list;
     }
 
-    public void initAdSDK(){
+    public void initAdSDK() {
         if (isAdSDKInit.getAndSet(true)) {
             Log.d(TAG, "Admob SDK has been initialized");
             return;
@@ -50,8 +54,13 @@ public class AdmobDemoListActivity extends BaseListViewActivity {
             public void run() {
                 MobileAds.initialize(getApplicationContext(), new OnInitializationCompleteListener() {
                     @Override
-                    public void onInitializationComplete(InitializationStatus status) {
-                        Log.d(TAG,status.toString());
+                    public void onInitializationComplete(@NonNull InitializationStatus status) {
+                        Map<String, AdapterStatus> map = status.getAdapterStatusMap();
+                        for (Map.Entry<String, AdapterStatus> entry : map.entrySet()) {
+                            AdapterStatus adapterStatus = entry.getValue();
+                            String desc = adapterStatus != null ? adapterStatus.getDescription() : "";
+                            Log.d(TAG, entry.getKey() + "=" + desc);
+                        }
                     }
                 });
             }

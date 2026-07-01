@@ -59,7 +59,7 @@ public class AdmobNativeActivity extends BaseActivity implements View.OnClickLis
                 .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
                     @Override
                     public void onNativeAdLoaded(@NonNull NativeAd nativeAd) {
-                        Log.d(TAG, "onNativeAdLoaded：" + getThreadName());
+                        Log.d(TAG, "onNativeAdLoaded：" + getCurrentThreadName());
 
 
                         if (mAdLoader != null && mAdLoader.isLoading()) {
@@ -88,7 +88,7 @@ public class AdmobNativeActivity extends BaseActivity implements View.OnClickLis
 
                     @Override
                     public void onAdClosed() {
-                        Log.d(TAG, "onAdClosed:" + Thread.currentThread().getName());
+                        Log.d(TAG, "onAdClosed:" + getCurrentThreadName());
                         doCloseAd();
                     }
 
@@ -186,10 +186,5 @@ public class AdmobNativeActivity extends BaseActivity implements View.OnClickLis
         });
         return adView;
     }
-
-    private String getThreadName() {
-        return Thread.currentThread().getName();
-    }
-
 
 }

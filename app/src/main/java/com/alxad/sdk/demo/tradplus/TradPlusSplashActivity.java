@@ -40,7 +40,7 @@ public class TradPlusSplashActivity extends BaseActivity {
         mAD.setAdListener(new SplashAdListener(){
             @Override
             public void onAdLoaded(TPAdInfo tpAdInfo, TPBaseAd tpBaseAd) {
-                Log.d(TAG, "onAdLoaded:" + getThreadName());
+                Log.d(TAG, "onAdLoaded:" + getCurrentThreadName());
                 if (mAD.isReady()) {
                     mAD.showAd(mAdContainer);
                 }
@@ -48,35 +48,35 @@ public class TradPlusSplashActivity extends BaseActivity {
 
             @Override
             public void onAdClicked(TPAdInfo tpAdInfo) {
-                Log.d(TAG, "onAdClicked:" + getThreadName());
+                Log.d(TAG, "onAdClicked:" + getCurrentThreadName());
                 canJump = true;
             }
 
             @Override
             public void onAdImpression(TPAdInfo tpAdInfo) {
-                Log.d(TAG, "onAdImpression:" + getThreadName());
+                Log.d(TAG, "onAdImpression:" + getCurrentThreadName());
             }
 
             @Override
             public void onAdLoadFailed(TPAdError tpAdError) {
-                Log.d(TAG, "onAdLoadFailed:" + tpAdError.getErrorCode() + ";" + tpAdError.getErrorMsg() + "=" + getThreadName());
+                Log.d(TAG, "onAdLoadFailed:" + tpAdError.getErrorCode() + ";" + tpAdError.getErrorMsg() + "=" + getCurrentThreadName());
                 goToMainActivity();
             }
 
             @Override
             public void onAdClosed(TPAdInfo tpAdInfo) {
-                Log.d(TAG, "onAdClosed:" + getThreadName());
+                Log.d(TAG, "onAdClosed:" + getCurrentThreadName());
                 goToMainActivity();
             }
 
             @Override
             public void onZoomOutStart(TPAdInfo tpAdInfo) {
-                Log.d(TAG, "onZoomOutStart:" + getThreadName());
+                Log.d(TAG, "onZoomOutStart:" + getCurrentThreadName());
             }
 
             @Override
             public void onZoomOutEnd(TPAdInfo tpAdInfo) {
-                Log.d(TAG, "onZoomOutEnd:" + getThreadName());
+                Log.d(TAG, "onZoomOutEnd:" + getCurrentThreadName());
             }
         });
         mAD.loadAd(null);
@@ -107,9 +107,5 @@ public class TradPlusSplashActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
-
-    private String getThreadName() {
-        return Thread.currentThread().getName();
-    }
-
+    
 }

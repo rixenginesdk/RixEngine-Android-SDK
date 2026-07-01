@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TradPlusDemoListActivity extends BaseListViewActivity {
 
-    private static final String TAG = "AdmobDemoListActivity";
+    private static final String TAG = "TradPlusDemoListActivity";
     private static final AtomicBoolean isAdSDKInit = new AtomicBoolean(false);
 
     protected void onCreate(Bundle bundle) {

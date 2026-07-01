@@ -67,7 +67,7 @@ public class TradPlusRewardVideoActivity extends BaseActivity implements View.On
         mVideoAD.setAdListener(new RewardAdListener() {
             @Override
             public void onAdLoaded(TPAdInfo tpAdInfo) {
-                Log.i(TAG, "onAdLoaded:" + getThreadName());
+                Log.i(TAG, "onAdLoaded:" + getCurrentThreadName());
                 Toast.makeText(getBaseContext(), getString(R.string.load_success), Toast.LENGTH_SHORT).show();
                 mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000));
                 mTvShow.setEnabled(true);
@@ -75,7 +75,7 @@ public class TradPlusRewardVideoActivity extends BaseActivity implements View.On
 
             @Override
             public void onAdFailed(TPAdError tpAdError) {
-                Log.i(TAG, "onAdFailed： " + tpAdError.getErrorCode() + " " + tpAdError.getErrorMsg() + ";" + getThreadName());
+                Log.i(TAG, "onAdFailed： " + tpAdError.getErrorCode() + " " + tpAdError.getErrorMsg() + ";" + getCurrentThreadName());
                 Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
                 mTvTip.setText(R.string.load_failed);
                 mTvShow.setEnabled(false);
@@ -83,22 +83,22 @@ public class TradPlusRewardVideoActivity extends BaseActivity implements View.On
 
             @Override
             public void onAdClicked(TPAdInfo tpAdInfo) {
-                Log.i(TAG, "onAdClicked:" + getThreadName());
+                Log.i(TAG, "onAdClicked:" + getCurrentThreadName());
             }
 
             @Override
             public void onAdImpression(TPAdInfo tpAdInfo) {
-                Log.i(TAG, "onAdImpression:" + getThreadName());
+                Log.i(TAG, "onAdImpression:" + getCurrentThreadName());
             }
 
             @Override
             public void onAdClosed(TPAdInfo tpAdInfo) {
-                Log.i(TAG, "onAdClosed:" + getThreadName());
+                Log.i(TAG, "onAdClosed:" + getCurrentThreadName());
             }
 
             @Override
             public void onAdReward(TPAdInfo tpAdInfo) {
-                Log.i(TAG, "onAdReward:" + getThreadName());
+                Log.i(TAG, "onAdReward:" + getCurrentThreadName());
             }
 
             @Override
@@ -113,7 +113,7 @@ public class TradPlusRewardVideoActivity extends BaseActivity implements View.On
 
             @Override
             public void onAdVideoError(TPAdInfo tpAdInfo, TPAdError tpAdError) {
-                Log.i(TAG, "onAdVideoError：" + tpAdError.getErrorCode() + " " + tpAdError.getErrorMsg() + ";" + getThreadName());
+                Log.i(TAG, "onAdVideoError：" + tpAdError.getErrorCode() + " " + tpAdError.getErrorMsg() + ";" + getCurrentThreadName());
             }
 
 
@@ -121,7 +121,4 @@ public class TradPlusRewardVideoActivity extends BaseActivity implements View.On
         mVideoAD.loadAd();
     }
 
-    private String getThreadName() {
-        return Thread.currentThread().getName();
-    }
 }

@@ -15,7 +15,7 @@ import com.thinkup.splashad.api.TUSplashAdExtraInfo;
 import com.thinkup.splashad.api.TUSplashAdListener;
 
 public class TopOnSplashActivity extends BaseActivity {
-    private static final String TAG = "TopOnSplashDemoActivity";
+    private static final String TAG = "TopOnSplashActivity";
 
     private TUSplashAd mAD;
     private FrameLayout mAdContainer;
@@ -36,10 +36,10 @@ public class TopOnSplashActivity extends BaseActivity {
     }
 
     private void loadAd() {
-        mAD = new TUSplashAd(this, AdConfig.TOPON_SPLASH_PID, new TUSplashAdListener() {
+        mAD = new TUSplashAd(this, AdConfig.TOPON_SPLASH_ID, new TUSplashAdListener() {
             @Override
             public void onAdLoaded(boolean b) {
-                Log.d(TAG, "onAdLoaded:" + getThreadName());
+                Log.d(TAG, "onAdLoaded:" + getCurrentThreadName());
                 if (mAD.isAdReady()) {
                     mAD.show(TopOnSplashActivity.this, mAdContainer);
                 }
@@ -47,30 +47,30 @@ public class TopOnSplashActivity extends BaseActivity {
 
             @Override
             public void onAdLoadTimeout() {
-                Log.d(TAG, "onAdLoadTimeout:" + getThreadName());
+                Log.d(TAG, "onAdLoadTimeout:" + getCurrentThreadName());
             }
 
             @Override
             public void onNoAdError(AdError adError) {
-                Log.d(TAG, "onNoAdError:" + adError.getCode() + ";" + adError.getDesc() + "=" + getThreadName());
+                Log.d(TAG, "onNoAdError:" + adError.getCode() + ";" + adError.getDesc() + "=" + getCurrentThreadName());
                 goToMainActivity();
             }
 
             @Override
             public void onAdShow(TUAdInfo atAdInfo) {
-                Log.d(TAG, "onAdShow:" + getThreadName());
+                Log.d(TAG, "onAdShow:" + getCurrentThreadName());
 
             }
 
             @Override
             public void onAdClick(TUAdInfo atAdInfo) {
-                Log.d(TAG, "onAdClick:" + getThreadName());
+                Log.d(TAG, "onAdClick:" + getCurrentThreadName());
                 canJump = true;
             }
 
             @Override
             public void onAdDismiss(TUAdInfo atAdInfo, TUSplashAdExtraInfo atSplashAdExtraInfo) {
-                Log.d(TAG, "onAdDismiss:" + getThreadName());
+                Log.d(TAG, "onAdDismiss:" + getCurrentThreadName());
                 goToMainActivity();
             }
 
@@ -106,9 +106,5 @@ public class TopOnSplashActivity extends BaseActivity {
             mAD.onDestory();
         }
     }
-
-    private String getThreadName() {
-        return Thread.currentThread().getName();
-    }
-
+    
 }

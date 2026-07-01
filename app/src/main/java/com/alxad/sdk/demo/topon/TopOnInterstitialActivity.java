@@ -16,7 +16,7 @@ import com.thinkup.interstitial.api.TUInterstitialListener;
 
 public class TopOnInterstitialActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final String TAG = "TopOnInterstitialDemo";
+    private static final String TAG = "TopOnInterstitialActivity";
     private TextView mTvTip;
     private TextView mTvShow;
     private TUInterstitial mAD;
@@ -64,12 +64,12 @@ public class TopOnInterstitialActivity extends BaseActivity implements View.OnCl
         mTvTip.setText(R.string.loading);
         startTime = System.currentTimeMillis();
 
-        mAD = new TUInterstitial(this, AdConfig.TOPON_INTERSTITIAL_PID);
+        mAD = new TUInterstitial(this, AdConfig.TOPON_INTERSTITIAL_ID);
         mAD.setAdListener(new TUInterstitialListener() {
 
             @Override
             public void onInterstitialAdLoaded() {
-                Log.i(TAG, "onInterstitialAdLoaded:" + getThreadName());
+                Log.i(TAG, "onInterstitialAdLoaded:" + getCurrentThreadName());
                 Toast.makeText(getBaseContext(), getString(R.string.load_success), Toast.LENGTH_SHORT).show();
                 mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000));
                 mTvShow.setEnabled(true);
@@ -77,7 +77,7 @@ public class TopOnInterstitialActivity extends BaseActivity implements View.OnCl
 
             @Override
             public void onInterstitialAdLoadFail(AdError adError) {
-                Log.e(TAG, "onInterstitialAdLoadFail:" + adError.getCode() + ";" + adError.getDesc() + ";" + getThreadName());
+                Log.e(TAG, "onInterstitialAdLoadFail:" + adError.getCode() + ";" + adError.getDesc() + ";" + getCurrentThreadName());
                 Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
                 mTvTip.setText(R.string.load_failed);
                 mTvShow.setEnabled(false);
@@ -85,42 +85,38 @@ public class TopOnInterstitialActivity extends BaseActivity implements View.OnCl
 
             @Override
             public void onInterstitialAdClicked(TUAdInfo atAdInfo) {
-                Log.i(TAG, "onInterstitialAdClicked:" + getThreadName());
+                Log.i(TAG, "onInterstitialAdClicked:" + getCurrentThreadName());
             }
 
             @Override
             public void onInterstitialAdShow(TUAdInfo atAdInfo) {
-                Log.i(TAG, "onInterstitialAdShow:" + getThreadName());
+                Log.i(TAG, "onInterstitialAdShow:" + getCurrentThreadName());
             }
 
             @Override
             public void onInterstitialAdClose(TUAdInfo atAdInfo) {
-                Log.i(TAG, "onInterstitialAdClose:" + getThreadName());
+                Log.i(TAG, "onInterstitialAdClose:" + getCurrentThreadName());
                 mTvShow.setEnabled(false);
                 mTvTip.setText("");
             }
 
             @Override
             public void onInterstitialAdVideoStart(TUAdInfo atAdInfo) {
-                Log.i(TAG, "onInterstitialAdVideoStart:" + getThreadName());
+                Log.i(TAG, "onInterstitialAdVideoStart:" + getCurrentThreadName());
             }
 
             @Override
             public void onInterstitialAdVideoEnd(TUAdInfo atAdInfo) {
-                Log.i(TAG, "onInterstitialAdVideoEnd:" + getThreadName());
+                Log.i(TAG, "onInterstitialAdVideoEnd:" + getCurrentThreadName());
             }
 
             @Override
             public void onInterstitialAdVideoError(AdError adError) {
-                Log.i(TAG, "onInterstitialAdVideoError:" + adError.getCode() + ";" + adError.getDesc() + ";" + getThreadName());
+                Log.i(TAG, "onInterstitialAdVideoError:" + adError.getCode() + ";" + adError.getDesc() + ";" + getCurrentThreadName());
             }
 
         });
         mAD.load();
     }
-
-    private String getThreadName() {
-        return Thread.currentThread().getName();
-    }
-
+    
 }

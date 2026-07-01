@@ -15,7 +15,7 @@ import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.R;
 
 public class MaxInterstitialActivity extends BaseActivity implements View.OnClickListener {
-    private static String TAG = "MaxInterstitialActivity";
+    private static final String TAG = "MaxInterstitialActivity";
 
     private TextView mTvTip;
     private TextView mTvShow;

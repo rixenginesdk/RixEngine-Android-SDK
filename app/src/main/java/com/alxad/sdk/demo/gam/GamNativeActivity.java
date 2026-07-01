@@ -58,7 +58,7 @@ public class GamNativeActivity extends BaseActivity implements View.OnClickListe
                 .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
                     @Override
                     public void onNativeAdLoaded(@NonNull NativeAd nativeAd) {
-                        Log.d(TAG, "onNativeAdLoaded：" + getThreadName());
+                        Log.d(TAG, "onNativeAdLoaded：" + getCurrentThreadName());
 
 
                         if (mAdLoader != null && mAdLoader.isLoading()) {
@@ -185,10 +185,5 @@ public class GamNativeActivity extends BaseActivity implements View.OnClickListe
         });
         return adView;
     }
-
-    private String getThreadName() {
-        return Thread.currentThread().getName();
-    }
-
 
 }

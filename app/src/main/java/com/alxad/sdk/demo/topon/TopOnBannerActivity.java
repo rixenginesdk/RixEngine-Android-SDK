@@ -17,7 +17,7 @@ import com.thinkup.core.api.AdError;
 import com.thinkup.core.api.TUAdInfo;
 
 public class TopOnBannerActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = "TopOnBannerDemoActivity";
+    private static final String TAG = "TopOnBannerActivity";
 
     private FrameLayout mAdContainerView;
     private View mBnLoad;
@@ -56,7 +56,7 @@ public class TopOnBannerActivity extends BaseActivity implements View.OnClickLis
         }
 
         bannerView = new TUBannerView(this);
-        bannerView.setPlacementId(AdConfig.TOPON_BANNER_AD_PID);
+        bannerView.setPlacementId(AdConfig.TOPON_BANNER_AD_ID);
         bannerView.setBannerAdListener(new TUBannerListener() {
             @Override
             public void onBannerLoaded() {

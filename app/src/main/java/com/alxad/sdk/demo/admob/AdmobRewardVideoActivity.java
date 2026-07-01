@@ -112,7 +112,7 @@ public class AdmobRewardVideoActivity extends BaseActivity implements View.OnCli
         RewardedAd.load(this, AdConfig.ADMOB_REWARD_ID, new AdRequest.Builder().build(), new RewardedAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
-                Log.d(TAG, "onAdLoaded:" + getThreadName());
+                Log.d(TAG, "onAdLoaded:" + getCurrentThreadName());
                 mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000));
                 mTvShow.setEnabled(true);
 
@@ -121,16 +121,12 @@ public class AdmobRewardVideoActivity extends BaseActivity implements View.OnCli
 
             @Override
             public void onAdFailedToLoad(@NonNull LoadAdError adError) {
-                Log.d(TAG, "onAdFailedToLoad: " + adError.getCode() + " " + adError.getMessage() + ";" + getThreadName());
+                Log.d(TAG, "onAdFailedToLoad: " + adError.getCode() + " " + adError.getMessage() + ";" + getCurrentThreadName());
                 Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
                 mTvTip.setText("load failed:" + adError.getMessage());
                 mTvShow.setEnabled(false);
             }
         });
     }
-
-    private String getThreadName() {
-        return Thread.currentThread().getName();
-    }
-
+    
 }

@@ -31,4 +31,8 @@ public class BaseActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
+    public String getCurrentThreadName() {
+        return Thread.currentThread().getName();
+    }
+
 }

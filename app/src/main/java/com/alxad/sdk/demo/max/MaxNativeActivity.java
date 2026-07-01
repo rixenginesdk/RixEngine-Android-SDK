@@ -51,7 +51,7 @@ public class MaxNativeActivity extends BaseActivity implements View.OnClickListe
         mBnLoad.setEnabled(false);
         mStartTime = System.currentTimeMillis();
 
-        mAdLoader = new MaxNativeAdLoader(AdConfig.MAX_NATIVE_AD, this);
+        mAdLoader = new MaxNativeAdLoader(AdConfig.MAX_NATIVE_AD);
         mAdLoader.setNativeAdListener(mMaxNativeAdListener);
 //        mAdLoader.loadAd();
         mAdLoader.loadAd(createNativeAdView());//自渲染
@@ -88,7 +88,7 @@ public class MaxNativeActivity extends BaseActivity implements View.OnClickListe
 
         @Override
         public void onNativeAdLoadFailed(String s, MaxError maxError) {
-            Log.d(TAG, "onNativeAdLoadFailed:" + s + ";" + ";" + maxError.getCode() + ";" + maxError.getMessage());
+            Log.d(TAG, "onNativeAdLoadFailed:" + s + ";" + maxError.getCode() + ";" + maxError.getMessage());
             mBnLoad.setEnabled(true);
             mTvTip.setText(getString(R.string.format_load_failed, maxError.getMessage()));
         }

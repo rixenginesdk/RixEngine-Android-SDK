@@ -28,7 +28,7 @@ public class TradPlusNativeActivity extends BaseActivity implements View.OnClick
     private FrameLayout mAdContainerView;
     private View mBnLoad;
     private TextView mTvTip;
-    private long startTime;
+    private long mStartTime;
 
     private TPNative mAdObj;
 
@@ -61,16 +61,16 @@ public class TradPlusNativeActivity extends BaseActivity implements View.OnClick
     public void loadAd() {
         mTvTip.setText(R.string.loading);
         mBnLoad.setEnabled(false);
-        startTime = System.currentTimeMillis();
+        mStartTime = System.currentTimeMillis();
 
         mAdObj = new TPNative(this, AdConfig.TRAD_PLUS_NATIVE_AD);
         mAdObj.setAdListener(new NativeAdListener() {
             @Override
             public void onAdLoaded(TPAdInfo tpAdInfo, TPBaseAd tpBaseAd) {
-                Log.i(TAG, "onAdLoaded:" + getThreadName());
+                Log.i(TAG, "onAdLoaded:" + getCurrentThreadName());
                 mBnLoad.setEnabled(true);
                 Toast.makeText(getBaseContext(), getString(R.string.load_success), Toast.LENGTH_SHORT).show();
-                mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000));
+                mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - mStartTime) / 1000));
 
                 //以下两种方式任选其一都可以
 //                mAdObj.showAd(mAdContainer,R.layout.tp_native_ad_list_item,null);
@@ -79,7 +79,7 @@ public class TradPlusNativeActivity extends BaseActivity implements View.OnClick
 
             @Override
             public void onAdLoadFailed(TPAdError tpAdError) {
-                Log.i(TAG, "onAdLoadFailed：" + tpAdError.getErrorCode() + " " + tpAdError.getErrorMsg() + ";" + getThreadName());
+                Log.i(TAG, "onAdLoadFailed：" + tpAdError.getErrorCode() + " " + tpAdError.getErrorMsg() + ";" + getCurrentThreadName());
                 mBnLoad.setEnabled(true);
                 Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
                 mTvTip.setText(R.string.load_failed);
@@ -87,29 +87,25 @@ public class TradPlusNativeActivity extends BaseActivity implements View.OnClick
 
             @Override
             public void onAdShowFailed(TPAdError tpAdError, TPAdInfo tpAdInfo) {
-                Log.i(TAG, "onAdShowFailed： " + tpAdError.getErrorCode() + " " + tpAdError.getErrorMsg() + ";" + getThreadName());
+                Log.i(TAG, "onAdShowFailed： " + tpAdError.getErrorCode() + " " + tpAdError.getErrorMsg() + ";" + getCurrentThreadName());
             }
 
             @Override
             public void onAdClicked(TPAdInfo tpAdInfo) {
-                Log.i(TAG, "onAdClicked:" + getThreadName());
+                Log.i(TAG, "onAdClicked:" + getCurrentThreadName());
             }
 
             @Override
             public void onAdImpression(TPAdInfo tpAdInfo) {
-                Log.i(TAG, "onAdImpression:" + getThreadName());
+                Log.i(TAG, "onAdImpression:" + getCurrentThreadName());
             }
 
             @Override
             public void onAdClosed(TPAdInfo tpAdInfo) {
-                Log.i(TAG, "onAdClosed:" + getThreadName());
+                Log.i(TAG, "onAdClosed:" + getCurrentThreadName());
             }
         });
         mAdObj.loadAd();
-    }
-
-    private String getThreadName() {
-        return Thread.currentThread().getName();
     }
 
     @Override

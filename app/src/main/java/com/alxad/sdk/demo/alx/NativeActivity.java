@@ -58,7 +58,7 @@ public class NativeActivity extends BaseActivity {
     //English：Video
     public static final int NATIVE_AD_CREATE_TYPE_VIDEO = 4;
 
-    private FrameLayout mAdContainer;
+    private FrameLayout mAdContainerView;
     private AlxNativeAd mNativeAd;
 
     @Override
@@ -71,7 +71,7 @@ public class NativeActivity extends BaseActivity {
     }
 
     private void initView() {
-        mAdContainer = (FrameLayout) findViewById(R.id.ad_container);
+        mAdContainerView = (FrameLayout) findViewById(R.id.ad_container);
     }
 
     private void loadAd() {
@@ -131,11 +131,11 @@ public class NativeActivity extends BaseActivity {
                 public void onAdClosed() {
                     Log.i(TAG, "onAdClosed");
                     mNativeAd.destroy();
-                    mAdContainer.removeAllViews();
+                    mAdContainerView.removeAllViews();
                 }
             });
-            mAdContainer.removeAllViews();
-            mAdContainer.addView(nativeView);
+            mAdContainerView.removeAllViews();
+            mAdContainerView.addView(nativeView);
         }
     }
 

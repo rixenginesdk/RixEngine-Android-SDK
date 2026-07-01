@@ -48,15 +48,7 @@ public class InterstitialVideoActivity extends BaseActivity implements View.OnCl
         if (v.getId() == R.id.tv_load) {
             loadAd();
         } else if (v.getId() == R.id.tv_show) {
-            if (mInterstitialAD == null) {
-                Toast.makeText(this, getString(R.string.show_ad_no_load), Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (mInterstitialAD.isReady()) {
-                mInterstitialAD.show(this);
-            } else {
-                loadAd();
-            }
+            showAd();
         }
     }
 
@@ -126,5 +118,17 @@ public class InterstitialVideoActivity extends BaseActivity implements View.OnCl
 
         });
 
+    }
+
+    private void showAd(){
+        if (mInterstitialAD == null) {
+            Toast.makeText(this, getString(R.string.show_ad_no_load), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (mInterstitialAD.isReady()) {
+            mInterstitialAD.show(this);
+        } else {
+            loadAd();
+        }
     }
 }

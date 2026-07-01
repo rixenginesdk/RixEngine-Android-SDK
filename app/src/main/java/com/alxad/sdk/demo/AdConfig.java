@@ -18,11 +18,11 @@ public class AdConfig {
     //topon demo config info
     public static final String TOPON_KEY = "aa10e0b266ae76d73f3185ec7a58a211c";
     public static final String TOPON_APP_ID = "h67dcda957f660";
-    public static final String TOPON_BANNER_AD_PID = "n67dcdae6adf7d";
-    public static final String TOPON_VIDEO_AD_PID = "n67dcdae5e7958";
-    public static final String TOPON_INTERSTITIAL_PID = "n67dcdae7d6821";
-    public static final String TOPON_NATIVE_PID = "n67dcdbef86db6";
-    public static final String TOPON_SPLASH_PID = "b611335c2f2678";
+    public static final String TOPON_BANNER_AD_ID = "n67dcdae6adf7d";
+    public static final String TOPON_VIDEO_AD_ID = "n67dcdae5e7958";
+    public static final String TOPON_INTERSTITIAL_ID = "n67dcdae7d6821";
+    public static final String TOPON_NATIVE_ID = "n67dcdbef86db6";
+    public static final String TOPON_SPLASH_ID = "b611335c2f2678";
 
 
     //Google AdMob demo config info

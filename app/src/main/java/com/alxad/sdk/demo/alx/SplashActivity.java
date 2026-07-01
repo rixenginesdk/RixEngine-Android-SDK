@@ -27,7 +27,7 @@ public class SplashActivity extends BaseActivity {
     private final int AD_TIMEOUT = 5 * 1000;
 
 
-    private FrameLayout mAdContainer;
+    private FrameLayout mAdContainerView;
     private ImageView mIvWelcome;
 
     //[ZH] 控制开屏广告点击跳转
@@ -44,7 +44,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void initView() {
-        mAdContainer = (FrameLayout) findViewById(R.id.ad_container);
+        mAdContainerView = (FrameLayout) findViewById(R.id.ad_container);
         mIvWelcome = (ImageView) findViewById(R.id.iv_welcome);
     }
 
@@ -64,8 +64,8 @@ public class SplashActivity extends BaseActivity {
         mSlashAd.load(new AlxSplashAdListener() {
             @Override
             public void onAdLoadSuccess() {
-                Log.d(TAG, "onAdLoadSuccess: | 单价：" + mSlashAd.getPrice());
-                mSlashAd.showAd(mAdContainer);
+                Log.d(TAG, "onAdLoadSuccess: | price：" + mSlashAd.getPrice());
+                mSlashAd.showAd(mAdContainerView);
                 mSlashAd.reportChargingUrl();
                 mSlashAd.reportBiddingUrl();
             }

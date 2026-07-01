@@ -60,7 +60,7 @@ public class TradPlusBannerActivity extends BaseActivity implements View.OnClick
         bannerView.setAdListener(new BannerAdListener() {
             @Override
             public void onAdLoaded(TPAdInfo tpAdInfo) {
-                Log.d(TAG, "onAdLoaded:" + getThreadName());
+                Log.d(TAG, "onAdLoaded:" + getCurrentThreadName());
                 mBnLoad.setEnabled(true);
                 mTvTip.setText(R.string.load_success);
                 showAd();
@@ -77,27 +77,27 @@ public class TradPlusBannerActivity extends BaseActivity implements View.OnClick
 
             @Override
             public void onAdClicked(TPAdInfo tpAdInfo) {
-                Log.d(TAG, "onAdClicked:" + getThreadName());
+                Log.d(TAG, "onAdClicked:" + getCurrentThreadName());
             }
 
             @Override
             public void onAdImpression(TPAdInfo tpAdInfo) {
-                Log.d(TAG, "onAdImpression:" + getThreadName());
+                Log.d(TAG, "onAdImpression:" + getCurrentThreadName());
             }
 
             @Override
             public void onAdShowFailed(TPAdError tpAdError, TPAdInfo tpAdInfo) {
-                Log.d(TAG, "onAdShowFailed:" + tpAdError.getErrorCode() + "-" + tpAdError.getErrorMsg() + getThreadName());
+                Log.d(TAG, "onAdShowFailed:" + tpAdError.getErrorCode() + "-" + tpAdError.getErrorMsg() + getCurrentThreadName());
             }
 
             @Override
             public void onAdClosed(TPAdInfo tpAdInfo) {
-                Log.d(TAG, "onAdClosed:" + getThreadName());
+                Log.d(TAG, "onAdClosed:" + getCurrentThreadName());
             }
 
             @Override
             public void onBannerRefreshed() {
-                Log.d(TAG, "onBannerRefreshed:" + getThreadName());
+                Log.d(TAG, "onBannerRefreshed:" + getCurrentThreadName());
             }
         });
         bannerView.loadAd(AdConfig.TRAD_PLUS_BANNER_AD);
@@ -118,8 +118,6 @@ public class TradPlusBannerActivity extends BaseActivity implements View.OnClick
         }
     }
 
-    private String getThreadName() {
-        return Thread.currentThread().getName();
-    }
+    
 
 }

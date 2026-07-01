@@ -48,15 +48,7 @@ public class RewardVideoActivity extends BaseActivity implements View.OnClickLis
         if (v.getId() == R.id.tv_load) {
             loadAd();
         } else if (v.getId() == R.id.tv_show) {
-            if (mVideoAD == null) {
-                Toast.makeText(this, getString(R.string.show_ad_no_load), Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (mVideoAD.isReady()) {
-                mVideoAD.showVideo(this);
-            } else {
-                loadAd();
-            }
+            showAd();
         }
     }
 
@@ -130,6 +122,18 @@ public class RewardVideoActivity extends BaseActivity implements View.OnClickLis
             }
         });
 
+    }
+
+    private void showAd(){
+        if (mVideoAD == null) {
+            Toast.makeText(this, getString(R.string.show_ad_no_load), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (mVideoAD.isReady()) {
+            mVideoAD.showVideo(this);
+        } else {
+            loadAd();
+        }
     }
 
 }
