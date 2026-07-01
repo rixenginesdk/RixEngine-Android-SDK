@@ -28,7 +28,7 @@ class MainApp : Application() {
     }
 
     /**
-     * 广告配置
+     * Alx SDK init
      */
     private fun initAd() {
         try {
