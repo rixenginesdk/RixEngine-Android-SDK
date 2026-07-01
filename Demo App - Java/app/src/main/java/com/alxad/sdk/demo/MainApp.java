@@ -45,7 +45,8 @@ public class MainApp extends Application {
             });
             AlxAdSDK.setDebug(true);
 
-//            用户扩展参数
+            //[ZH] 用户扩展参数
+            //[EN] User Extension Parameters
             AlxAdSDK.addExtraParameters("uid2_token", "NewAdvertisingTokenIjb6u6KcMAtd0/4ZIAYkXvFrMdlZVqfb9LNf99B+1ysE/lBzYVt64pxYxjobJMGbh5q/HsKY7KC0Xo5Rb/Vo8HC4dYOoWXyuGUaL7Jmbw4bzh+3pgokelUGyTX19DfArTeIg7n+8cxWQ=");
 
         } catch (Exception e) {
