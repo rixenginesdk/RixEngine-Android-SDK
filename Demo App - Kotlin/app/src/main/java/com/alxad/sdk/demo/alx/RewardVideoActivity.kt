@@ -64,11 +64,6 @@ class RewardVideoActivity : BaseActivity(), View.OnClickListener {
             object : AlxRewardVideoADListener() {
                 override fun onRewardedVideoAdLoaded(var1: AlxRewardVideoAD) {
                     Log.i(TAG, "onRewardedVideoAdLoaded")
-                    Toast.makeText(
-                        baseContext,
-                        getString(R.string.load_success),
-                        Toast.LENGTH_SHORT
-                    ).show()
                     mTvShow?.isEnabled = true
                     mTvTip?.let {
                         val msg = getString(
@@ -88,10 +83,9 @@ class RewardVideoActivity : BaseActivity(), View.OnClickListener {
                     errMsg: String
                 ) {
                     Log.i(TAG, "onRewardedVideoAdFailed：$errCode; $errMsg")
-                    Toast.makeText(baseContext, getString(R.string.load_failed), Toast.LENGTH_SHORT)
-                        .show()
-                    mTvTip?.text = getString(R.string.load_failed)
                     mTvShow?.isEnabled = false
+                    val msg = "errorCode=$errCode;errorMsg=$errMsg"
+                    mTvTip?.text = getString(R.string.format_load_failed, msg)
                 }
 
                 override fun onRewardedVideoAdPlayStart(var1: AlxRewardVideoAD) {

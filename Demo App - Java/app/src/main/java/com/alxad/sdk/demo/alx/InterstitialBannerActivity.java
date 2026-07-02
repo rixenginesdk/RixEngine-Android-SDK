@@ -69,7 +69,6 @@ public class InterstitialBannerActivity extends BaseActivity implements View.OnC
             public void onInterstitialAdLoaded() {
                 Log.i(TAG, "onInterstitialAdLoaded");
                 mTvShow.setEnabled(true);
-                Toast.makeText(getBaseContext(), getString(R.string.load_success), Toast.LENGTH_SHORT).show();
                 mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000) + "｜ ecpm:" + mInterstitialAD.getPrice());
 
                 mInterstitialAD.reportChargingUrl();
@@ -80,8 +79,8 @@ public class InterstitialBannerActivity extends BaseActivity implements View.OnC
             public void onInterstitialAdLoadFail(int errorCode, String errorMsg) {
                 Log.i(TAG, "onInterstitialAdLoadFail:  " + errorCode + " " + errorMsg);
                 mTvShow.setEnabled(false);
-                Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
-                mTvTip.setText(R.string.load_failed);
+                String msg = "errorCode=" + errorCode + ";errorMsg=" + errorMsg;
+                mTvTip.setText(getString(R.string.format_load_failed, msg));
             }
 
             @Override

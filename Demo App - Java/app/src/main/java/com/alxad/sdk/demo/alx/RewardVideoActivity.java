@@ -69,7 +69,6 @@ public class RewardVideoActivity extends BaseActivity implements View.OnClickLis
             public void onRewardedVideoAdLoaded(AlxRewardVideoAD var1) {
                 Log.i(TAG, "onRewardedVideoAdLoaded");
                 mTvShow.setEnabled(true);
-                Toast.makeText(getBaseContext(), getString(R.string.load_success), Toast.LENGTH_SHORT).show();
                 mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000) + "｜ ecpm:" + mVideoAD.getPrice());
 
                 mVideoAD.reportChargingUrl();
@@ -80,8 +79,8 @@ public class RewardVideoActivity extends BaseActivity implements View.OnClickLis
             public void onRewardedVideoAdFailed(AlxRewardVideoAD var1, int errCode, String errMsg) {
                 Log.i(TAG, "onRewardedVideoAdFailed：" + errCode + "; " + errMsg);
                 mTvShow.setEnabled(false);
-                Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
-                mTvTip.setText(R.string.load_failed);
+                String msg = "errorCode=" + errCode + ";errorMsg=" + errMsg;
+                mTvTip.setText(getString(R.string.format_load_failed, msg));
             }
 
             @Override

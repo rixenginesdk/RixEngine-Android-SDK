@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
@@ -99,7 +98,8 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
                 Log.d(TAG, "onAdError: errorMsg=" + errorMsg + "  errorCode=" + errorCode);
                 mBnShow.setEnabled(false);
                 mBnLoad.setEnabled(true);
-                mTvTip.setText(R.string.load_failed);
+                String msg = "errorCode=" + errorCode + ";errorMsg=" + errorMsg;
+                mTvTip.setText(getString(R.string.format_load_failed, msg));
             }
 
             @Override
@@ -128,17 +128,20 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void bnLoadAndShow() {
+        final long startTime = System.currentTimeMillis();
         mAlxBannerView.setBannerCanClose(true);
         mAlxBannerView.loadAd(AdConfig.ALX_BANNER_AD_ID, new AlxBannerViewAdListener() {
             @Override
             public void onAdLoaded() {
                 Log.d(TAG, "onAdLoaded:  | ecpm：" + mAlxBannerView.getPrice());
+                mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000) + "｜ ecpm:" + mAlxBannerView.getPrice());
             }
 
             @Override
             public void onAdError(int errorCode, String errorMsg) {
                 Log.d(TAG, "onAdError: errorMsg=" + errorMsg + "  errorCode=" + errorCode);
-                Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
+                String msg = "errorCode=" + errorCode + ";errorMsg=" + errorMsg;
+                mTvTip.setText(getString(R.string.format_load_failed, msg));
             }
 
             @Override

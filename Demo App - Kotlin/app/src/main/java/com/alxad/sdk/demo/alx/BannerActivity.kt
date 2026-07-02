@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
-import android.widget.Toast
 import com.alxad.sdk.demo.AdConfig
 import com.alxad.sdk.demo.BaseActivity
 import com.alxad.sdk.demo.R
@@ -91,7 +90,8 @@ class BannerActivity : BaseActivity(), View.OnClickListener {
                 Log.d(TAG, "onAdError: errorMsg=$errorMsg  errorCode=$errorCode")
                 mBnShow?.isEnabled = false
                 mBnLoad?.isEnabled = true
-                mTvTip?.setText(R.string.load_failed)
+                val msg = "errorCode=$errorCode;errorMsg=$errorMsg"
+                mTvTip?.text = getString(R.string.format_load_failed, msg)
             }
 
             override fun onAdClicked() {
@@ -117,19 +117,24 @@ class BannerActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun bnLoadAndShow() {
+        val startTime = System.currentTimeMillis()
         mAlxBannerView?.setBannerCanClose(true)
         mAlxBannerView?.loadAd(AdConfig.ALX_BANNER_AD_ID, object : AlxBannerViewAdListener() {
             override fun onAdLoaded() {
                 Log.d(TAG, "onAdLoaded:  | ecpm：" + mAlxBannerView?.price)
+                mTvTip?.let {
+                    val msg = getString(
+                        R.string.format_load_success,
+                        (System.currentTimeMillis() - startTime) / 1000
+                    ) + "｜ ecpm:" + mAlxBannerView?.price
+                    it.text = msg
+                }
             }
 
             override fun onAdError(errorCode: Int, errorMsg: String) {
                 Log.d(TAG, "onAdError: errorMsg=$errorMsg  errorCode=$errorCode")
-                Toast.makeText(
-                    baseContext,
-                    getString(R.string.load_failed),
-                    Toast.LENGTH_SHORT
-                ).show()
+                val msg = "errorCode=$errorCode;errorMsg=$errorMsg"
+                mTvTip?.text = getString(R.string.format_load_failed, msg)
             }
 
             override fun onAdClicked() {

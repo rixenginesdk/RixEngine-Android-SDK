@@ -50,8 +50,10 @@ class NativeActivity : BaseActivity() {
     //English：Video
     val NATIVE_AD_CREATE_TYPE_VIDEO: Int = 4
 
+    private var mTvTip: TextView? = null
     private var mAdContainerView: FrameLayout? = null
     private var mNativeAd: AlxNativeAd? = null
+    private var startTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,10 +64,14 @@ class NativeActivity : BaseActivity() {
     }
 
     private fun initView() {
+        mTvTip = findViewById(R.id.tv_tip)
         mAdContainerView = findViewById<View>(R.id.ad_container) as FrameLayout
     }
 
     private fun loadAd() {
+        mTvTip?.setText(R.string.loading)
+        startTime = System.currentTimeMillis()
+
         val userExtras: MutableMap<String, String> = HashMap()
         userExtras["bid_floor"] = "1.5"
         val builder = AlxAdParam.Builder().setUserExtras(userExtras)
@@ -73,8 +79,8 @@ class NativeActivity : BaseActivity() {
         loader.loadAd(builder.build(), object : AlxNativeAdLoadedListener {
             override fun onAdFailed(errorCode: Int, errorMsg: String) {
                 Log.i(TAG, "onAdFailed:$errorCode;$errorMsg")
-                Toast.makeText(baseContext, getString(R.string.load_failed), Toast.LENGTH_SHORT)
-                    .show()
+                val msg = "errorCode=$errorCode;errorMsg=$errorMsg"
+                mTvTip?.text = getString(R.string.format_load_failed, msg)
             }
 
             override fun onAdLoaded(ads: List<AlxNativeAd>) {
@@ -85,6 +91,13 @@ class NativeActivity : BaseActivity() {
                 mNativeAd?.destroy()
                 mNativeAd = ads[0]
                 Log.i(TAG, "price=" + mNativeAd?.price)
+                mTvTip?.let {
+                    val msg = getString(
+                        R.string.format_load_success,
+                        (System.currentTimeMillis() - startTime) / 1000
+                    ) + "｜ ecpm:" + mNativeAd?.price
+                    it.text = msg
+                }
                 mNativeAd?.reportBiddingUrl()
                 mNativeAd?.reportChargingUrl()
 

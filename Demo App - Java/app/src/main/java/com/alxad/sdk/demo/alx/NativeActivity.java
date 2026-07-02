@@ -58,8 +58,10 @@ public class NativeActivity extends BaseActivity {
     //English：Video
     public static final int NATIVE_AD_CREATE_TYPE_VIDEO = 4;
 
+    private TextView mTvTip;
     private FrameLayout mAdContainerView;
     private AlxNativeAd mNativeAd;
+    private long startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,10 +73,14 @@ public class NativeActivity extends BaseActivity {
     }
 
     private void initView() {
+        mTvTip = findViewById(R.id.tv_tip);
         mAdContainerView = (FrameLayout) findViewById(R.id.ad_container);
     }
 
     private void loadAd() {
+        mTvTip.setText(R.string.loading);
+        startTime = System.currentTimeMillis();
+
         Map<String, String> userExtras = new HashMap<>();
         userExtras.put("bid_floor", "1.5");
         AlxAdParam.Builder builder = new AlxAdParam.Builder().setUserExtras(userExtras);
@@ -83,7 +89,8 @@ public class NativeActivity extends BaseActivity {
             @Override
             public void onAdFailed(int errorCode, String errorMsg) {
                 Log.i(TAG, "onAdFailed:" + errorCode + ";" + errorMsg);
-                Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
+                String msg = "errorCode=" + errorCode + ";errorMsg=" + errorMsg;
+                mTvTip.setText(getString(R.string.format_load_failed, msg));
             }
 
             @Override
@@ -97,6 +104,7 @@ public class NativeActivity extends BaseActivity {
                 }
                 mNativeAd = ads.get(0);
                 Log.i(TAG, "price=" + mNativeAd.getPrice());
+                mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000) + "｜ ecpm:" + mNativeAd.getPrice());
                 mNativeAd.reportBiddingUrl();
                 mNativeAd.reportChargingUrl();
 

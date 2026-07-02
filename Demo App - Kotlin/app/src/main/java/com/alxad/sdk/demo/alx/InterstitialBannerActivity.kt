@@ -64,11 +64,6 @@ class InterstitialBannerActivity : BaseActivity(), View.OnClickListener {
             object : AlxInterstitialADListener() {
                 override fun onInterstitialAdLoaded() {
                     Log.i(TAG, "onInterstitialAdLoaded")
-                    Toast.makeText(
-                        baseContext,
-                        getString(R.string.load_success),
-                        Toast.LENGTH_SHORT
-                    ).show()
                     mTvShow?.isEnabled = true
                     mTvTip?.let {
                         val msg = getString(
@@ -84,10 +79,9 @@ class InterstitialBannerActivity : BaseActivity(), View.OnClickListener {
 
                 override fun onInterstitialAdLoadFail(errorCode: Int, errorMsg: String) {
                     Log.i(TAG, "onInterstitialAdLoadFail:  $errorCode $errorMsg")
-                    Toast.makeText(baseContext, getString(R.string.load_failed), Toast.LENGTH_SHORT)
-                        .show()
-                    mTvTip?.setText(R.string.load_failed)
                     mTvShow?.isEnabled = false
+                    val msg = "errorCode=$errorCode;errorMsg=$errorMsg"
+                    mTvTip?.text = getString(R.string.format_load_failed, msg)
                 }
 
                 override fun onInterstitialAdClicked() {
