@@ -96,8 +96,6 @@ public class InterstitialVideoActivity extends BaseActivity implements View.OnCl
             @Override
             public void onInterstitialAdClose() {
                 Log.i(TAG, "onInterstitialAdClose");
-                mTvShow.setEnabled(false);
-                mTvTip.setText(R.string.tip_message);
             }
 
             @Override
@@ -119,15 +117,11 @@ public class InterstitialVideoActivity extends BaseActivity implements View.OnCl
 
     }
 
-    private void showAd(){
-        if (mInterstitialAD == null) {
+    private void showAd() {
+        if (mInterstitialAD == null || !mInterstitialAD.isReady()) {
             Toast.makeText(this, getString(R.string.show_ad_no_load), Toast.LENGTH_SHORT).show();
             return;
         }
-        if (mInterstitialAD.isReady()) {
-            mInterstitialAD.show(this);
-        } else {
-            loadAd();
-        }
+        mInterstitialAD.show(this);
     }
 }

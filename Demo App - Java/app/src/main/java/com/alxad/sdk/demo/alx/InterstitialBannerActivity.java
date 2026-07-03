@@ -96,8 +96,6 @@ public class InterstitialBannerActivity extends BaseActivity implements View.OnC
             @Override
             public void onInterstitialAdClose() {
                 Log.i(TAG, "onInterstitialAdClose");
-                mTvShow.setEnabled(false);
-                mTvTip.setText(R.string.tip_message);
             }
 
             @Override
@@ -120,14 +118,10 @@ public class InterstitialBannerActivity extends BaseActivity implements View.OnC
     }
 
     private void showAd(){
-        if (mInterstitialAD == null) {
+        if (mInterstitialAD == null || !mInterstitialAD.isReady()) {
             Toast.makeText(this, getString(R.string.show_ad_no_load), Toast.LENGTH_SHORT).show();
             return;
         }
-        if (mInterstitialAD.isReady()) {
-            mInterstitialAD.show(this);
-        } else {
-            loadAd();
-        }
+        mInterstitialAD.show(this);
     }
 }

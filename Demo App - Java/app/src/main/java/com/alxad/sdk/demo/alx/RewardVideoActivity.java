@@ -101,8 +101,6 @@ public class RewardVideoActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onRewardedVideoAdClosed(AlxRewardVideoAD var1) {
                 Log.i(TAG, "onRewardedVideoAdClosed");
-                mTvShow.setEnabled(false);
-                mTvTip.setText(R.string.tip_message);
             }
 
             @Override
@@ -124,15 +122,11 @@ public class RewardVideoActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void showAd(){
-        if (mVideoAD == null) {
+        if (mVideoAD == null || !mVideoAD.isReady()) {
             Toast.makeText(this, getString(R.string.show_ad_no_load), Toast.LENGTH_SHORT).show();
             return;
         }
-        if (mVideoAD.isReady()) {
-            mVideoAD.showVideo(this);
-        } else {
-            loadAd();
-        }
+        mVideoAD.showVideo(this);
     }
 
 }

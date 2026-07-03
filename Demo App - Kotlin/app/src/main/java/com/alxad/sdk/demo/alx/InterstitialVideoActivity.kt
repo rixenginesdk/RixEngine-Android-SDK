@@ -94,8 +94,6 @@ class InterstitialVideoActivity : BaseActivity(), View.OnClickListener {
 
                 override fun onInterstitialAdClose() {
                     Log.i(TAG, "onInterstitialAdClose")
-                    mTvShow?.isEnabled = false
-                    mTvTip?.setText(R.string.tip_message);
                 }
 
                 override fun onInterstitialAdVideoStart() {
@@ -113,14 +111,10 @@ class InterstitialVideoActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun showAd() {
-        if (mInterstitialAD == null) {
+        if (mInterstitialAD == null || mInterstitialAD?.isReady == false) {
             Toast.makeText(this, getString(R.string.show_ad_no_load), Toast.LENGTH_SHORT).show()
             return
         }
-        if (mInterstitialAD?.isReady == true) {
-            mInterstitialAD?.show(this)
-        } else {
-            loadAd()
-        }
+        mInterstitialAD?.show(this)
     }
 }

@@ -65,7 +65,7 @@ dependencies {
 
     //RixEngine Android SDK (Necessary)
 //    implementation files('libs/rixengine.***.aar')
-    implementation 'io.github.rixenginesdk:rixengine:4.1.0'
+    implementation 'io.github.rixenginesdk:rixengine:4.1.1'
 
 //     Admob SDK
     implementation libs.ads.admob

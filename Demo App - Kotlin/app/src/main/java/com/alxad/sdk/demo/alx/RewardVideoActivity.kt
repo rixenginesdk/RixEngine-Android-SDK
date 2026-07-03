@@ -106,8 +106,6 @@ class RewardVideoActivity : BaseActivity(), View.OnClickListener {
 
                 override fun onRewardedVideoAdClosed(var1: AlxRewardVideoAD) {
                     Log.i(TAG, "onRewardedVideoAdClosed")
-                    mTvShow?.isEnabled = false
-                    mTvTip?.setText(R.string.tip_message)
                 }
 
                 override fun onRewardedVideoAdPlayClicked(var1: AlxRewardVideoAD) {
@@ -128,14 +126,10 @@ class RewardVideoActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun showAd(){
-        if (mVideoAD == null) {
+        if (mVideoAD == null || mVideoAD?.isReady == false) {
             Toast.makeText(this, getString(R.string.show_ad_no_load), Toast.LENGTH_SHORT).show()
             return
         }
-        if (mVideoAD?.isReady == true) {
-            mVideoAD?.showVideo(this)
-        } else {
-            loadAd()
-        }
+        mVideoAD?.showVideo(this)
     }
 }
