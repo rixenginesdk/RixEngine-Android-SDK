@@ -4,11 +4,14 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.alxad.sdk.demo.alx.AlxDemoListActivity
+import com.rixengine.api.AlxAdSDK
 
 class MainActivity : BaseListViewActivity() {
 
@@ -23,6 +26,7 @@ class MainActivity : BaseListViewActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        addBottomLayout()
         val toolbar: Toolbar = findViewById<View?>(R.id.toolBar) as Toolbar
         toolbar.setNavigationIcon(null)
         initPermission()
@@ -52,4 +56,17 @@ class MainActivity : BaseListViewActivity() {
 
         return list
     }
+
+    private fun addBottomLayout() {
+        val convertView = LayoutInflater.from(this).inflate(R.layout.layout_bottom_content, null)
+        val tvContent = convertView.findViewById<View?>(R.id.bottom_tv_content) as TextView
+        val sb = "SDK Name: " +
+                AlxAdSDK.getNetWorkName() +
+                "\r\n" +
+                "SDK Version: " +
+                AlxAdSDK.getNetWorkVersion()
+        tvContent.setText(sb)
+        mListView?.addFooterView(convertView)
+    }
+
 }
