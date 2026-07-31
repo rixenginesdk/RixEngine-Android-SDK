@@ -65,7 +65,7 @@ class MainActivity : BaseListViewActivity() {
                 "\r\n" +
                 "SDK Version: " +
                 AlxAdSDK.getNetWorkVersion()
-        tvContent.setText(sb)
+        tvContent.text = sb
         mListView?.addFooterView(convertView)
     }
 
