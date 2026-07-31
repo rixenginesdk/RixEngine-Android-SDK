@@ -21,16 +21,18 @@ abstract class BaseListViewActivity : BaseActivity(), OnItemClickListener {
 
     private var mAdapter: MyAdapter? = null
 
+    protected var mListView: ListView? = null
+
     protected override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
         setActionBar()
 
         //        checkNavigationBar(findViewById(R.id.root_view));
-        val listView = findViewById<View?>(R.id.listView) as ListView
+        mListView = findViewById<View?>(R.id.listView) as ListView
         mAdapter = MyAdapter(this, initAdapterData())
-        listView.setAdapter(mAdapter)
-        listView.setOnItemClickListener(this)
+        mListView?.setAdapter(mAdapter)
+        mListView?.onItemClickListener = this
     }
 
     abstract fun initAdapterData(): MutableList<AdapterData>?

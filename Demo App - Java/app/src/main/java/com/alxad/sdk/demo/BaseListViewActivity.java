@@ -22,16 +22,18 @@ public abstract class BaseListViewActivity extends BaseActivity implements Adapt
 
     private MyAdapter mAdapter;
 
+    protected ListView mListView;
+
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.activity_list);
         setActionBar();
 //        checkNavigationBar(findViewById(R.id.root_view));
 
-        ListView listView = (ListView)findViewById(R.id.listView);
+        mListView = (ListView)findViewById(R.id.listView);
         mAdapter = new MyAdapter(this, initAdapterData());
-        listView.setAdapter(mAdapter);
-        listView.setOnItemClickListener(this);
+        mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(this);
     }
 
     public abstract List<AdapterData> initAdapterData();
