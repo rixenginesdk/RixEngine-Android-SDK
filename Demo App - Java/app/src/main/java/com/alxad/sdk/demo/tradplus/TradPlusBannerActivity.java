@@ -1,12 +1,12 @@
 package com.alxad.sdk.demo.tradplus;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
@@ -21,7 +21,8 @@ public class TradPlusBannerActivity extends BaseActivity implements View.OnClick
 
     private FrameLayout mAdContainerView;
     private View mBnLoad;
-    private TextView mTvTip;
+    private TextView mTvClearLog;
+    private TextView mTvShowLog;
 
     private TPBanner bannerView;
 
@@ -35,21 +36,26 @@ public class TradPlusBannerActivity extends BaseActivity implements View.OnClick
 
     private void initView() {
         mAdContainerView = (FrameLayout) findViewById(R.id.ad_container);
-        mTvTip = findViewById(R.id.tv_tip);
+        mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
+        mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
         mBnLoad = findViewById(R.id.bn_load);
+
+        mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mTvClearLog.setOnClickListener(this);
         mBnLoad.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.bn_load) {
+        if (v.getId() == R.id.bn_load) {
             loadAd();
+        } else if (v.getId() == R.id.tv_clear_log) {
+            clearLog();
         }
     }
 
     private void loadAd() {
-        mTvTip.setText(R.string.loading);
+        showLogMessage(getString(R.string.loading));
         mBnLoad.setEnabled(false);
 
         if (bannerView != null) {
@@ -62,42 +68,49 @@ public class TradPlusBannerActivity extends BaseActivity implements View.OnClick
             public void onAdLoaded(TPAdInfo tpAdInfo) {
                 Log.d(TAG, "onAdLoaded:" + getCurrentThreadName());
                 mBnLoad.setEnabled(true);
-                mTvTip.setText(R.string.load_success);
+                showLogMessage("onAdLoaded");
+                showLogMessage(getString(R.string.load_success));
                 showAd();
             }
 
             @Override
             public void onAdLoadFailed(TPAdError tpAdError) {
                 mBnLoad.setEnabled(true);
-                String msg = tpAdError.getErrorCode() + ":" + tpAdError.getErrorMsg();
+                String msg = "errorCode=" + tpAdError.getErrorCode() + ";errorMsg=" + tpAdError.getErrorMsg();
                 Log.d(TAG, "onAdLoadFailed:" + msg);
-                mTvTip.setText(getString(R.string.format_load_failed, msg));
-                Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
+                showLogMessage("onAdLoadFailed");
+                showLogMessage(getString(R.string.format_load_failed, msg));
             }
 
             @Override
             public void onAdClicked(TPAdInfo tpAdInfo) {
                 Log.d(TAG, "onAdClicked:" + getCurrentThreadName());
+                showLogMessage("onAdClicked");
             }
 
             @Override
             public void onAdImpression(TPAdInfo tpAdInfo) {
                 Log.d(TAG, "onAdImpression:" + getCurrentThreadName());
+                showLogMessage("onAdImpression");
             }
 
             @Override
             public void onAdShowFailed(TPAdError tpAdError, TPAdInfo tpAdInfo) {
-                Log.d(TAG, "onAdShowFailed:" + tpAdError.getErrorCode() + "-" + tpAdError.getErrorMsg() + getCurrentThreadName());
+                String msg = "errorCode=" + tpAdError.getErrorCode() + ";errorMsg=" + tpAdError.getErrorMsg();
+                Log.d(TAG, "onAdShowFailed:" + msg + getCurrentThreadName());
+                showLogMessage("onAdShowFailed:" + msg);
             }
 
             @Override
             public void onAdClosed(TPAdInfo tpAdInfo) {
                 Log.d(TAG, "onAdClosed:" + getCurrentThreadName());
+                showLogMessage("onAdClosed");
             }
 
             @Override
             public void onBannerRefreshed() {
                 Log.d(TAG, "onBannerRefreshed:" + getCurrentThreadName());
+                showLogMessage("onBannerRefreshed");
             }
         });
         bannerView.loadAd(AdConfig.TRAD_PLUS_BANNER_AD);
@@ -118,6 +131,13 @@ public class TradPlusBannerActivity extends BaseActivity implements View.OnClick
         }
     }
 
-    
+    private void clearLog() {
+        mTvShowLog.setText("");
+    }
+
+    private void showLogMessage(String msg) {
+        mTvShowLog.append(msg);
+        mTvShowLog.append("\r\n");
+    }
 
 }

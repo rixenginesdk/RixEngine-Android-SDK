@@ -2,6 +2,7 @@ package com.alxad.sdk.demo.admob;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -24,7 +25,8 @@ import com.alxad.sdk.demo.R;
 public class AdmobRewardVideoActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "AdmobRewardVideo";
     private RewardedAd mRewardedAd;
-    private TextView mTvTip;
+    private TextView mTvClearLog;
+    private TextView mTvShowLog;
     private TextView mTvShow;
     private long startTime;
 
@@ -39,8 +41,12 @@ public class AdmobRewardVideoActivity extends BaseActivity implements View.OnCli
     private void initView() {
         TextView tv_load = findViewById(R.id.tv_load);
         mTvShow = findViewById(R.id.tv_show);
-        mTvTip = findViewById(R.id.tv_tip);
+        mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
+        mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
         mTvShow.setEnabled(false);
+
+        mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mTvClearLog.setOnClickListener(this);
         tv_load.setOnClickListener(this);
         mTvShow.setOnClickListener(this);
     }
@@ -53,6 +59,8 @@ public class AdmobRewardVideoActivity extends BaseActivity implements View.OnCli
             bnLoad();
         } else if (id == R.id.tv_show) {
             bnShow();
+        } else if (v.getId() == R.id.tv_clear_log) {
+            clearLog();
         }
     }
 
@@ -65,33 +73,32 @@ public class AdmobRewardVideoActivity extends BaseActivity implements View.OnCli
         mRewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
             @Override
             public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                Log.d(TAG, "onAdFailedToShowFullScreenContent:" + adError.getCode() + ";" + adError.getMessage());
+                Log.d(TAG, "onAdFailedToShowFullScreenContent: errorCode=" + adError.getCode() + ";errorMsg=" + adError.getMessage());
+                showLogMessage("onAdFailedToShowFullScreenContent: errorCode=" + adError.getCode() + ";errorMsg=" + adError.getMessage());
             }
 
             @Override
             public void onAdShowedFullScreenContent() {
-                Log.d(TAG, "onAdShowedFullScreenContent");
-                Toast.makeText(AdmobRewardVideoActivity.this,
-                        "Rewarded ad opened",
-                        Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onAdShowedFullScreenContent: Rewarded ad opened");
+                showLogMessage("onAdShowedFullScreenContent");
             }
 
             @Override
             public void onAdDismissedFullScreenContent() {
-                Log.d(TAG, "onAdDismissedFullScreenContent");
-                Toast.makeText(AdmobRewardVideoActivity.this,
-                        "Rewarded ad closed",
-                        Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onAdDismissedFullScreenContent: Rewarded ad closed");
+                showLogMessage("onAdDismissedFullScreenContent");
             }
 
             @Override
             public void onAdImpression() {
                 Log.d(TAG, "onAdImpression");
+                showLogMessage("onAdImpression");
             }
 
             @Override
             public void onAdClicked() {
                 Log.d(TAG, "onAdClicked");
+                showLogMessage("onAdClicked");
             }
         });
 
@@ -100,33 +107,46 @@ public class AdmobRewardVideoActivity extends BaseActivity implements View.OnCli
             @Override
             public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
                 Log.d(TAG, "onUserEarnedReward:" + rewardItem.getType());
+                showLogMessage("onUserEarnedReward");
             }
 
         });
     }
 
     public void bnLoad() {
-        mTvTip.setText(R.string.loading);
+        showLogMessage(getString(R.string.loading));
         startTime = System.currentTimeMillis();
 
         RewardedAd.load(this, AdConfig.ADMOB_REWARD_ID, new AdRequest.Builder().build(), new RewardedAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
                 Log.d(TAG, "onAdLoaded:" + getCurrentThreadName());
-                mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000));
+                showLogMessage("onAdLoaded");
+                showLogMessage(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000));
                 mTvShow.setEnabled(true);
 
                 mRewardedAd = rewardedAd;
             }
 
             @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError adError) {
-                Log.d(TAG, "onAdFailedToLoad: " + adError.getCode() + " " + adError.getMessage() + ";" + getCurrentThreadName());
-                Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
-                mTvTip.setText("load failed:" + adError.getMessage());
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                String msg = "errorCode=" + loadAdError.getCode() + ";errorMsg=" + loadAdError.getMessage();
+                Log.d(TAG, "onAdFailedToLoad:" + msg);
+                showLogMessage("onAdFailedToLoad");
+                showLogMessage(getString(R.string.format_load_failed, msg));
+
                 mTvShow.setEnabled(false);
             }
         });
     }
-    
+
+    private void clearLog() {
+        mTvShowLog.setText("");
+    }
+
+    private void showLogMessage(String msg) {
+        mTvShowLog.append(msg);
+        mTvShowLog.append("\r\n");
+    }
+
 }

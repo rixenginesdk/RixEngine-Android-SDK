@@ -1,28 +1,29 @@
 package com.alxad.sdk.demo.topon;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.R;
-import com.thinkup.banner.api.TUBannerListener;
-import com.thinkup.banner.api.TUBannerView;
-import com.thinkup.core.api.AdError;
-import com.thinkup.core.api.TUAdInfo;
+import com.secmtp.sdk.banner.api.ATBannerListener;
+import com.secmtp.sdk.banner.api.ATBannerView;
+import com.secmtp.sdk.core.api.ATAdInfo;
+import com.secmtp.sdk.core.api.AdError;
 
 public class TopOnBannerActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "TopOnBannerActivity";
 
     private FrameLayout mAdContainerView;
     private View mBnLoad;
-    private TextView mTvTip;
-    TUBannerView bannerView;
+    private TextView mTvClearLog;
+    private TextView mTvShowLog;
+    ATBannerView bannerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,70 +35,82 @@ public class TopOnBannerActivity extends BaseActivity implements View.OnClickLis
 
     private void initView() {
         mAdContainerView = (FrameLayout) findViewById(R.id.ad_container);
-        mTvTip = findViewById(R.id.tv_tip);
+        mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
+        mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
         mBnLoad = findViewById(R.id.bn_load);
+
+        mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mTvClearLog.setOnClickListener(this);
         mBnLoad.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.bn_load) {
+        if (v.getId() == R.id.bn_load) {
             loadAd();
+        } else if (v.getId() == R.id.tv_clear_log) {
+            clearLog();
         }
     }
 
     private void loadAd() {
-        mTvTip.setText(R.string.loading);
+        showLogMessage(getString(R.string.loading));
         mBnLoad.setEnabled(false);
 
         if (bannerView != null) {
             bannerView.destroy();
         }
 
-        bannerView = new TUBannerView(this);
+        bannerView = new ATBannerView(this);
         bannerView.setPlacementId(AdConfig.TOPON_BANNER_AD_ID);
-        bannerView.setBannerAdListener(new TUBannerListener() {
+        bannerView.setBannerAdListener(new ATBannerListener() {
             @Override
             public void onBannerLoaded() {
                 Log.d(TAG, "onBannerLoaded");
                 mBnLoad.setEnabled(true);
-                mTvTip.setText(R.string.load_success);
+                showLogMessage("onBannerLoaded");
+                showLogMessage(getString(R.string.load_success));
                 showAd();
             }
 
             @Override
             public void onBannerFailed(AdError adError) {
                 mBnLoad.setEnabled(true);
-                String msg = adError.getCode() + ":" + adError.getDesc();
+                String msg = "errorCode=" + adError.getCode() + ";errorMsg=" + adError.getDesc();
                 Log.d(TAG, "onBannerFailed:" + msg);
-                mTvTip.setText(getString(R.string.format_load_failed, msg));
-                Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
+                showLogMessage("onBannerFailed");
+                showLogMessage(getString(R.string.format_load_failed, msg));
             }
 
             @Override
-            public void onBannerClicked(TUAdInfo atAdInfo) {
+            public void onBannerClicked(ATAdInfo atAdInfo) {
                 Log.d(TAG, "onBannerClicked");
+                showLogMessage("onBannerClicked");
             }
 
             @Override
-            public void onBannerShow(TUAdInfo atAdInfo) {
+            public void onBannerShow(ATAdInfo atAdInfo) {
                 Log.d(TAG, "onBannerShow");
+                showLogMessage("onBannerShow");
             }
 
             @Override
-            public void onBannerClose(TUAdInfo atAdInfo) {
+            public void onBannerClose(ATAdInfo atAdInfo) {
                 Log.d(TAG, "onBannerClose");
+                showLogMessage("onBannerClose");
             }
 
             @Override
-            public void onBannerAutoRefreshed(TUAdInfo atAdInfo) {
+            public void onBannerAutoRefreshed(ATAdInfo atAdInfo) {
                 Log.d(TAG, "onBannerAutoRefreshed");
+                showLogMessage("onBannerAutoRefreshed");
             }
 
             @Override
             public void onBannerAutoRefreshFail(AdError adError) {
-                Log.d(TAG, "onBannerAutoRefreshFail:" + adError.getCode() + "," + adError.getDesc());
+                String msg = "errorCode=" + adError.getCode() + ";errorMsg=" + adError.getDesc();
+                Log.d(TAG, "onBannerAutoRefreshFail:" + msg);
+                showLogMessage("onBannerAutoRefreshFail:" + msg);
             }
         });
         bannerView.loadAd();
@@ -117,5 +130,14 @@ public class TopOnBannerActivity extends BaseActivity implements View.OnClickLis
         if (bannerView != null) {
             bannerView.destroy();
         }
+    }
+
+    private void clearLog() {
+        mTvShowLog.setText("");
+    }
+
+    private void showLogMessage(String msg) {
+        mTvShowLog.append(msg);
+        mTvShowLog.append("\r\n");
     }
 }

@@ -14,17 +14,17 @@ import com.alxad.sdk.demo.AdConfig
 import com.alxad.sdk.demo.BaseActivity
 import com.alxad.sdk.demo.R
 import com.bumptech.glide.Glide
-import com.thinkup.core.api.AdError
-import com.thinkup.core.api.TUAdInfo
-import com.thinkup.nativead.api.NativeAd
-import com.thinkup.nativead.api.TUNative
-import com.thinkup.nativead.api.TUNativeAdView
-import com.thinkup.nativead.api.TUNativeDislikeListener
-import com.thinkup.nativead.api.TUNativeEventExListener
-import com.thinkup.nativead.api.TUNativeImageView
-import com.thinkup.nativead.api.TUNativeNetworkListener
-import com.thinkup.nativead.api.TUNativePrepareExInfo
-import com.thinkup.nativead.api.TUNativePrepareInfo
+import com.secmtp.sdk.core.api.AdError
+import com.secmtp.sdk.core.api.ATAdInfo
+import com.secmtp.sdk.nativead.api.NativeAd
+import com.secmtp.sdk.nativead.api.ATNative
+import com.secmtp.sdk.nativead.api.ATNativeAdView
+import com.secmtp.sdk.nativead.api.ATNativeDislikeListener
+import com.secmtp.sdk.nativead.api.ATNativeEventExListener
+import com.secmtp.sdk.nativead.api.ATNativeImageView
+import com.secmtp.sdk.nativead.api.ATNativeNetworkListener
+import com.secmtp.sdk.nativead.api.ATNativePrepareExInfo
+import com.secmtp.sdk.nativead.api.ATNativePrepareInfo
 
 
 class TopOnNativeActivity : BaseActivity(), View.OnClickListener {
@@ -32,9 +32,9 @@ class TopOnNativeActivity : BaseActivity(), View.OnClickListener {
     private var mTvLoad: TextView? = null
     private var mTvTip: TextView? = null
     private var mStartTime: Long = 0
-    private var mATNative: TUNative? = null
+    private var mATNative: ATNative? = null
     private var mNativeAd: NativeAd? = null
-    private var mATNativeAdView: TUNativeAdView? = null
+    private var mATNativeAdView: ATNativeAdView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_topon_native)
@@ -45,7 +45,7 @@ class TopOnNativeActivity : BaseActivity(), View.OnClickListener {
     private fun initView() {
         mTvLoad = findViewById<View>(R.id.tv_load) as TextView
         mTvTip = findViewById<View>(R.id.tv_tip) as TextView
-        mATNativeAdView = findViewById<View>(R.id.ad_container) as TUNativeAdView
+        mATNativeAdView = findViewById<View>(R.id.ad_container) as ATNativeAdView
         mTvLoad?.setOnClickListener(this)
     }
 
@@ -60,7 +60,7 @@ class TopOnNativeActivity : BaseActivity(), View.OnClickListener {
         mTvLoad?.isEnabled = false
         mStartTime = System.currentTimeMillis()
 
-        mATNative = TUNative(this, AdConfig.TOPON_NATIVE_ID, object : TUNativeNetworkListener {
+        mATNative = ATNative(this, AdConfig.TOPON_NATIVE_ID, object : ATNativeNetworkListener {
             override fun onNativeAdLoaded() {
                 Log.i(TAG, "onNativeAdLoaded：" + getCurrentThreadName())
                 mTvLoad?.setEnabled(true)
@@ -101,38 +101,46 @@ class TopOnNativeActivity : BaseActivity(), View.OnClickListener {
         mNativeAd?.destory()
 
         mNativeAd = nativeAd
-        mNativeAd?.setNativeEventListener(object : TUNativeEventExListener {
+        mNativeAd?.setNativeEventListener(object : ATNativeEventExListener {
             override fun onDeeplinkCallback(
-                atNativeAdView: TUNativeAdView?,
-                atAdInfo: TUAdInfo?,
+                atNativeAdView: ATNativeAdView?,
+                atAdInfo: ATAdInfo?,
                 b: Boolean
             ) {
                 Log.i(TAG, "onDeeplinkCallback")
             }
 
-            override fun onAdImpressed(atNativeAdView: TUNativeAdView?, atAdInfo: TUAdInfo?) {
+            override fun onAdActRewardSuccess(p0: ATAdInfo?) {
+                Log.i(TAG, "onAdActRewardSuccess")
+            }
+
+            override fun onAdActReward(p0: ATAdInfo?, p1: Int) {
+                Log.i(TAG, "onAdActReward")
+            }
+
+            override fun onAdImpressed(atNativeAdView: ATNativeAdView?, atAdInfo: ATAdInfo?) {
                 Log.i(TAG, "onAdImpressed")
             }
 
-            override fun onAdClicked(atNativeAdView: TUNativeAdView?, atAdInfo: TUAdInfo?) {
+            override fun onAdClicked(atNativeAdView: ATNativeAdView?, atAdInfo: ATAdInfo?) {
                 Log.i(TAG, "onAdClicked")
             }
 
-            override fun onAdVideoStart(atNativeAdView: TUNativeAdView?) {
+            override fun onAdVideoStart(atNativeAdView: ATNativeAdView?) {
                 Log.i(TAG, "onAdVideoStart")
             }
 
-            override fun onAdVideoEnd(atNativeAdView: TUNativeAdView?) {
+            override fun onAdVideoEnd(atNativeAdView: ATNativeAdView?) {
                 Log.i(TAG, "onAdVideoEnd")
             }
 
-            override fun onAdVideoProgress(atNativeAdView: TUNativeAdView?, i: Int) {
+            override fun onAdVideoProgress(atNativeAdView: ATNativeAdView?, i: Int) {
                 Log.i(TAG, "onAdVideoProgress:" + i)
             }
         })
 
-        mNativeAd?.setDislikeCallbackListener(object : TUNativeDislikeListener() {
-            override fun onAdCloseButtonClick(view: TUNativeAdView?, entity: TUAdInfo?) {
+        mNativeAd?.setDislikeCallbackListener(object : ATNativeDislikeListener() {
+            override fun onAdCloseButtonClick(view: ATNativeAdView?, entity: ATAdInfo?) {
                 Log.i(TAG, "native ad onAdCloseButtonClick")
                 //在这里开发者可实现广告View的移除操作
                 mATNativeAdView?.removeAllViews()
@@ -141,7 +149,7 @@ class TopOnNativeActivity : BaseActivity(), View.OnClickListener {
         })
 
         mATNativeAdView?.removeAllViews()
-        var nativePrepareInfo: TUNativePrepareInfo? = null
+        var nativePrepareInfo: ATNativePrepareInfo? = null
 
         if (mNativeAd?.isNativeExpress != true) {
             Log.d(TAG, "native self render")
@@ -168,7 +176,7 @@ class TopOnNativeActivity : BaseActivity(), View.OnClickListener {
      * @return
      */
     @Throws(java.lang.Exception::class)
-    private fun renderNativeAdView(bean: NativeAd, view: View): TUNativePrepareInfo {
+    private fun renderNativeAdView(bean: NativeAd, view: View): ATNativePrepareInfo {
         if (mATNativeAdView != null) {
             mATNativeAdView?.removeAllViews()
             mATNativeAdView?.addView(view)
@@ -184,7 +192,7 @@ class TopOnNativeActivity : BaseActivity(), View.OnClickListener {
         val closeView = view.findViewById<View?>(R.id.native_close) as ImageView?
         val contentArea = view.findViewById<View?>(R.id.native_media) as FrameLayout
 
-        val nativePrepareInfo = TUNativePrepareInfo()
+        val nativePrepareInfo = ATNativePrepareInfo()
         val adMaterial = bean.getAdMaterial()
 
         val clickViewList: MutableList<View?> = ArrayList<View?>() //click views
@@ -261,7 +269,7 @@ class TopOnNativeActivity : BaseActivity(), View.OnClickListener {
             clickViewList.add(mediaView)
             contentArea.setVisibility(View.VISIBLE)
         } else if (!TextUtils.isEmpty(adMaterial.getMainImageUrl())) {
-            val imageView = TUNativeImageView(this)
+            val imageView = ATNativeImageView(this)
             imageView.setImage(adMaterial.getMainImageUrl())
             imageView.setLayoutParams(mainImageParam)
             contentArea.addView(imageView, mainImageParam)
@@ -293,7 +301,7 @@ class TopOnNativeActivity : BaseActivity(), View.OnClickListener {
 
         nativePrepareInfo.setClickViewList(clickViewList) //bind click view list
 
-        if (nativePrepareInfo is TUNativePrepareExInfo) {
+        if (nativePrepareInfo is ATNativePrepareExInfo) {
             val creativeClickViewList: MutableList<View?> = ArrayList<View?>() //click views
             creativeClickViewList.add(callToActionView)
             nativePrepareInfo.setCreativeClickViewList(creativeClickViewList) //bind custom view list

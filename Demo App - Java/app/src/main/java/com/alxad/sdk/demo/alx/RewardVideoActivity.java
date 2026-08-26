@@ -2,6 +2,7 @@ package com.alxad.sdk.demo.alx;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -20,7 +21,8 @@ import java.util.Map;
 public class RewardVideoActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "AlxRewardVideoActivity";
 
-    private TextView mTvTip;
+    private TextView mTvClearLog;
+    private TextView mTvShowLog;
     private TextView mTvShow;
     private AlxRewardVideoAD mVideoAD;
     private long startTime;
@@ -36,8 +38,12 @@ public class RewardVideoActivity extends BaseActivity implements View.OnClickLis
     private void initView() {
         TextView tv_video_load = findViewById(R.id.tv_load);
         mTvShow = findViewById(R.id.tv_show);
-        mTvTip = findViewById(R.id.tv_tip);
+        mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
+        mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
         mTvShow.setEnabled(false);
+
+        mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mTvClearLog.setOnClickListener(this);
         tv_video_load.setOnClickListener(this);
         mTvShow.setOnClickListener(this);
     }
@@ -49,6 +55,8 @@ public class RewardVideoActivity extends BaseActivity implements View.OnClickLis
             loadAd();
         } else if (v.getId() == R.id.tv_show) {
             showAd();
+        } else if (v.getId() == R.id.tv_clear_log) {
+            clearLog();
         }
     }
 
@@ -56,7 +64,7 @@ public class RewardVideoActivity extends BaseActivity implements View.OnClickLis
      * load Ad
      */
     public void loadAd() {
-        mTvTip.setText(R.string.loading);
+        showLogMessage(getString(R.string.loading));
         startTime = System.currentTimeMillis();
 
         Map<String, String> userExtras = new HashMap<>();
@@ -69,7 +77,8 @@ public class RewardVideoActivity extends BaseActivity implements View.OnClickLis
             public void onRewardedVideoAdLoaded(AlxRewardVideoAD var1) {
                 Log.i(TAG, "onRewardedVideoAdLoaded");
                 mTvShow.setEnabled(true);
-                mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000) + "｜ ecpm:" + mVideoAD.getPrice());
+                showLogMessage("onRewardedVideoAdLoaded");
+                showLogMessage(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000) + "｜ ecpm:" + mVideoAD.getPrice());
 
                 mVideoAD.reportChargingUrl();
                 mVideoAD.reportBiddingUrl();
@@ -80,53 +89,70 @@ public class RewardVideoActivity extends BaseActivity implements View.OnClickLis
                 Log.i(TAG, "onRewardedVideoAdFailed：" + errCode + "; " + errMsg);
                 mTvShow.setEnabled(false);
                 String msg = "errorCode=" + errCode + ";errorMsg=" + errMsg;
-                mTvTip.setText(getString(R.string.format_load_failed, msg));
+                showLogMessage("onRewardedVideoAdFailed");
+                showLogMessage(getString(R.string.format_load_failed, msg));
             }
 
             @Override
             public void onRewardedVideoAdPlayStart(AlxRewardVideoAD var1) {
                 Log.i(TAG, "onRewardedVideoAdPlayStart");
+                showLogMessage("onRewardedVideoAdPlayStart");
             }
 
             @Override
             public void onRewardedVideoAdPlayEnd(AlxRewardVideoAD var1) {
                 Log.i(TAG, "onRewardedVideoAdPlayEnd");
+                showLogMessage("onRewardedVideoAdPlayEnd");
             }
 
             @Override
             public void onRewardedVideoAdPlayFailed(AlxRewardVideoAD var2, int errCode, String errMsg) {
                 Log.i(TAG, "onRewardedVideoAdPlayFailed:" + errCode + ";" + errMsg);
+                showLogMessage("onRewardedVideoAdPlayFailed:" + errCode + ";" + errMsg);
             }
 
             @Override
             public void onRewardedVideoAdClosed(AlxRewardVideoAD var1) {
                 Log.i(TAG, "onRewardedVideoAdClosed");
+                showLogMessage("onRewardedVideoAdClosed");
             }
 
             @Override
             public void onRewardedVideoAdPlayClicked(AlxRewardVideoAD var1) {
                 Log.i(TAG, "onRewardedVideoAdPlayClicked");
+                showLogMessage("onRewardedVideoAdPlayClicked");
             }
 
             @Override
             public void onReward(AlxRewardVideoAD var1) {
                 Log.i(TAG, "onReward");
+                showLogMessage("onReward");
             }
 
             @Override
             public void onRewardVideoCache(boolean isSuccess) {
                 Log.i(TAG, "onRewardVideoCache:" + isSuccess + ";" + Thread.currentThread().getName());
+                showLogMessage("onRewardVideoCache:" + isSuccess);
             }
         });
 
     }
 
-    private void showAd(){
+    private void showAd() {
         if (mVideoAD == null || !mVideoAD.isReady()) {
             Toast.makeText(this, getString(R.string.show_ad_no_load), Toast.LENGTH_SHORT).show();
             return;
         }
         mVideoAD.showVideo(this);
+    }
+
+    private void clearLog() {
+        mTvShowLog.setText("");
+    }
+
+    private void showLogMessage(String msg) {
+        mTvShowLog.append(msg);
+        mTvShowLog.append("\r\n");
     }
 
 }

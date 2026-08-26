@@ -65,11 +65,16 @@ public class MainActivity extends BaseListViewActivity {
     private void addBottomLayout() {
         View convertView = LayoutInflater.from(this).inflate(R.layout.layout_bottom_content, null);
         TextView tvContent = (TextView) convertView.findViewById(R.id.bottom_tv_content);
-        String sb = "SDK Name: " +
-                AlxAdSDK.getNetWorkName() +
-                "\r\n" +
-                "SDK Version: " +
-                AlxAdSDK.getNetWorkVersion();
+        StringBuilder sb=new StringBuilder();
+        sb.append("SDK Name: ").append(AlxAdSDK.getNetWorkName()).append("\r\n");
+        sb.append("SDK Version: ").append(AlxAdSDK.getNetWorkVersion()).append("\r\n");
+        sb.append("\r\n");
+        sb.append("Ad SDK Config: ").append("\r\n");
+        sb.append("host: ").append(AdConfig.ALX_HOST).append("\r\n");
+        sb.append("AppID: ").append(AdConfig.ALX_APP_ID).append("\r\n");
+        sb.append("SID: ").append(AdConfig.ALX_SID).append("\r\n");
+        sb.append("token: ").append(AdConfig.ALX_TOKEN).append("\r\n");
+
         tvContent.setText(sb);
         mListView.addFooterView(convertView);
     }

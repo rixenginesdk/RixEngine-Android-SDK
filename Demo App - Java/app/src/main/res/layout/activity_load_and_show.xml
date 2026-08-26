@@ -16,62 +16,49 @@
 
     <TextView
         android:id="@+id/tv_load"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="10dp"
         android:includeFontPadding="false"
-        android:paddingStart="25dp"
-        android:paddingEnd="25dp"
         android:text="@string/load_ad"
         android:textAllCaps="false"
-        android:textColor="#000000"
-        android:textSize="20sp"
+        style="@style/style_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_action_bar" />
 
-    <View
-        android:id="@+id/v_line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#1a000000"
-        app:layout_constraintTop_toBottomOf="@+id/tv_load" />
 
     <TextView
         android:id="@+id/tv_show"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="10dp"
         android:includeFontPadding="false"
-        android:paddingStart="25dp"
-        android:paddingEnd="25dp"
         android:text="@string/show_ad"
         android:textAllCaps="false"
-        android:textColor="#000000"
-        android:textSize="20sp"
+        style="@style/style_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/v_line" />
-
-    <View
-        android:id="@+id/v_line_two"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#1a000000"
-        app:layout_constraintTop_toBottomOf="@+id/tv_show" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_load" />
 
     <TextView
-        android:id="@+id/tv_tip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/tip_message"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:padding="10dp"
+        android:id="@+id/tv_clear_log"
+        android:layout_width="100dp"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/clear_log"
+        style="@style/style_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_show"/>
+
+    <TextView
+        android:id="@+id/tv_show_log"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/log_height"
+        style="@style/style_log"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/v_line_two" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_clear_log"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

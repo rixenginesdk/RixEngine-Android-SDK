@@ -2,6 +2,7 @@ package com.alxad.sdk.demo.tradplus;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,8 @@ public class TradPlusNativeActivity extends BaseActivity implements View.OnClick
 
     private FrameLayout mAdContainerView;
     private View mBnLoad;
-    private TextView mTvTip;
+    private TextView mTvClearLog;
+    private TextView mTvShowLog;
     private long mStartTime;
 
     private TPNative mAdObj;
@@ -42,16 +44,21 @@ public class TradPlusNativeActivity extends BaseActivity implements View.OnClick
 
     private void initView() {
         mAdContainerView = (FrameLayout) findViewById(R.id.ad_container);
-        mTvTip = findViewById(R.id.tv_tip);
+        mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
+        mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
         mBnLoad = findViewById(R.id.bn_load);
+
+        mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mTvClearLog.setOnClickListener(this);
         mBnLoad.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.bn_load) {
+        if (v.getId() == R.id.bn_load) {
             loadAd();
+        } else if (v.getId() == R.id.tv_clear_log) {
+            clearLog();
         }
     }
 
@@ -59,7 +66,7 @@ public class TradPlusNativeActivity extends BaseActivity implements View.OnClick
      * 加载广告
      */
     public void loadAd() {
-        mTvTip.setText(R.string.loading);
+        showLogMessage(getString(R.string.loading));
         mBnLoad.setEnabled(false);
         mStartTime = System.currentTimeMillis();
 
@@ -69,8 +76,8 @@ public class TradPlusNativeActivity extends BaseActivity implements View.OnClick
             public void onAdLoaded(TPAdInfo tpAdInfo, TPBaseAd tpBaseAd) {
                 Log.i(TAG, "onAdLoaded:" + getCurrentThreadName());
                 mBnLoad.setEnabled(true);
-                Toast.makeText(getBaseContext(), getString(R.string.load_success), Toast.LENGTH_SHORT).show();
-                mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - mStartTime) / 1000));
+                showLogMessage("onAdLoaded");
+                showLogMessage(getString(R.string.format_load_success, (System.currentTimeMillis() - mStartTime) / 1000));
 
                 //以下两种方式任选其一都可以
 //                mAdObj.showAd(mAdContainer,R.layout.tp_native_ad_list_item,null);
@@ -79,30 +86,36 @@ public class TradPlusNativeActivity extends BaseActivity implements View.OnClick
 
             @Override
             public void onAdLoadFailed(TPAdError tpAdError) {
-                Log.i(TAG, "onAdLoadFailed：" + tpAdError.getErrorCode() + " " + tpAdError.getErrorMsg() + ";" + getCurrentThreadName());
+                String msg = "errorCode=" + tpAdError.getErrorCode() + ";errorMsg=" + tpAdError.getErrorMsg();
+                Log.i(TAG, "onAdLoadFailed：" + msg + ";" + getCurrentThreadName());
                 mBnLoad.setEnabled(true);
-                Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
-                mTvTip.setText(R.string.load_failed);
+                showLogMessage("onAdLoadFailed");
+                showLogMessage(getString(R.string.format_load_failed, msg));
             }
 
             @Override
             public void onAdShowFailed(TPAdError tpAdError, TPAdInfo tpAdInfo) {
-                Log.i(TAG, "onAdShowFailed： " + tpAdError.getErrorCode() + " " + tpAdError.getErrorMsg() + ";" + getCurrentThreadName());
+                String msg = "errorCode=" + tpAdError.getErrorCode() + ";errorMsg=" + tpAdError.getErrorMsg();
+                Log.i(TAG, "onAdShowFailed：" + msg + ";" + getCurrentThreadName());
+                showLogMessage("onAdShowFailed：" + msg);
             }
 
             @Override
             public void onAdClicked(TPAdInfo tpAdInfo) {
                 Log.i(TAG, "onAdClicked:" + getCurrentThreadName());
+                showLogMessage("onAdClicked");
             }
 
             @Override
             public void onAdImpression(TPAdInfo tpAdInfo) {
                 Log.i(TAG, "onAdImpression:" + getCurrentThreadName());
+                showLogMessage("onAdImpression");
             }
 
             @Override
             public void onAdClosed(TPAdInfo tpAdInfo) {
                 Log.i(TAG, "onAdClosed:" + getCurrentThreadName());
+                showLogMessage("onAdClosed");
             }
         });
         mAdObj.loadAd();
@@ -151,6 +164,15 @@ public class TradPlusNativeActivity extends BaseActivity implements View.OnClick
             return view;
         }
 
+    }
+
+    private void clearLog() {
+        mTvShowLog.setText("");
+    }
+
+    private void showLogMessage(String msg) {
+        mTvShowLog.append(msg);
+        mTvShowLog.append("\r\n");
     }
 
 }

@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import com.rixengine.api.AlxAdSDK;
 import com.rixengine.api.AlxSplashAd;
 import com.rixengine.api.AlxSplashAdListener;
-import com.thinkup.core.api.MediationInitCallback;
-import com.thinkup.core.api.TUBiddingListener;
-import com.thinkup.core.api.TUBiddingResult;
-import com.thinkup.splashad.unitgroup.api.CustomSplashAdapter;
+import com.secmtp.sdk.core.api.ATBiddingListener;
+import com.secmtp.sdk.core.api.ATBiddingResult;
+import com.secmtp.sdk.core.api.MediationInitCallback;
+import com.secmtp.sdk.splashad.unitgroup.api.CustomSplashAdapter;
 
 import java.util.Map;
 
@@ -27,14 +27,67 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
     private String sid = "";
     private String token = "";
     private String host = "";
-    private Boolean isDebug = null;
     private AlxSplashAd mAdObj;
     private boolean isReady = false;
 
+    public void startLoadAd(Context context) {
+        Log.d(TAG, "startLoadAd");
+        mAdObj = new AlxSplashAd(context, unitid);
+        mAdObj.load(new AlxSplashAdListener() {
+            @Override
+            public void onAdLoadSuccess() {
+                isReady = true;
+                if (mLoadListener != null) {
+                    Log.d(TAG, "load success");
+                    mLoadListener.onAdCacheLoaded();
+                }
+                if (mBiddingListener != null) {
+                    double bidPrice = mAdObj.getPrice();
+                    Log.d(TAG, "bidding load success: bid price = " + bidPrice);
+                    mBiddingListener.onC2SBiddingResultWithCache(AlxSdkInitManager.getBiddingSuccessBean(bidPrice), null);
+                }
+            }
+
+            @Override
+            public void onAdLoadFail(int errorCode, String errorMsg) {
+                isReady = false;
+                if (mLoadListener != null) {
+                    mLoadListener.onAdLoadError(errorCode + "", errorMsg);
+                }
+                if (mBiddingListener != null) {
+                    mBiddingListener.onC2SBiddingResultWithCache(ATBiddingResult.fail(errorMsg), null);
+                }
+            }
+
+            @Override
+            public void onAdShow() {
+                if (mImpressionListener != null) {
+                    mImpressionListener.onSplashAdShow();
+                }
+            }
+
+            @Override
+            public void onAdClick() {
+                if (mImpressionListener != null) {
+                    mImpressionListener.onSplashAdClicked();
+                }
+            }
+
+            @Override
+            public void onAdDismissed() {
+                if (mImpressionListener != null) {
+                    mImpressionListener.onSplashAdDismiss();
+                }
+            }
+        });
+    }
+
 
     @Override
-    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, Object> localExtra, final TUBiddingListener biddingListener) {
+    public boolean startBiddingRequest(final Context context, Map<String, Object> serverExtra, Map<String, Object> localExtra, final ATBiddingListener biddingListener) {
+        Log.d(TAG, "startBiddingRequest");
         AlxSdkInitManager.printSDKInfo(TAG);
+
         //从serverExtra中获取后台配置的自定义平台的广告位ID
         mBiddingListener = biddingListener;
         isReady = false;
@@ -43,7 +96,7 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
                 @Override
                 public void onSuccess() {
                     Log.d(TAG, "AlxSdkInit success");
-                    startBid(context);
+                    startLoadAd(context);
                 }
 
                 @Override
@@ -52,13 +105,13 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
                     //Chinese: 通过ATBiddingListener，回调竞价失败
                     //English: With ATBiddingListener, the callback bid fails
                     if (mBiddingListener != null) {
-                        mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail(s), null);
+                        mBiddingListener.onC2SBiddingResultWithCache(ATBiddingResult.fail(s), null);
                     }
                 }
             });
         } else {
             if (mBiddingListener != null) {
-                mBiddingListener.onC2SBiddingResultWithCache(TUBiddingResult.fail("alx  unitid | token | sid | appid is empty"), null);
+                mBiddingListener.onC2SBiddingResultWithCache(ATBiddingResult.fail("alx  unitid | token | sid | appid is empty"), null);
             }
         }
 
@@ -68,15 +121,16 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
 
     @Override
     public void loadCustomNetworkAd(Context context, Map<String, Object> serverExtras, Map<String, Object> localExtras) {
+        Log.d(TAG, "loadCustomNetworkAd");
         AlxSdkInitManager.printSDKInfo(TAG);
-        Log.i(TAG, "loadCustomNetworkAd");
+
         isReady = false;
         if (parseServer(serverExtras)) {
             AlxSdkInitManager.getInstance().initSDK(context, serverExtras, new MediationInitCallback() {
                 @Override
                 public void onSuccess() {
                     Log.d(TAG, "AlxSdkInit success");
-                    startBid(context);
+                    startLoadAd(context);
                 }
 
                 @Override
@@ -113,25 +167,8 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
             if (serverExtras.containsKey("unitid")) {
                 unitid = (String) serverExtras.get("unitid");
             }
-
-            if (serverExtras.containsKey("isdebug")) {
-                Object obj = serverExtras.get("isdebug");
-                String debug = null;
-                if (obj != null && obj instanceof String) {
-                    debug = (String) obj;
-                }
-                Log.e(TAG, "alx debug mode:" + debug);
-                if (debug != null) {
-                    if (debug.equalsIgnoreCase("true")) {
-                        isDebug = Boolean.TRUE;
-                    } else if (debug.equalsIgnoreCase("false")) {
-                        isDebug = Boolean.FALSE;
-                    }
-                }
-            }
-
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "alx parseServer error:" + e.getMessage());
         }
 
         if (TextUtils.isEmpty(host) && !TextUtils.isEmpty(AlxMetaInf.ADAPTER_SDK_HOST_URL)) {
@@ -146,48 +183,6 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
         return true;
     }
 
-    private void loadAd(final Context context) {
-        mAdObj = new AlxSplashAd(context, unitid);
-        mAdObj.load(new AlxSplashAdListener() {
-            @Override
-            public void onAdLoadSuccess() {
-                isReady = true;
-                if (mLoadListener != null) {
-                    mLoadListener.onAdCacheLoaded();
-                }
-            }
-
-            @Override
-            public void onAdLoadFail(int errorCode, String errorMsg) {
-                isReady = false;
-                if (mLoadListener != null) {
-                    mLoadListener.onAdLoadError(errorCode + "", errorMsg);
-                }
-            }
-
-            @Override
-            public void onAdShow() {
-                if (mImpressionListener != null) {
-                    mImpressionListener.onSplashAdShow();
-                }
-            }
-
-            @Override
-            public void onAdClick() {
-                if (mImpressionListener != null) {
-                    mImpressionListener.onSplashAdClicked();
-                }
-            }
-
-            @Override
-            public void onAdDismissed() {
-                if (mImpressionListener != null) {
-                    mImpressionListener.onSplashAdDismiss();
-                }
-            }
-        });
-    }
-
     @Override
     public void destory() {
         if (mAdObj != null) {
@@ -200,11 +195,6 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
         if (mAdObj != null && isReady) {
             mAdObj.showAd(viewGroup);
         }
-    }
-
-    public void startBid(Context context) {
-        Log.d(TAG, "startBid ");
-        loadAd(context);
     }
 
     @Override

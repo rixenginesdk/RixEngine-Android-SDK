@@ -8,17 +8,17 @@ import android.widget.Toast
 import com.alxad.sdk.demo.AdConfig
 import com.alxad.sdk.demo.BaseActivity
 import com.alxad.sdk.demo.R
-import com.thinkup.core.api.AdError
-import com.thinkup.core.api.TUAdInfo
-import com.thinkup.interstitial.api.TUInterstitial
-import com.thinkup.interstitial.api.TUInterstitialListener
+import com.secmtp.sdk.core.api.AdError
+import com.secmtp.sdk.core.api.ATAdInfo
+import com.secmtp.sdk.interstitial.api.ATInterstitial
+import com.secmtp.sdk.interstitial.api.ATInterstitialListener
 
 class TopOnInterstitialActivity : BaseActivity(), View.OnClickListener {
 
     override val TAG = "TopOnInterstitialActivity"
     private var mTvTip: TextView? = null
     private var mTvShow: TextView? = null
-    private var mAD: TUInterstitial? = null
+    private var mAD: ATInterstitial? = null
     private var startTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,8 +62,8 @@ class TopOnInterstitialActivity : BaseActivity(), View.OnClickListener {
         startTime = System.currentTimeMillis()
         mTvShow?.isEnabled = false
 
-        mAD = TUInterstitial(this, AdConfig.TOPON_INTERSTITIAL_ID)
-        mAD?.setAdListener(object : TUInterstitialListener {
+        mAD = ATInterstitial(this, AdConfig.TOPON_INTERSTITIAL_ID)
+        mAD?.setAdListener(object : ATInterstitialListener {
             override fun onInterstitialAdLoaded() {
                 Log.i(TAG, "onInterstitialAdLoaded:"+ getCurrentThreadName())
                 Toast.makeText(
@@ -92,28 +92,28 @@ class TopOnInterstitialActivity : BaseActivity(), View.OnClickListener {
                 mTvShow?.setEnabled(false)
             }
 
-            override fun onInterstitialAdClicked(atAdInfo: TUAdInfo?) {
+            override fun onInterstitialAdClicked(atAdInfo: ATAdInfo?) {
                 Log.i(TAG, "onInterstitialAdClicked:" + getCurrentThreadName())
             }
 
-            override fun onInterstitialAdShow(atAdInfo: TUAdInfo?) {
+            override fun onInterstitialAdShow(atAdInfo: ATAdInfo?) {
                 Log.i(TAG, "onInterstitialAdShow:" + getCurrentThreadName())
             }
 
-            override fun onInterstitialAdClose(atAdInfo: TUAdInfo?) {
+            override fun onInterstitialAdClose(atAdInfo: ATAdInfo?) {
                 Log.i(TAG, "onInterstitialAdClose:" + getCurrentThreadName())
                 mTvShow?.setEnabled(false)
                 mTvTip?.text = ""
             }
 
-            override fun onInterstitialAdVideoStart(atAdInfo: TUAdInfo?) {
+            override fun onInterstitialAdVideoStart(atAdInfo: ATAdInfo?) {
                 Log.i(
                     TAG,
                     "onInterstitialAdVideoStart:" + getCurrentThreadName()
                 )
             }
 
-            override fun onInterstitialAdVideoEnd(atAdInfo: TUAdInfo?) {
+            override fun onInterstitialAdVideoEnd(atAdInfo: ATAdInfo?) {
                 Log.i(TAG, "onInterstitialAdVideoEnd:" + getCurrentThreadName())
             }
 

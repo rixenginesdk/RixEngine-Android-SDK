@@ -1,8 +1,10 @@
 package com.alxad.sdk.demo.alx;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +34,7 @@ import java.util.Map;
 /**
  * native Ad
  */
-public class NativeActivity extends BaseActivity {
+public class NativeActivity extends BaseActivity implements View.OnClickListener{
     private final String TAG = "AlxNativeActivity";
 
     //中文：AlxNativeAd.getCreativeType() 得到的广告素材类型【如：大图、小图、组图、视频、其他：未知类型】
@@ -58,7 +60,9 @@ public class NativeActivity extends BaseActivity {
     //English：Video
     public static final int NATIVE_AD_CREATE_TYPE_VIDEO = 4;
 
-    private TextView mTvTip;
+    private TextView mTvClearLog;
+    private TextView mTvShowLog;
+    private TextView mTvShow;
     private FrameLayout mAdContainerView;
     private AlxNativeAd mNativeAd;
     private long startTime;
@@ -69,16 +73,38 @@ public class NativeActivity extends BaseActivity {
         setContentView(R.layout.activity_native);
         setActionBar();
         initView();
-        loadAd();
     }
 
     private void initView() {
-        mTvTip = findViewById(R.id.tv_tip);
+        TextView tv_load = findViewById(R.id.tv_load);
+        mTvShow = findViewById(R.id.tv_show);
+        mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
+        mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
         mAdContainerView = (FrameLayout) findViewById(R.id.ad_container);
+        mTvShow.setEnabled(false);
+
+        mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mTvClearLog.setOnClickListener(this);
+        tv_load.setOnClickListener(this);
+        mTvShow.setOnClickListener(this);
     }
 
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.tv_load) {
+            loadAd();
+        } else if (v.getId() == R.id.tv_show) {
+            showAd();
+        } else if (v.getId() == R.id.tv_clear_log) {
+            clearLog();
+        }
+    }
+
+
+
     private void loadAd() {
-        mTvTip.setText(R.string.loading);
+        showLogMessage(getString(R.string.loading));
         startTime = System.currentTimeMillis();
 
         Map<String, String> userExtras = new HashMap<>();
@@ -89,8 +115,10 @@ public class NativeActivity extends BaseActivity {
             @Override
             public void onAdFailed(int errorCode, String errorMsg) {
                 Log.i(TAG, "onAdFailed:" + errorCode + ";" + errorMsg);
+                mTvShow.setEnabled(false);
                 String msg = "errorCode=" + errorCode + ";errorMsg=" + errorMsg;
-                mTvTip.setText(getString(R.string.format_load_failed, msg));
+                showLogMessage("onAdFailed");
+                showLogMessage(getString(R.string.format_load_failed, msg));
             }
 
             @Override
@@ -102,13 +130,15 @@ public class NativeActivity extends BaseActivity {
                 if (mNativeAd != null) {
                     mNativeAd.destroy();
                 }
+                mTvShow.setEnabled(true);
                 mNativeAd = ads.get(0);
                 Log.i(TAG, "price=" + mNativeAd.getPrice());
-                mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000) + "｜ ecpm:" + mNativeAd.getPrice());
+                showLogMessage("onAdLoaded");
+                showLogMessage(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000) + "｜ ecpm:" + mNativeAd.getPrice());
                 mNativeAd.reportBiddingUrl();
                 mNativeAd.reportChargingUrl();
 
-                showNativeAd();
+//                showNativeAd();
             }
         });
     }
@@ -128,16 +158,19 @@ public class NativeActivity extends BaseActivity {
                 @Override
                 public void onAdClicked() {
                     Log.i(TAG, "onAdClicked");
+                    showLogMessage("onAdClicked");
                 }
 
                 @Override
                 public void onAdImpression() {
                     Log.i(TAG, "onAdImpression");
+                    showLogMessage("onAdImpression");
                 }
 
                 @Override
                 public void onAdClosed() {
                     Log.i(TAG, "onAdClosed");
+                    showLogMessage("onAdClosed");
                     mNativeAd.destroy();
                     mAdContainerView.removeAllViews();
                 }
@@ -212,31 +245,37 @@ public class NativeActivity extends BaseActivity {
                 @Override
                 public void onVideoStart() {
                     Log.i(TAG, "onVideoStart");
+                    showLogMessage("onVideoStart");
                 }
 
                 @Override
                 public void onVideoEnd() {
                     Log.i(TAG, "onVideoEnd");
+                    showLogMessage("onVideoEnd");
                 }
 
                 @Override
                 public void onVideoPlay() {
                     Log.i(TAG, "onVideoPlay");
+                    showLogMessage("onVideoPlay");
                 }
 
                 @Override
                 public void onVideoPause() {
                     Log.i(TAG, "onVideoPause");
+                    showLogMessage("onVideoPause");
                 }
 
                 @Override
                 public void onVideoPlayError(int code, String error) {
                     Log.i(TAG, "onVideoPlayError:" + code + ";" + error);
+                    showLogMessage("onVideoPlayError:" + code + ";" + error);
                 }
 
                 @Override
                 public void onVideoMute(boolean isMute) {
                     Log.i(TAG, "onVideoMute:" + isMute);
+                    showLogMessage("onVideoMute:" + isMute);
                 }
             });
         }
@@ -245,6 +284,24 @@ public class NativeActivity extends BaseActivity {
         nativeView.setNativeAd(nativeAd);
 
         return nativeView;
+    }
+
+    private void showAd() {
+        if (mNativeAd == null) {
+            Toast.makeText(this, getString(R.string.show_ad_no_load), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        showNativeAd();
+    }
+
+
+    private void clearLog() {
+        mTvShowLog.setText("");
+    }
+
+    private void showLogMessage(String msg) {
+        mTvShowLog.append(msg);
+        mTvShowLog.append("\r\n");
     }
 
 

@@ -1,13 +1,13 @@
 package com.alxad.sdk.demo.admob;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -30,7 +30,8 @@ public class AdmobNativeActivity extends BaseActivity implements View.OnClickLis
 
     private FrameLayout mAdContainerView;
     private View mBnLoad;
-    private TextView mTvTip;
+    private TextView mTvClearLog;
+    private TextView mTvShowLog;
     private long mStartTime;
 
     private AdLoader mAdLoader;
@@ -46,13 +47,17 @@ public class AdmobNativeActivity extends BaseActivity implements View.OnClickLis
 
     private void initView() {
         mAdContainerView = (FrameLayout) findViewById(R.id.ad_container);
-        mTvTip = findViewById(R.id.tv_tip);
+        mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
+        mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
         mBnLoad = findViewById(R.id.bn_load);
+
+        mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mTvClearLog.setOnClickListener(this);
         mBnLoad.setOnClickListener(this);
     }
 
     private void loadAd() {
-        mTvTip.setText(R.string.loading);
+        showLogMessage(getString(R.string.loading));
         mBnLoad.setEnabled(false);
         mStartTime = System.currentTimeMillis();
         mAdLoader = new AdLoader.Builder(this, AdConfig.ADMOB_NATIVE_ID)
@@ -60,8 +65,6 @@ public class AdmobNativeActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void onNativeAdLoaded(@NonNull NativeAd nativeAd) {
                         Log.d(TAG, "onNativeAdLoaded：" + getCurrentThreadName());
-
-
                         if (mAdLoader != null && mAdLoader.isLoading()) {
                             return;
                         }
@@ -70,6 +73,7 @@ public class AdmobNativeActivity extends BaseActivity implements View.OnClickLis
                             return;
                         }
                         mNativeAd = nativeAd;
+                        showLogMessage("onNativeAdLoaded");
 
                         NativeAdView adView = renderNativeAdView(nativeAd);
                         mAdContainerView.removeAllViews();
@@ -79,39 +83,45 @@ public class AdmobNativeActivity extends BaseActivity implements View.OnClickLis
                 .withAdListener(new AdListener() {
 
                     @Override
-                    public void onAdFailedToLoad(LoadAdError loadAdError) {
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         mBnLoad.setEnabled(true);
-                        mTvTip.setText(getString(R.string.format_load_failed, loadAdError.getMessage()));
-                        Log.d(TAG, "onAdFailedToLoad:" + loadAdError.getMessage());
-                        Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
+                        String msg = "errorCode=" + loadAdError.getCode() + ";errorMsg=" + loadAdError.getMessage();
+                        Log.d(TAG, "onAdFailedToLoad:" + msg);
+                        showLogMessage("onAdFailedToLoad");
+                        showLogMessage(getString(R.string.format_load_failed, msg));
                     }
 
                     @Override
                     public void onAdClosed() {
                         Log.d(TAG, "onAdClosed:" + getCurrentThreadName());
+                        showLogMessage("onAdClosed");
                         doCloseAd();
                     }
 
                     @Override
                     public void onAdOpened() {
                         Log.d(TAG, "onAdOpened");
+                        showLogMessage("onAdOpened");
                     }
 
                     @Override
                     public void onAdLoaded() {
                         Log.d(TAG, "onAdLoaded");
                         mBnLoad.setEnabled(true);
-                        mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - mStartTime) / 1000));
+                        showLogMessage("onAdLoaded");
+                        showLogMessage(getString(R.string.format_load_success, (System.currentTimeMillis() - mStartTime) / 1000));
                     }
 
                     @Override
                     public void onAdClicked() {
                         Log.d(TAG, "onAdClicked");
+                        showLogMessage("onAdClicked");
                     }
 
                     @Override
                     public void onAdImpression() {
                         Log.d(TAG, "onAdImpression");
+                        showLogMessage("onAdImpression");
                     }
                 })
                 .withNativeAdOptions(new NativeAdOptions.Builder().build())
@@ -121,14 +131,14 @@ public class AdmobNativeActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.bn_load) {
+        if (v.getId() == R.id.bn_load) {
             loadAd();
+        } else if (v.getId() == R.id.tv_clear_log) {
+            clearLog();
         }
     }
 
     private void doCloseAd() {
-        mTvTip.setText("");
         mAdContainerView.removeAllViews();
         if (mNativeAd != null) {
             mNativeAd.destroy();
@@ -185,6 +195,15 @@ public class AdmobNativeActivity extends BaseActivity implements View.OnClickLis
             }
         });
         return adView;
+    }
+
+    private void clearLog() {
+        mTvShowLog.setText("");
+    }
+
+    private void showLogMessage(String msg) {
+        mTvShowLog.append(msg);
+        mTvShowLog.append("\r\n");
     }
 
 }

@@ -1,6 +1,7 @@
 package com.alxad.sdk.demo.gam;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -21,7 +22,8 @@ import com.alxad.sdk.demo.R;
 public class GamInterstitialActivity extends BaseActivity implements View.OnClickListener {
     private final String TAG = "GamInterstitial";
     private AdManagerInterstitialAd mAd;
-    private TextView mTvTip;
+    private TextView mTvClearLog;
+    private TextView mTvShowLog;
     private TextView mTvShow;
     private long startTime;
 
@@ -36,8 +38,12 @@ public class GamInterstitialActivity extends BaseActivity implements View.OnClic
     private void initView() {
         TextView tv_load = findViewById(R.id.tv_load);
         mTvShow = findViewById(R.id.tv_show);
-        mTvTip = findViewById(R.id.tv_tip);
+        mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
+        mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
         mTvShow.setEnabled(false);
+
+        mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mTvClearLog.setOnClickListener(this);
         tv_load.setOnClickListener(this);
         mTvShow.setOnClickListener(this);
     }
@@ -49,11 +55,13 @@ public class GamInterstitialActivity extends BaseActivity implements View.OnClic
             bnLoad();
         } else if (id == R.id.tv_show) {
             bnShow();
+        } else if (v.getId() == R.id.tv_clear_log) {
+            clearLog();
         }
     }
 
     private void bnLoad() {
-        mTvTip.setText(R.string.loading);
+        showLogMessage(getString(R.string.loading));
         startTime = System.currentTimeMillis();
         mTvShow.setEnabled(false);
 
@@ -66,21 +74,21 @@ public class GamInterstitialActivity extends BaseActivity implements View.OnClic
                         // The mInterstitialAd reference will be null until
                         // an ad is loaded.
                         Log.d(TAG, "onAdLoaded");
-                        Toast.makeText(getBaseContext(), getString(R.string.load_success), Toast.LENGTH_SHORT).show();
-                        mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000));
-                        mTvShow.setEnabled(true);
+                        showLogMessage("onAdLoaded");
+                        showLogMessage(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000));
 
+                        mTvShow.setEnabled(true);
                         mAd = interstitialAd;
                     }
 
                     @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError adError) {
-                        // Handle the error
-                        Log.d(TAG, "onAdFailedToLoad：" + adError.getCode() + " " + adError.getMessage());
-                        Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
-                        mTvTip.setText(getString(R.string.format_load_failed, adError.getMessage()));
-                        mTvShow.setEnabled(false);
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        String msg = "errorCode=" + loadAdError.getCode() + ";errorMsg=" + loadAdError.getMessage();
+                        Log.d(TAG, "onAdFailedToLoad:" + msg);
+                        showLogMessage("onAdFailedToLoad");
+                        showLogMessage(getString(R.string.format_load_failed, msg));
 
+                        mTvShow.setEnabled(false);
                         mAd = null;
                     }
                 });
@@ -94,30 +102,44 @@ public class GamInterstitialActivity extends BaseActivity implements View.OnClic
         mAd.setFullScreenContentCallback(new FullScreenContentCallback() {
             @Override
             public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                Log.d(TAG, "onAdFailedToShowFullScreenContent:" + adError.getCode() + ";" + adError.getMessage());
+                Log.d(TAG, "onAdFailedToShowFullScreenContent: errorCode=" + adError.getCode() + ";errorMsg=" + adError.getMessage());
+                showLogMessage("onAdFailedToShowFullScreenContent: errorCode=" + adError.getCode() + ";errorMsg=" + adError.getMessage());
             }
 
             @Override
             public void onAdShowedFullScreenContent() {
                 Log.d(TAG, "onAdShowedFullScreenContent");
+                showLogMessage("onAdShowedFullScreenContent");
             }
 
             @Override
             public void onAdDismissedFullScreenContent() {
                 Log.d(TAG, "onAdDismissedFullScreenContent");
+                showLogMessage("onAdDismissedFullScreenContent");
             }
 
             @Override
             public void onAdImpression() {
                 Log.d(TAG, "onAdImpression");
+                showLogMessage("onAdImpression");
             }
 
             @Override
             public void onAdClicked() {
                 Log.d(TAG, "onAdClicked");
+                showLogMessage("onAdClicked");
             }
         });
         mAd.show(this);
+    }
+
+    private void clearLog() {
+        mTvShowLog.setText("");
+    }
+
+    private void showLogMessage(String msg) {
+        mTvShowLog.append(msg);
+        mTvShowLog.append("\r\n");
     }
 
 }

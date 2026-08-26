@@ -1,6 +1,7 @@
 package com.alxad.sdk.demo.max;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -23,7 +24,8 @@ public class MaxNativeActivity extends BaseActivity implements View.OnClickListe
     private final String TAG = "MaxNativeActivity";
 
     private View mBnLoad;
-    private TextView mTvTip;
+    private TextView mTvClearLog;
+    private TextView mTvShowLog;
     private FrameLayout mAdContainerView;
     private long mStartTime;
 
@@ -41,13 +43,17 @@ public class MaxNativeActivity extends BaseActivity implements View.OnClickListe
 
     private void initView() {
         mAdContainerView = (FrameLayout) findViewById(R.id.ad_container);
-        mTvTip = findViewById(R.id.tv_tip);
+        mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
+        mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
         mBnLoad = findViewById(R.id.bn_load);
+
+        mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mTvClearLog.setOnClickListener(this);
         mBnLoad.setOnClickListener(this);
     }
 
     private void loadAd() {
-        mTvTip.setText(R.string.loading);
+        showLogMessage(getString(R.string.loading));
         mBnLoad.setEnabled(false);
         mStartTime = System.currentTimeMillis();
 
@@ -61,16 +67,19 @@ public class MaxNativeActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         if (v.getId() == R.id.bn_load) {
             loadAd();
+        } else if (v.getId() == R.id.tv_clear_log) {
+            clearLog();
         }
     }
 
-    private MaxNativeAdListener mMaxNativeAdListener = new MaxNativeAdListener() {
+    private final MaxNativeAdListener mMaxNativeAdListener = new MaxNativeAdListener() {
         @Override
         public void onNativeAdLoaded(@Nullable MaxNativeAdView maxNativeAdView, MaxAd maxAd) {
             double revenue = maxAd.getRevenue() * 1000;
             String message = " NetworkName:" + maxAd.getNetworkName() + "; ecpm:" + revenue;
             Log.d(TAG, "onNativeAdLoaded |" + message);
-            mTvTip.setText(getString(R.string.load_success) + message);
+            showLogMessage("onNativeAdLoaded");
+            showLogMessage(getString(R.string.load_success) + message);
             mBnLoad.setEnabled(true);
 
             if (mMaxAd != null) {
@@ -87,15 +96,19 @@ public class MaxNativeActivity extends BaseActivity implements View.OnClickListe
         }
 
         @Override
-        public void onNativeAdLoadFailed(String s, MaxError maxError) {
-            Log.d(TAG, "onNativeAdLoadFailed:" + s + ";" + maxError.getCode() + ";" + maxError.getMessage());
+        public void onNativeAdLoadFailed(String s, MaxError error) {
+            String msg = "errorCode=" + error.getCode() + ";errorMsg=" + error.getMessage();
+            Log.d(TAG, "onNativeAdLoadFailed:" + msg);
+            showLogMessage("onNativeAdLoadFailed");
+            showLogMessage(getString(R.string.format_load_failed, msg));
+
             mBnLoad.setEnabled(true);
-            mTvTip.setText(getString(R.string.format_load_failed, maxError.getMessage()));
         }
 
         @Override
         public void onNativeAdClicked(MaxAd maxAd) {
             Log.d(TAG, "onNativeAdClicked");
+            showLogMessage("onNativeAdClicked");
         }
     };
 
@@ -113,12 +126,21 @@ public class MaxNativeActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         if (mAdLoader != null) {
             if (mMaxAd != null) {
                 mAdLoader.destroy(mMaxAd);
             }
             mAdLoader.destroy();
         }
-        super.onDestroy();
+    }
+
+    private void clearLog() {
+        mTvShowLog.setText("");
+    }
+
+    private void showLogMessage(String msg) {
+        mTvShowLog.append(msg);
+        mTvShowLog.append("\r\n");
     }
 }

@@ -8,16 +8,16 @@ import android.widget.FrameLayout;
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.R;
-import com.thinkup.core.api.AdError;
-import com.thinkup.core.api.TUAdInfo;
-import com.thinkup.splashad.api.TUSplashAd;
-import com.thinkup.splashad.api.TUSplashAdExtraInfo;
-import com.thinkup.splashad.api.TUSplashAdListener;
+import com.secmtp.sdk.core.api.AdError;
+import com.secmtp.sdk.core.api.ATAdInfo;
+import com.secmtp.sdk.splashad.api.ATSplashAd;
+import com.secmtp.sdk.splashad.api.ATSplashAdExtraInfo;
+import com.secmtp.sdk.splashad.api.ATSplashAdListener;
 
 public class TopOnSplashActivity extends BaseActivity {
     private static final String TAG = "TopOnSplashActivity";
 
-    private TUSplashAd mAD;
+    private ATSplashAd mAD;
     private FrameLayout mAdContainer;
 
     //控制开屏广告点击跳转
@@ -36,7 +36,7 @@ public class TopOnSplashActivity extends BaseActivity {
     }
 
     private void loadAd() {
-        mAD = new TUSplashAd(this, AdConfig.TOPON_SPLASH_ID, new TUSplashAdListener() {
+        mAD = new ATSplashAd(this, AdConfig.TOPON_SPLASH_ID, new ATSplashAdListener() {
             @Override
             public void onAdLoaded(boolean b) {
                 Log.d(TAG, "onAdLoaded:" + getCurrentThreadName());
@@ -57,19 +57,19 @@ public class TopOnSplashActivity extends BaseActivity {
             }
 
             @Override
-            public void onAdShow(TUAdInfo atAdInfo) {
+            public void onAdShow(ATAdInfo atAdInfo) {
                 Log.d(TAG, "onAdShow:" + getCurrentThreadName());
 
             }
 
             @Override
-            public void onAdClick(TUAdInfo atAdInfo) {
+            public void onAdClick(ATAdInfo atAdInfo) {
                 Log.d(TAG, "onAdClick:" + getCurrentThreadName());
                 canJump = true;
             }
 
             @Override
-            public void onAdDismiss(TUAdInfo atAdInfo, TUSplashAdExtraInfo atSplashAdExtraInfo) {
+            public void onAdDismiss(ATAdInfo atAdInfo, ATSplashAdExtraInfo atSplashAdExtraInfo) {
                 Log.d(TAG, "onAdDismiss:" + getCurrentThreadName());
                 goToMainActivity();
             }

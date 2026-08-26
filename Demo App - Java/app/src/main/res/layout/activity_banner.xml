@@ -6,7 +6,6 @@
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <include layout="@layout/layout_action_bar" />
@@ -17,7 +16,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
@@ -25,46 +24,45 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/banner_ad_preload_mode"
-                android:textColor="#fff"
+                android:textColor="#000000"
                 android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="3dp"
                 tools:ignore="InvalidId" />
 
-            <Button
+            <TextView
                 android:id="@+id/bn_load"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/load_ad" />
-
-            <Button
-                android:id="@+id/bn_show"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/show_ad" />
+                android:layout_height="@dimen/button_height"
+                android:text="@string/load_ad"
+                style="@style/style_btn"/>
 
             <TextView
-                android:id="@+id/tv_tip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="10dp"
-                android:textColor="#fff"
-                android:textSize="20sp" />
+                android:id="@+id/bn_show"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="10dp"
+                android:text="@string/show_ad"
+                style="@style/style_btn"/>
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/banner_ad_normal_mode"
-                android:textColor="#fff"
+                android:textColor="#000000"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="3dp"
                 android:textSize="16sp"
                 tools:ignore="InvalidId" />
 
-            <Button
+            <TextView
                 android:id="@+id/bn_load_show"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/load_and_show_ad" />
+                android:layout_height="@dimen/button_height"
+                android:text="@string/load_and_show_ad"
+                style="@style/style_btn"/>
 
             <com.rixengine.api.AlxBannerView
                 android:id="@+id/do_ad_banner"
@@ -85,12 +83,20 @@
                 android:layout_marginTop="20dp" />
 
             <TextView
+                android:id="@+id/tv_clear_log"
+                android:layout_width="100dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/clear_log"
+                style="@style/style_btn"
+                android:layout_gravity="end"/>
+
+            <TextView
+                android:id="@+id/tv_show_log"
                 android:layout_width="match_parent"
-                android:layout_height="1000dp"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:textColor="#ffffff"
-                android:text="123412354234"/>
+                android:layout_height="@dimen/log_height"
+                style="@style/style_log"/>
 
         </LinearLayout>
     </ScrollView>

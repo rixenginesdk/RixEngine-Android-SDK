@@ -8,16 +8,16 @@ import android.widget.FrameLayout
 import com.alxad.sdk.demo.AdConfig
 import com.alxad.sdk.demo.BaseActivity
 import com.alxad.sdk.demo.R
-import com.thinkup.core.api.AdError
-import com.thinkup.core.api.TUAdInfo
-import com.thinkup.splashad.api.TUSplashAd
-import com.thinkup.splashad.api.TUSplashAdExtraInfo
-import com.thinkup.splashad.api.TUSplashAdListener
+import com.secmtp.sdk.core.api.AdError
+import com.secmtp.sdk.core.api.ATAdInfo
+import com.secmtp.sdk.splashad.api.ATSplashAd
+import com.secmtp.sdk.splashad.api.ATSplashAdExtraInfo
+import com.secmtp.sdk.splashad.api.ATSplashAdListener
 
 class TopOnSplashActivity : BaseActivity() {
 
     override val TAG = "TopOnSplashActivity"
-    private var mAD: TUSplashAd? = null
+    private var mAD: ATSplashAd? = null
     private var mAdContainer: FrameLayout? = null
 
     //控制开屏广告点击跳转
@@ -34,7 +34,7 @@ class TopOnSplashActivity : BaseActivity() {
     }
 
     private fun loadAd() {
-        mAD = TUSplashAd(this, AdConfig.TOPON_SPLASH_ID, object : TUSplashAdListener {
+        mAD = ATSplashAd(this, AdConfig.TOPON_SPLASH_ID, object : ATSplashAdListener {
             override fun onAdLoaded(b: Boolean) {
                 Log.d(TAG, "onAdLoaded:${getCurrentThreadName()}")
                 if (mAD?.isAdReady == true) {
@@ -50,16 +50,16 @@ class TopOnSplashActivity : BaseActivity() {
                 goToMainActivity()
             }
 
-            override fun onAdShow(atAdInfo: TUAdInfo) {
+            override fun onAdShow(atAdInfo: ATAdInfo) {
                 Log.d(TAG, "onAdShow:${getCurrentThreadName()}")
             }
 
-            override fun onAdClick(atAdInfo: TUAdInfo) {
+            override fun onAdClick(atAdInfo: ATAdInfo) {
                 Log.d(TAG, "onAdClick:${getCurrentThreadName()}")
                 canJump = true
             }
 
-            override fun onAdDismiss(atAdInfo: TUAdInfo, atSplashAdExtraInfo: TUSplashAdExtraInfo) {
+            override fun onAdDismiss(atAdInfo: ATAdInfo, atSplashAdExtraInfo: ATSplashAdExtraInfo) {
                 Log.d(TAG, "onAdDismiss:${getCurrentThreadName()}")
                 goToMainActivity()
             }

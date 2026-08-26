@@ -35,5 +35,6 @@
     <string name="list_item_native_desc">native test desc ad</string>
     <string name="other_platform_demo">Aggregated Ad Platform Demo</string>
     <string name="alx_sdk_demo">Alx Ad Demo</string>
+    <string name="clear_log">clear Log</string>
 
 </resources>

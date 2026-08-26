@@ -1,12 +1,12 @@
 package com.alxad.sdk.demo.ironsource;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -24,7 +24,8 @@ public class IronSourceBannerActivity extends BaseActivity implements View.OnCli
 
     private FrameLayout mAdContainerView;
     private View mBnLoad;
-    private TextView mTvTip;
+    private TextView mTvClearLog;
+    private TextView mTvShowLog;
     private LevelPlayBannerAdView bannerView;
 
     @Override
@@ -37,21 +38,26 @@ public class IronSourceBannerActivity extends BaseActivity implements View.OnCli
 
     private void initView() {
         mAdContainerView = (FrameLayout) findViewById(R.id.ad_container);
-        mTvTip = findViewById(R.id.tv_tip);
+        mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
+        mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
         mBnLoad = findViewById(R.id.bn_load);
+
+        mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mTvClearLog.setOnClickListener(this);
         mBnLoad.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.bn_load) {
+        if (v.getId() == R.id.bn_load) {
             loadAd();
+        } else if (v.getId() == R.id.tv_clear_log) {
+            clearLog();
         }
     }
 
     private void loadAd() {
-        mTvTip.setText(R.string.loading);
+        showLogMessage(getString(R.string.loading));
         mBnLoad.setEnabled(false);
 
         if (bannerView != null) {
@@ -72,53 +78,61 @@ public class IronSourceBannerActivity extends BaseActivity implements View.OnCli
             public void onAdLoaded(@NonNull LevelPlayAdInfo levelPlayAdInfo) {
                 Log.d(TAG, "onAdLoaded");
                 mBnLoad.setEnabled(true);
-                mTvTip.setText(R.string.load_success);
+                showLogMessage("onAdLoaded");
+                showLogMessage(getString(R.string.load_success));
                 showAd();
             }
 
             @Override
             public void onAdLoadFailed(@NonNull LevelPlayAdError levelPlayAdError) {
-                String msg = levelPlayAdError.getErrorCode() + ":" + levelPlayAdError.getErrorMessage();
+                String msg = "errorCode=" + levelPlayAdError.getErrorCode() + ":errorMsg=" + levelPlayAdError.getErrorMessage();
                 Log.d(TAG, "onAdLoadFailed: " + msg);
                 mBnLoad.setEnabled(true);
-                mTvTip.setText(getString(R.string.format_load_failed, msg));
-                Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
+                showLogMessage("onAdLoadFailed");
+                showLogMessage(getString(R.string.format_load_failed, msg));
             }
 
             @Override
             public void onAdDisplayed(@NonNull LevelPlayAdInfo levelPlayAdInfo) {
                 LevelPlayBannerAdViewListener.super.onAdDisplayed(levelPlayAdInfo);
                 Log.d(TAG, "onAdDisplayed");
+                showLogMessage("onAdDisplayed");
             }
 
             @Override
             public void onAdDisplayFailed(@NonNull LevelPlayAdInfo levelPlayAdInfo, @NonNull LevelPlayAdError levelPlayAdError) {
                 LevelPlayBannerAdViewListener.super.onAdDisplayFailed(levelPlayAdInfo, levelPlayAdError);
-                Log.d(TAG, "onAdDisplayFailed:"+levelPlayAdError.getErrorMessage());
+                String msg = "errorCode=" + levelPlayAdError.getErrorCode() + ":errorMsg=" + levelPlayAdError.getErrorMessage();
+                Log.d(TAG, "onAdDisplayFailed:" + msg);
+                showLogMessage("onAdDisplayFailed:" + msg);
             }
 
             @Override
             public void onAdClicked(@NonNull LevelPlayAdInfo levelPlayAdInfo) {
                 LevelPlayBannerAdViewListener.super.onAdClicked(levelPlayAdInfo);
                 Log.d(TAG, "onAdClicked");
+                showLogMessage("onAdClicked");
             }
 
             @Override
             public void onAdExpanded(@NonNull LevelPlayAdInfo levelPlayAdInfo) {
                 LevelPlayBannerAdViewListener.super.onAdExpanded(levelPlayAdInfo);
                 Log.d(TAG, "onAdExpanded");
+                showLogMessage("onAdExpanded");
             }
 
             @Override
             public void onAdCollapsed(@NonNull LevelPlayAdInfo levelPlayAdInfo) {
                 LevelPlayBannerAdViewListener.super.onAdCollapsed(levelPlayAdInfo);
                 Log.d(TAG, "onAdCollapsed");
+                showLogMessage("onAdCollapsed");
             }
 
             @Override
             public void onAdLeftApplication(@NonNull LevelPlayAdInfo levelPlayAdInfo) {
                 LevelPlayBannerAdViewListener.super.onAdLeftApplication(levelPlayAdInfo);
                 Log.d(TAG, "onAdLeftApplication");
+                showLogMessage("onAdLeftApplication");
             }
 
         });
@@ -139,6 +153,15 @@ public class IronSourceBannerActivity extends BaseActivity implements View.OnCli
         if (bannerView != null) {
             bannerView.destroy();
         }
+    }
+
+    private void clearLog() {
+        mTvShowLog.setText("");
+    }
+
+    private void showLogMessage(String msg) {
+        mTvShowLog.append(msg);
+        mTvShowLog.append("\r\n");
     }
 
 

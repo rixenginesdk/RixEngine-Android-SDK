@@ -35,5 +35,6 @@
     <string name="list_item_native_desc">原生广告测试描述</string>
     <string name="other_platform_demo">聚合广告平台 Demo</string>
     <string name="alx_sdk_demo">Alx广告 Demo</string>
+    <string name="clear_log">清空日志</string>
 
 </resources>

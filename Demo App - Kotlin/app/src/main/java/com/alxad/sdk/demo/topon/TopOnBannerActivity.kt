@@ -10,10 +10,10 @@ import android.widget.Toast
 import com.alxad.sdk.demo.AdConfig
 import com.alxad.sdk.demo.BaseActivity
 import com.alxad.sdk.demo.R
-import com.thinkup.banner.api.TUBannerListener
-import com.thinkup.banner.api.TUBannerView
-import com.thinkup.core.api.AdError
-import com.thinkup.core.api.TUAdInfo
+import com.secmtp.sdk.banner.api.ATBannerListener
+import com.secmtp.sdk.banner.api.ATBannerView
+import com.secmtp.sdk.core.api.AdError
+import com.secmtp.sdk.core.api.ATAdInfo
 
 class TopOnBannerActivity : BaseActivity(), View.OnClickListener {
     override val TAG = "TopOnBannerActivity"
@@ -21,7 +21,7 @@ class TopOnBannerActivity : BaseActivity(), View.OnClickListener {
     private var mAdContainerView: FrameLayout? = null
     private var mBnLoad: View? = null
     private var mTvTip: TextView? = null
-    private var bannerView: TUBannerView? = null
+    private var bannerView: ATBannerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +51,9 @@ class TopOnBannerActivity : BaseActivity(), View.OnClickListener {
             bannerView?.destroy()
         }
 
-        bannerView = TUBannerView(this)
+        bannerView = ATBannerView(this)
         bannerView?.setPlacementId(AdConfig.TOPON_BANNER_AD_ID)
-        bannerView?.setBannerAdListener(object : TUBannerListener {
+        bannerView?.setBannerAdListener(object : ATBannerListener {
             override fun onBannerLoaded() {
                 Log.d(TAG, "onBannerLoaded")
                 mBnLoad?.setEnabled(true)
@@ -73,19 +73,19 @@ class TopOnBannerActivity : BaseActivity(), View.OnClickListener {
                 ).show()
             }
 
-            override fun onBannerClicked(atAdInfo: TUAdInfo?) {
+            override fun onBannerClicked(atAdInfo: ATAdInfo?) {
                 Log.d(TAG, "onBannerClicked")
             }
 
-            override fun onBannerShow(atAdInfo: TUAdInfo?) {
+            override fun onBannerShow(atAdInfo: ATAdInfo?) {
                 Log.d(TAG, "onBannerShow")
             }
 
-            override fun onBannerClose(atAdInfo: TUAdInfo?) {
+            override fun onBannerClose(atAdInfo: ATAdInfo?) {
                 Log.d(TAG, "onBannerClose")
             }
 
-            override fun onBannerAutoRefreshed(atAdInfo: TUAdInfo?) {
+            override fun onBannerAutoRefreshed(atAdInfo: ATAdInfo?) {
                 Log.d(TAG, "onBannerAutoRefreshed")
             }
 

@@ -3,6 +3,7 @@ package com.alxad.sdk.demo.topon;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +17,19 @@ import com.bumptech.glide.Glide;
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.R;
-import com.thinkup.core.api.AdError;
-import com.thinkup.core.api.TUAdInfo;
-import com.thinkup.nativead.api.NativeAd;
-import com.thinkup.nativead.api.TUNative;
-import com.thinkup.nativead.api.TUNativeAdView;
-import com.thinkup.nativead.api.TUNativeDislikeListener;
-import com.thinkup.nativead.api.TUNativeEventExListener;
-import com.thinkup.nativead.api.TUNativeImageView;
-import com.thinkup.nativead.api.TUNativeMaterial;
-import com.thinkup.nativead.api.TUNativeNetworkListener;
-import com.thinkup.nativead.api.TUNativePrepareExInfo;
-import com.thinkup.nativead.api.TUNativePrepareInfo;
+import com.secmtp.sdk.core.api.ATAdConst;
+import com.secmtp.sdk.core.api.AdError;
+import com.secmtp.sdk.core.api.ATAdInfo;
+import com.secmtp.sdk.nativead.api.NativeAd;
+import com.secmtp.sdk.nativead.api.ATNative;
+import com.secmtp.sdk.nativead.api.ATNativeAdView;
+import com.secmtp.sdk.nativead.api.ATNativeDislikeListener;
+import com.secmtp.sdk.nativead.api.ATNativeEventExListener;
+import com.secmtp.sdk.nativead.api.ATNativeImageView;
+import com.secmtp.sdk.nativead.api.ATNativeMaterial;
+import com.secmtp.sdk.nativead.api.ATNativeNetworkListener;
+import com.secmtp.sdk.nativead.api.ATNativePrepareExInfo;
+import com.secmtp.sdk.nativead.api.ATNativePrepareInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,14 +40,15 @@ public class TopOnNativeActivity extends BaseActivity implements View.OnClickLis
 
     private final static String TAG = TopOnNativeActivity.class.getSimpleName();
 
-    private TextView mTvLoad;
-    private TextView mTvTip;
+    private View mBnLoad;
+    private TextView mTvClearLog;
+    private TextView mTvShowLog;
 
     private long mStartTime;
 
-    private TUNative mATNative;
+    private ATNative mATNative;
     private NativeAd mNativeAd;
-    private TUNativeAdView mATNativeAdView; //渲染广告必须创建的容器
+    private ATNativeAdView mATNativeAdView; //渲染广告必须创建的容器
 
 
     @Override
@@ -57,48 +60,54 @@ public class TopOnNativeActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initView() {
-        mTvLoad = (TextView) findViewById(R.id.tv_load);
-        mTvTip = (TextView) findViewById(R.id.tv_tip);
-        mATNativeAdView = (TUNativeAdView) findViewById(R.id.ad_container);
+        mATNativeAdView = (ATNativeAdView) findViewById(R.id.ad_container);
+        mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
+        mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
+        mBnLoad = findViewById(R.id.bn_load);
 
-        mTvLoad.setOnClickListener(this);
+        mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mTvClearLog.setOnClickListener(this);
+        mBnLoad.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.tv_load) {
-            loadNativeAd();
+        if (v.getId() == R.id.bn_load) {
+            loadAd();
+        } else if (v.getId() == R.id.tv_clear_log) {
+            clearLog();
         }
     }
 
-    private void loadNativeAd() {
-        mTvTip.setText(R.string.loading);
-        mTvLoad.setEnabled(false);
+    private void loadAd() {
+        showLogMessage(getString(R.string.loading));
+        mBnLoad.setEnabled(false);
         mStartTime = System.currentTimeMillis();
 
-        mATNative = new TUNative(this, AdConfig.TOPON_NATIVE_ID, new TUNativeNetworkListener() {
+        mATNative = new ATNative(this, AdConfig.TOPON_NATIVE_ID, new ATNativeNetworkListener() {
             @Override
             public void onNativeAdLoaded() {
                 Log.i(TAG, "onNativeAdLoaded：" + getCurrentThreadName());
-                mTvLoad.setEnabled(true);
-                mTvTip.setText(getString(R.string.format_load_success,(System.currentTimeMillis() - mStartTime) / 1000));
+                mBnLoad.setEnabled(true);
+                showLogMessage("onNativeAdLoaded");
+                showLogMessage(getString(R.string.format_load_success, (System.currentTimeMillis() - mStartTime) / 1000));
                 showNativeAd();
             }
 
             @Override
             public void onNativeAdLoadFail(AdError adError) {
-                Log.e(TAG, "onNativeAdLoadFail:"+ adError.getFullErrorInfo());
-                mTvLoad.setEnabled(true);
-                mTvTip.setText(getString(R.string.format_load_failed,adError.getFullErrorInfo()));
+                Log.e(TAG, "onNativeAdLoadFail:" + adError.getFullErrorInfo());
+                mBnLoad.setEnabled(true);
+                showLogMessage("onNativeAdLoadFail");
+                showLogMessage(getString(R.string.format_load_failed, adError.getFullErrorInfo()));
             }
         });
 
-        int mAdViewWidth = getResources().getDisplayMetrics().widthPixels;
-        int mAdViewHeight = dip2px(340);
+        int adViewWidth = getResources().getDisplayMetrics().widthPixels;
+        int adViewHeight = adViewWidth * 3 / 4;
         Map<String, Object> localMap = new HashMap<>();
-        localMap.put("imageWidth", mAdViewWidth);
-        localMap.put("imageHeight", mAdViewHeight);
-        localMap.put("nativeType", "0");
+        localMap.put(ATAdConst.KEY.AD_WIDTH, adViewWidth);
+        localMap.put(ATAdConst.KEY.AD_HEIGHT, adViewHeight);
         mATNative.setLocalExtra(localMap);
 
         //load ad
@@ -121,42 +130,60 @@ public class TopOnNativeActivity extends BaseActivity implements View.OnClickLis
             mNativeAd.destory();
         }
         mNativeAd = nativeAd;
-        mNativeAd.setNativeEventListener(new TUNativeEventExListener() {
+        mNativeAd.setNativeEventListener(new ATNativeEventExListener() {
             @Override
-            public void onDeeplinkCallback(TUNativeAdView atNativeAdView, TUAdInfo atAdInfo, boolean b) {
+            public void onDeeplinkCallback(ATNativeAdView atNativeAdView, ATAdInfo atAdInfo, boolean b) {
                 Log.i(TAG, "onDeeplinkCallback");
+                showLogMessage("onDeeplinkCallback");
+            }
+
+
+            public void onAdActRewardSuccess(ATAdInfo atAdInfo) {
+                Log.i(TAG, "onAdActRewardSuccess");
+                showLogMessage("onAdActRewardSuccess");
+            }
+
+
+            public void onAdActReward(ATAdInfo atAdInfo, int i) {
+                Log.i(TAG, "onAdActReward");
+                showLogMessage("onAdActReward");
             }
 
             @Override
-            public void onAdImpressed(TUNativeAdView atNativeAdView, TUAdInfo atAdInfo) {
+            public void onAdImpressed(ATNativeAdView atNativeAdView, ATAdInfo atAdInfo) {
                 Log.i(TAG, "onAdImpressed");
+                showLogMessage("onAdImpressed");
             }
 
             @Override
-            public void onAdClicked(TUNativeAdView atNativeAdView, TUAdInfo atAdInfo) {
+            public void onAdClicked(ATNativeAdView atNativeAdView, ATAdInfo atAdInfo) {
                 Log.i(TAG, "onAdClicked");
+                showLogMessage("onAdClicked");
             }
 
             @Override
-            public void onAdVideoStart(TUNativeAdView atNativeAdView) {
+            public void onAdVideoStart(ATNativeAdView atNativeAdView) {
                 Log.i(TAG, "onAdVideoStart");
+                showLogMessage("onAdVideoStart");
             }
 
             @Override
-            public void onAdVideoEnd(TUNativeAdView atNativeAdView) {
+            public void onAdVideoEnd(ATNativeAdView atNativeAdView) {
                 Log.i(TAG, "onAdVideoEnd");
+                showLogMessage("onAdVideoEnd");
             }
 
             @Override
-            public void onAdVideoProgress(TUNativeAdView atNativeAdView, int i) {
+            public void onAdVideoProgress(ATNativeAdView atNativeAdView, int i) {
                 Log.i(TAG, "onAdVideoProgress:" + i);
             }
         });
 
-        mNativeAd.setDislikeCallbackListener(new TUNativeDislikeListener() {
+        mNativeAd.setDislikeCallbackListener(new ATNativeDislikeListener() {
             @Override
-            public void onAdCloseButtonClick(TUNativeAdView view, TUAdInfo entity) {
+            public void onAdCloseButtonClick(ATNativeAdView view, ATAdInfo entity) {
                 Log.i(TAG, "native ad onAdCloseButtonClick");
+                showLogMessage("onAdCloseButtonClick");
                 //在这里开发者可实现广告View的移除操作
                 mATNativeAdView.removeAllViews();
                 if (mNativeAd != null) {
@@ -166,20 +193,20 @@ public class TopOnNativeActivity extends BaseActivity implements View.OnClickLis
         });
 
         mATNativeAdView.removeAllViews();
-        TUNativePrepareInfo nativePrepareInfo = null;
+        ATNativePrepareInfo nativePrepareInfo = null;
 
         if (!mNativeAd.isNativeExpress()) {
-            Log.d(TAG,"native self render");
+            Log.d(TAG, "native self render");
             //自渲染 (如果也需要支持自渲染广告可参考自渲染广告集成方式)
             try {
                 View view = getLayoutInflater().inflate(R.layout.topon_native_custom_ad_view, null);
                 nativePrepareInfo = renderNativeAdView(mNativeAd, view);
                 mNativeAd.renderAdContainer(mATNativeAdView, view);
             } catch (Exception e) {
-                Log.e(TAG, "error:"+e.getMessage());
+                Log.e(TAG, "error:" + e.getMessage());
             }
         } else {
-            Log.d(TAG,"native express");
+            Log.d(TAG, "native express");
             //模板渲染 (模版渲染只需要实现这步即可)
             mNativeAd.renderAdContainer(mATNativeAdView, null);
         }
@@ -192,7 +219,7 @@ public class TopOnNativeActivity extends BaseActivity implements View.OnClickLis
      *
      * @return
      */
-    private TUNativePrepareInfo renderNativeAdView(NativeAd bean, View view) throws Exception {
+    private ATNativePrepareInfo renderNativeAdView(NativeAd bean, View view) throws Exception {
         if (mATNativeAdView != null) {
             mATNativeAdView.removeAllViews();
             mATNativeAdView.addView(view);
@@ -208,8 +235,8 @@ public class TopOnNativeActivity extends BaseActivity implements View.OnClickLis
         ImageView closeView = (ImageView) view.findViewById(R.id.native_close);
         FrameLayout contentArea = (FrameLayout) view.findViewById(R.id.native_media);
 
-        TUNativePrepareInfo nativePrepareInfo = new TUNativePrepareInfo();
-        TUNativeMaterial adMaterial = bean.getAdMaterial();
+        ATNativePrepareInfo nativePrepareInfo = new ATNativePrepareInfo();
+        ATNativeMaterial adMaterial = bean.getAdMaterial();
 
         List<View> clickViewList = new ArrayList<>();//click views
 
@@ -283,7 +310,7 @@ public class TopOnNativeActivity extends BaseActivity implements View.OnClickLis
             clickViewList.add(mediaView);
             contentArea.setVisibility(View.VISIBLE);
         } else if (!TextUtils.isEmpty(adMaterial.getMainImageUrl())) {
-            TUNativeImageView imageView = new TUNativeImageView(this);
+            ATNativeImageView imageView = new ATNativeImageView(this);
             imageView.setImage(adMaterial.getMainImageUrl());
             imageView.setLayoutParams(mainImageParam);
             contentArea.addView(imageView, mainImageParam);
@@ -315,10 +342,10 @@ public class TopOnNativeActivity extends BaseActivity implements View.OnClickLis
 
         nativePrepareInfo.setClickViewList(clickViewList);//bind click view list
 
-        if (nativePrepareInfo instanceof TUNativePrepareExInfo) {
+        if (nativePrepareInfo instanceof ATNativePrepareExInfo) {
             List<View> creativeClickViewList = new ArrayList<>();//click views
             creativeClickViewList.add(callToActionView);
-            ((TUNativePrepareExInfo) nativePrepareInfo).setCreativeClickViewList(creativeClickViewList);//bind custom view list
+            ((ATNativePrepareExInfo) nativePrepareInfo).setCreativeClickViewList(creativeClickViewList);//bind custom view list
         }
         return nativePrepareInfo;
     }
@@ -326,6 +353,15 @@ public class TopOnNativeActivity extends BaseActivity implements View.OnClickLis
     public int dip2px(float dipValue) {
         float scale = this.getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
+    }
+
+    private void clearLog() {
+        mTvShowLog.setText("");
+    }
+
+    private void showLogMessage(String msg) {
+        mTvShowLog.append(msg);
+        mTvShowLog.append("\r\n");
     }
 
 }

@@ -11,6 +11,15 @@
 
     <include layout="@layout/layout_action_bar" />
 
+    <TextView
+        android:id="@+id/tv_load_show"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/load_and_show_ad"
+        style="@style/style_btn"/>
+
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/ad_view"
@@ -19,6 +28,22 @@
         android:layout_marginTop="10dp"
         app:adSize="BANNER"
         app:adUnitId="@string/admob_banner_id"/>
+
+    <TextView
+        android:id="@+id/tv_clear_log"
+        android:layout_width="100dp"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/clear_log"
+        style="@style/style_btn"
+        android:layout_gravity="end"/>
+
+    <TextView
+        android:id="@+id/tv_show_log"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/log_height"
+        style="@style/style_log"/>
 
 
 </LinearLayout>

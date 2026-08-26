@@ -10,17 +10,17 @@ import android.widget.Toast
 import com.alxad.sdk.demo.AdConfig
 import com.alxad.sdk.demo.BaseActivity
 import com.alxad.sdk.demo.R
-import com.thinkup.core.api.AdError
-import com.thinkup.core.api.TUAdInfo
-import com.thinkup.core.api.TUNetworkConfirmInfo
-import com.thinkup.rewardvideo.api.TURewardVideoAd
-import com.thinkup.rewardvideo.api.TURewardVideoExListener
+import com.secmtp.sdk.core.api.AdError
+import com.secmtp.sdk.core.api.ATAdInfo
+import com.secmtp.sdk.core.api.ATNetworkConfirmInfo
+import com.secmtp.sdk.rewardvideo.api.ATRewardVideoAd
+import com.secmtp.sdk.rewardvideo.api.ATRewardVideoExListener
 
 class TopOnRewardVideoActivity : BaseActivity(), View.OnClickListener {
     override val TAG = "TopOnRewardVideoActivity"
     private var mTvTip: TextView? = null
     private var mTvShow: TextView? = null
-    private var mVideoAD: TURewardVideoAd? = null
+    private var mVideoAD: ATRewardVideoAd? = null
     private var startTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,12 +64,12 @@ class TopOnRewardVideoActivity : BaseActivity(), View.OnClickListener {
         startTime = System.currentTimeMillis()
         mTvShow?.isEnabled = false
 
-        mVideoAD = TURewardVideoAd(this, AdConfig.TOPON_VIDEO_AD_ID)
-        mVideoAD?.setAdListener(object : TURewardVideoExListener {
-            override fun onRewardFailed(atAdInfo: TUAdInfo?) {
+        mVideoAD = ATRewardVideoAd(this, AdConfig.TOPON_VIDEO_AD_ID)
+        mVideoAD?.setAdListener(object : ATRewardVideoExListener {
+            override fun onRewardFailed(atAdInfo: ATAdInfo?) {
             }
 
-            override fun onDeeplinkCallback(adInfo: TUAdInfo, isSuccess: Boolean) {
+            override fun onDeeplinkCallback(adInfo: ATAdInfo, isSuccess: Boolean) {
                 Log.i(
                     TAG,
                     "onDeeplinkCallback:" + adInfo.toString() + "--status:" + isSuccess + ";" + getCurrentThreadName()
@@ -78,27 +78,27 @@ class TopOnRewardVideoActivity : BaseActivity(), View.OnClickListener {
 
             override fun onDownloadConfirm(
                 context: Context?,
-                tuAdInfo: TUAdInfo?,
-                tuNetworkConfirmInfo: TUNetworkConfirmInfo?
+                ATAdInfo: ATAdInfo?,
+                ATNetworkConfirmInfo: ATNetworkConfirmInfo?
             ) {
             }
 
-            override fun onRewardedVideoAdAgainPlayStart(atAdInfo: TUAdInfo?) {
+            override fun onRewardedVideoAdAgainPlayStart(atAdInfo: ATAdInfo?) {
             }
 
-            override fun onRewardedVideoAdAgainPlayEnd(atAdInfo: TUAdInfo?) {
+            override fun onRewardedVideoAdAgainPlayEnd(atAdInfo: ATAdInfo?) {
             }
 
-            override fun onRewardedVideoAdAgainPlayFailed(adError: AdError?, atAdInfo: TUAdInfo?) {
+            override fun onRewardedVideoAdAgainPlayFailed(adError: AdError?, atAdInfo: ATAdInfo?) {
             }
 
-            override fun onRewardedVideoAdAgainPlayClicked(atAdInfo: TUAdInfo?) {
+            override fun onRewardedVideoAdAgainPlayClicked(atAdInfo: ATAdInfo?) {
             }
 
-            override fun onAgainReward(atAdInfo: TUAdInfo?) {
+            override fun onAgainReward(atAdInfo: ATAdInfo?) {
             }
 
-            override fun onAgainRewardFailed(atAdInfo: TUAdInfo?) {
+            override fun onAgainRewardFailed(atAdInfo: ATAdInfo?) {
             }
 
             override fun onRewardedVideoAdLoaded() {
@@ -129,35 +129,35 @@ class TopOnRewardVideoActivity : BaseActivity(), View.OnClickListener {
                 mTvShow?.setEnabled(false)
             }
 
-            override fun onRewardedVideoAdPlayStart(entity: TUAdInfo?) {
+            override fun onRewardedVideoAdPlayStart(entity: ATAdInfo?) {
                 Log.i(TAG, "onRewardedVideoAdPlayStart:" + getCurrentThreadName())
             }
 
-            override fun onRewardedVideoAdPlayEnd(entity: TUAdInfo?) {
+            override fun onRewardedVideoAdPlayEnd(entity: ATAdInfo?) {
                 Log.i(TAG, "onRewardedVideoAdPlayEnd:" + getCurrentThreadName())
             }
 
-            override fun onRewardedVideoAdPlayFailed(errorCode: AdError?, entity: TUAdInfo?) {
+            override fun onRewardedVideoAdPlayFailed(errorCode: AdError?, entity: ATAdInfo?) {
                 Log.i(
                     TAG,
                     "onRewardedVideoAdPlayFailed:" + getCurrentThreadName()
                 )
             }
 
-            override fun onRewardedVideoAdClosed(entity: TUAdInfo?) {
+            override fun onRewardedVideoAdClosed(entity: ATAdInfo?) {
                 Log.i(TAG, "onRewardedVideoAdClosed:" + getCurrentThreadName())
                 mTvShow?.setEnabled(false)
                 mTvTip?.setText("")
             }
 
-            override fun onRewardedVideoAdPlayClicked(entity: TUAdInfo?) {
+            override fun onRewardedVideoAdPlayClicked(entity: ATAdInfo?) {
                 Log.i(
                     TAG,
                     "onRewardedVideoAdPlayClicked:" + getCurrentThreadName()
                 )
             }
 
-            override fun onReward(entity: TUAdInfo?) {
+            override fun onReward(entity: ATAdInfo?) {
                 Log.i(TAG, "onReward: " + getCurrentThreadName())
             }
         })

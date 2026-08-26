@@ -6,7 +6,7 @@ import android.util.Log;
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseListViewActivity;
 import com.alxad.sdk.demo.R;
-import com.thinkup.core.api.TUSDK;
+import com.secmtp.sdk.core.api.ATSDK;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +47,8 @@ public class TopOnDemoListActivity extends BaseListViewActivity {
             return;
         }
         Log.d(TAG, "TopOn SDK start initialize");
-        TUSDK.init(getApplicationContext(), AdConfig.TOPON_APP_ID, AdConfig.TOPON_KEY);
-        TUSDK.setNetworkLogDebug(true);
+        ATSDK.init(getApplicationContext(), AdConfig.TOPON_APP_ID, AdConfig.TOPON_KEY);
+        ATSDK.setNetworkLogDebug(true);
     }
 
 }

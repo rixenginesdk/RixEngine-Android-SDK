@@ -1,9 +1,13 @@
 package com.alxad.sdk.demo.gam;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.ads.AdListener;
@@ -13,8 +17,11 @@ import com.google.android.gms.ads.admanager.AdManagerAdView;
 import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.R;
 
-public class GamBannerActivity extends BaseActivity {
+public class GamBannerActivity extends BaseActivity implements View.OnClickListener {
     private final String TAG = "GamBannerActivity";
+
+    private TextView mTvClearLog;
+    private TextView mTvShowLog;
 
     private AdManagerAdView mAdView;
 
@@ -24,47 +31,74 @@ public class GamBannerActivity extends BaseActivity {
         setContentView(R.layout.activity_gam_banner);
         setActionBar();
         initView();
-        loadAd();
     }
 
     private void initView() {
+        TextView tv_load_and_show = findViewById(R.id.tv_load_show);
+        mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
+        mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
         mAdView = (AdManagerAdView) findViewById(R.id.gam_view);
+
+        mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mTvClearLog.setOnClickListener(this);
+        tv_load_and_show.setOnClickListener(this);
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.tv_load_show) {
+            loadAd();
+        } else if (v.getId() == R.id.tv_clear_log) {
+            clearLog();
+        }
+    }
+
+    private void loadAd() {
         mAdView.setAdListener(new AdListener() {
+
             @Override
-            public void onAdClosed() {
-                Log.d(TAG, "onAdClosed");
+            public void onAdLoaded() {
+                Log.d(TAG, "onAdLoaded");
+                showLogMessage("onAdLoaded");
+                showLogMessage(getString(R.string.load_success));
             }
 
             @Override
-            public void onAdFailedToLoad(LoadAdError loadAdError) {
-                Log.d(TAG, "onAdFailedToLoad:" + loadAdError.getMessage());
-                Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                String msg = "errorCode=" + loadAdError.getCode() + ";errorMsg=" + loadAdError.getMessage();
+                Log.d(TAG, "onAdFailedToLoad:" + msg);
+                showLogMessage("onAdFailedToLoad");
+                showLogMessage(getString(R.string.format_load_failed, msg));
             }
 
             @Override
             public void onAdImpression() {
                 Log.d(TAG, "onAdImpression");
+                showLogMessage("onAdImpression");
             }
 
             @Override
             public void onAdOpened() {
                 Log.d(TAG, "onAdOpened");
-            }
-
-            @Override
-            public void onAdLoaded() {
-                Log.d(TAG, "onAdLoaded");
+                showLogMessage("onAdOpened");
             }
 
             @Override
             public void onAdClicked() {
                 Log.d(TAG, "onAdClicked");
+                showLogMessage("onAdClicked");
+            }
+
+            @Override
+            public void onAdClosed() {
+                Log.d(TAG, "onAdClosed");
+                showLogMessage("onAdClosed");
             }
 
         });
-    }
 
-    private void loadAd() {
+        showLogMessage(getString(R.string.loading));
         // Create an ad request.
         AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder()
                 .build();
@@ -77,10 +111,10 @@ public class GamBannerActivity extends BaseActivity {
      */
     @Override
     public void onPause() {
+        super.onPause();
         if (mAdView != null) {
             mAdView.pause();
         }
-        super.onPause();
     }
 
     /**
@@ -99,10 +133,19 @@ public class GamBannerActivity extends BaseActivity {
      */
     @Override
     public void onDestroy() {
+        super.onDestroy();
         if (mAdView != null) {
             mAdView.destroy();
         }
-        super.onDestroy();
+    }
+
+    private void clearLog() {
+        mTvShowLog.setText("");
+    }
+
+    private void showLogMessage(String msg) {
+        mTvShowLog.append(msg);
+        mTvShowLog.append("\r\n");
     }
 
 }

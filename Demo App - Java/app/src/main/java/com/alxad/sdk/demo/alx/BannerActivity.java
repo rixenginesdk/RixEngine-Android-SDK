@@ -1,9 +1,9 @@
 package com.alxad.sdk.demo.alx;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -20,10 +20,12 @@ import java.util.Map;
 public class BannerActivity extends BaseActivity implements View.OnClickListener {
     private final String TAG = "AlxBannerActivity";
 
-    private Button mBnLoad;
-    private Button mBnShow;
-    private TextView mTvTip;
-    private Button mBnLoadAndShow;
+    private TextView mBnLoad;
+    private TextView mBnShow;
+
+    private TextView mTvClearLog;
+    private TextView mTvShowLog;
+    private TextView mBnLoadAndShow;
 
     private FrameLayout mAdContainer;
     private AlxBannerView mAlxBannerView;
@@ -35,13 +37,16 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
         setContentView(R.layout.activity_banner);
         setActionBar();
 
-        mTvTip = (TextView) findViewById(R.id.tv_tip);
-        mBnLoad = (Button) findViewById(R.id.bn_load);
-        mBnShow = (Button) findViewById(R.id.bn_show);
-        mBnLoadAndShow = (Button) findViewById(R.id.bn_load_show);
+        mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
+        mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
+        mBnLoad = (TextView) findViewById(R.id.bn_load);
+        mBnShow = (TextView) findViewById(R.id.bn_show);
+        mBnLoadAndShow = (TextView) findViewById(R.id.bn_load_show);
         mAdContainer = (FrameLayout) findViewById(R.id.ad_container);
         mAlxBannerView = (AlxBannerView) findViewById(R.id.do_ad_banner);
 
+        mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mTvClearLog.setOnClickListener(this);
         mBnLoad.setOnClickListener(this);
         mBnShow.setOnClickListener(this);
         mBnLoadAndShow.setOnClickListener(this);
@@ -67,6 +72,8 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
             bnShow();
         } else if (v.getId() == R.id.bn_load_show) {
             bnLoadAndShow();
+        } else if (v.getId() == R.id.tv_clear_log) {
+            clearLog();
         }
     }
 
@@ -87,7 +94,8 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
                 Log.d(TAG, "onAdLoaded");
                 mBnShow.setEnabled(true);
                 mBnLoad.setEnabled(true);
-                mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000) + "｜ ecpm:" + mAlxBannerView2.getPrice());
+                showLogMessage("onAdLoaded");
+                showLogMessage(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000) + "｜ ecpm:" + mAlxBannerView2.getPrice());
 
                 mAlxBannerView2.reportBiddingUrl();
                 mAlxBannerView2.reportChargingUrl();
@@ -99,22 +107,26 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
                 mBnShow.setEnabled(false);
                 mBnLoad.setEnabled(true);
                 String msg = "errorCode=" + errorCode + ";errorMsg=" + errorMsg;
-                mTvTip.setText(getString(R.string.format_load_failed, msg));
+                showLogMessage("onAdError");
+                showLogMessage(getString(R.string.format_load_failed, msg));
             }
 
             @Override
             public void onAdClicked() {
                 Log.d(TAG, "onAdClicked");
+                showLogMessage("onAdClicked");
             }
 
             @Override
             public void onAdShow() {
                 Log.d(TAG, "onAdShow");
+                showLogMessage("onAdShow");
             }
 
             @Override
             public void onAdClose() {
                 Log.d(TAG, "onAdClose");
+                showLogMessage("onAdClose");
             }
         });
     }
@@ -123,7 +135,7 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
         if (mAlxBannerView2 != null && mAlxBannerView2.isReady()) {
             mAdContainer.removeAllViews();
             mAdContainer.addView(mAlxBannerView2);
-            mTvTip.setText("");
+//            mTvTip.setText("");
         }
     }
 
@@ -134,31 +146,45 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onAdLoaded() {
                 Log.d(TAG, "onAdLoaded:  | ecpm：" + mAlxBannerView.getPrice());
-                mTvTip.setText(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000) + "｜ ecpm:" + mAlxBannerView.getPrice());
+                showLogMessage("onAdLoaded");
+                showLogMessage(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000) + "｜ ecpm:" + mAlxBannerView.getPrice());
             }
 
             @Override
             public void onAdError(int errorCode, String errorMsg) {
                 Log.d(TAG, "onAdError: errorMsg=" + errorMsg + "  errorCode=" + errorCode);
                 String msg = "errorCode=" + errorCode + ";errorMsg=" + errorMsg;
-                mTvTip.setText(getString(R.string.format_load_failed, msg));
+                showLogMessage("onAdError");
+                showLogMessage(getString(R.string.format_load_failed, msg));
             }
 
             @Override
             public void onAdClicked() {
                 Log.d(TAG, "onAdClicked");
+                showLogMessage("onAdClicked");
             }
 
             @Override
             public void onAdShow() {
                 Log.d(TAG, "onAdShow");
+                showLogMessage("onAdShow");
             }
 
             @Override
             public void onAdClose() {
                 Log.d(TAG, "onAdClose");
+                showLogMessage("onAdClose");
             }
         });
+    }
+
+    private void clearLog() {
+        mTvShowLog.setText("");
+    }
+
+    private void showLogMessage(String msg) {
+        mTvShowLog.append(msg);
+        mTvShowLog.append("\r\n");
     }
 
 }

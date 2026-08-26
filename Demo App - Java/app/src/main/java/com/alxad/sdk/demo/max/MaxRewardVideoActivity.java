@@ -1,6 +1,8 @@
 package com.alxad.sdk.demo.max;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -18,7 +20,8 @@ import com.alxad.sdk.demo.R;
 public class MaxRewardVideoActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "MaxRewardVideoActivity";
 
-    private TextView mTvTip;
+    private TextView mTvClearLog;
+    private TextView mTvShowLog;
     private TextView mTvShow;
     private long startTime;
 
@@ -33,26 +36,32 @@ public class MaxRewardVideoActivity extends BaseActivity implements View.OnClick
     }
 
     private void initView() {
-        TextView tv_video_load = findViewById(R.id.tv_load);
+        TextView tv_load = findViewById(R.id.tv_load);
         mTvShow = findViewById(R.id.tv_show);
-        mTvTip = findViewById(R.id.tv_tip);
+        mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
+        mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
         mTvShow.setEnabled(false);
-        tv_video_load.setOnClickListener(this);
+
+        mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mTvClearLog.setOnClickListener(this);
+        tv_load.setOnClickListener(this);
         mTvShow.setOnClickListener(this);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.tv_load) {
-            bnLoad();
-        } else if (id == R.id.tv_show) {
-            bnShow();
+        if (v.getId() == R.id.tv_load) {
+            loadAd();
+        } else if (v.getId() == R.id.tv_show) {
+            showAd();
+        } else if (v.getId() == R.id.tv_clear_log) {
+            clearLog();
         }
     }
 
-    private void bnLoad() {
-        mTvTip.setText(R.string.loading);
+    private void loadAd() {
+        showLogMessage(getString(R.string.loading));
         startTime = System.currentTimeMillis();
         mTvShow.setEnabled(false);
 
@@ -61,7 +70,7 @@ public class MaxRewardVideoActivity extends BaseActivity implements View.OnClick
         mAdObject.loadAd();
     }
 
-    private void bnShow() {
+    private void showAd() {
         if (mAdObject == null) {
             Toast.makeText(this, getString(R.string.show_ad_no_load), Toast.LENGTH_SHORT).show();
             return;
@@ -81,49 +90,67 @@ public class MaxRewardVideoActivity extends BaseActivity implements View.OnClick
         }
     }
 
-    private MaxRewardedAdListener mMaxRewardedAdListener = new MaxRewardedAdListener() {
+    private final MaxRewardedAdListener mMaxRewardedAdListener = new MaxRewardedAdListener() {
 
         @Override
         public void onAdLoaded(MaxAd ad) {
             double revenue = ad.getRevenue() * 1000;
             String message = " NetworkName:" + ad.getNetworkName() + "; ecpm:" + revenue;
             Log.d(TAG, "onAdLoaded |" + message);
-            mTvTip.setText(getString(R.string.load_success) + message);
+            showLogMessage("onAdLoaded");
+            showLogMessage(getString(R.string.load_success) + message);
             mTvShow.setEnabled(true);
         }
 
         @Override
         public void onAdLoadFailed(String adUnitId, MaxError error) {
-            Log.d(TAG, "onAdLoadFailed:" + error.getCode() + " " + error.getMessage());
-            Toast.makeText(getBaseContext(), getString(R.string.load_failed), Toast.LENGTH_SHORT).show();
-            mTvTip.setText(getString(R.string.format_load_failed, error.getMessage()));
+            String msg = "errorCode=" + error.getCode() + ";errorMsg=" + error.getMessage();
+            Log.d(TAG, "onAdLoadFailed:" + msg);
+            showLogMessage("onAdLoadFailed");
+            showLogMessage(getString(R.string.format_load_failed, msg));
+
             mTvShow.setEnabled(false);
         }
 
         @Override
         public void onAdDisplayed(MaxAd ad) {
             Log.d(TAG, "onAdDisplayed");
+            showLogMessage("onAdDisplayed");
         }
 
         @Override
         public void onAdHidden(MaxAd ad) {
             Log.d(TAG, "onAdHidden");
+            showLogMessage("onAdHidden");
         }
 
         @Override
         public void onAdClicked(MaxAd ad) {
             Log.d(TAG, "onAdClicked");
+            showLogMessage("onAdClicked");
         }
 
         @Override
         public void onAdDisplayFailed(MaxAd ad, MaxError error) {
-            Log.d(TAG, "onAdDisplayFailed:" + error.getCode() + ";" + error.getMessage());
+            String msg = "errorCode=" + error.getCode() + ";errorMsg=" + error.getMessage();
+            Log.d(TAG, "onAdDisplayFailed:" + msg);
+            showLogMessage("onAdDisplayFailed:" + msg);
         }
 
         @Override
         public void onUserRewarded(MaxAd ad, MaxReward reward) {
             Log.d(TAG, "onUserRewarded:" + reward.getLabel());
+            showLogMessage("onUserRewarded");
         }
     };
+
+    private void clearLog() {
+        mTvShowLog.setText("");
+    }
+
+    private void showLogMessage(String msg) {
+        mTvShowLog.append(msg);
+        mTvShowLog.append("\r\n");
+    }
 
 }

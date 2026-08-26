@@ -18,23 +18,35 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_tip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tip_message"
-                android:textColor="#000000"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textSize="20sp"
-                android:padding="10dp"/>
 
             <TextView
+                android:id="@+id/tv_load"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:text="native ad test top"/>
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="10dp"
+                android:includeFontPadding="false"
+                android:text="@string/load_ad"
+                android:textAllCaps="false"
+                style="@style/style_btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_action_bar" />
+
+
+            <TextView
+                android:id="@+id/tv_show"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="10dp"
+                android:includeFontPadding="false"
+                android:text="@string/show_ad"
+                android:textAllCaps="false"
+                style="@style/style_btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_load" />
+
+
 
             <FrameLayout
                 android:id="@+id/ad_container"
@@ -42,12 +54,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"/>
 
+
             <TextView
+                android:id="@+id/tv_clear_log"
+                android:layout_width="100dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/clear_log"
+                style="@style/style_btn"
+                android:layout_gravity="end"/>
+
+            <TextView
+                android:id="@+id/tv_show_log"
                 android:layout_width="match_parent"
-                android:layout_height="1000dp"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:text="native ad test bottom"/>
+                android:layout_height="@dimen/log_height"
+                style="@style/style_log"/>
+
+
 
         </LinearLayout>
     </ScrollView>

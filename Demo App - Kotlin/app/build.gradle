@@ -73,11 +73,8 @@ dependencies {
 
     // Topon (Topon最新版本，请根据实际使用版本选择不同的topon版本)
     implementation libs.ads.topon.core
-    implementation libs.ads.topon.nativead
-    implementation libs.ads.topon.banner
-    implementation libs.ads.topon.interstitial
-    implementation libs.ads.topon.rewardedvideo
-    implementation libs.ads.topon.splash
+    implementation libs.ads.topon.adapter
+    implementation libs.ads.topon.smart
     //Androidx (Necessary)
 //    implementation libs.androidx.appcompat //上面已经有了
     implementation libs.androidx.browser
