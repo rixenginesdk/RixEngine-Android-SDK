@@ -5,14 +5,14 @@ plugins {
 android {
     namespace 'com.alxad.sdk.demo'
     compileSdk {
-        version = release(34)
+        version = release(libs.versions.compileSdkVersion.get().toInteger())
     }
 
     defaultConfig {
         //applicationId "com.google.android.gms.example.bannerexample" //测试admob
         applicationId "com.rixengine.android"
-        minSdk 23
-        targetSdk 34
+        minSdk libs.versions.minSdkVersion.get().toInteger()
+        targetSdk libs.versions.targetSdkVersions.get().toInteger()
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -47,7 +47,7 @@ dependencies {
 
 //    implementation files('libs/rixengine.***.aar')
     //RixEngine Android SDK (Necessary)
-    implementation 'io.github.rixenginesdk:rixengine:4.1.2'
+    implementation 'io.github.rixenginesdk:rixengine:4.2.0'
 
 //     Admob SDK
     implementation libs.ads.admob

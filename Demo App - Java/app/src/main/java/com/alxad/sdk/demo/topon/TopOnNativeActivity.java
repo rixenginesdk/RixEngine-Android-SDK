@@ -38,7 +38,7 @@ import java.util.Map;
 
 public class TopOnNativeActivity extends BaseActivity implements View.OnClickListener {
 
-    private final static String TAG = TopOnNativeActivity.class.getSimpleName();
+    private final static String TAG = "TopOnNativeActivity";
 
     private View mBnLoad;
     private TextView mTvClearLog;

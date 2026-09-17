@@ -18,6 +18,8 @@ class AlxDemoListActivity: BaseListViewActivity() {
         list.add(AdapterData(getString(R.string.interstitial_video_ad),InterstitialVideoActivity::class.java))
         list.add(AdapterData(getString(R.string.interstitial_banner_ad),InterstitialBannerActivity::class.java))
         list.add(AdapterData(getString(R.string.native_ad), NativeActivity::class.java))
+        list.add(AdapterData(getString(R.string.splash_video_ad), SplashVideoActivity::class.java))
+        list.add(AdapterData(getString(R.string.splash_banner_ad), SplashBannerActivity::class.java))
         return list
     }
 

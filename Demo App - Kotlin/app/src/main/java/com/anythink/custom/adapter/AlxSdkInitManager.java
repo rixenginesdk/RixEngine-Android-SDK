@@ -9,10 +9,12 @@ import com.rixengine.api.AlxSdkInitCallback;
 import com.secmtp.sdk.core.api.ATAdConst;
 import com.secmtp.sdk.core.api.ATBiddingNotice;
 import com.secmtp.sdk.core.api.ATBiddingResult;
-import com.secmtp.sdk.core.api.MediationInitCallback;
 import com.secmtp.sdk.core.api.ATInitMediation;
 import com.secmtp.sdk.core.api.ATSDK;
+import com.secmtp.sdk.core.api.MediationInitCallback;
 import com.secmtp.sdk.core.api.bridge.ATAdapterBridgeConst;
+
+import org.json.JSONObject;
 
 import java.util.Map;
 import java.util.UUID;
@@ -20,7 +22,7 @@ import java.util.UUID;
 public class AlxSdkInitManager extends ATInitMediation {
 
     private volatile static AlxSdkInitManager sInstance;
-    private String TAG = "AlxSdkInitManager";
+    private static final String TAG = "AlxSdkInitManager";
     Boolean success = false;
 
     private String appid = "";
@@ -95,6 +97,7 @@ public class AlxSdkInitManager extends ATInitMediation {
                 @Override
                 public void onInit(boolean isOk, String msg) {
                     Log.d(TAG, "Alx sdk init success");
+                    sdkInfo();
                     success = true;
                 }
             });
@@ -132,6 +135,18 @@ public class AlxSdkInitManager extends ATInitMediation {
     public static void printSDKInfo(String tag) {
         Log.d(tag, "alx-topon-adapter-version:" + AlxMetaInf.ADAPTER_VERSION);
         Log.d(tag, "topon-sdk-version:" + ATSDK.getSDKVersionName());
+    }
+
+    public static void sdkInfo() {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("sdk_name", "TopOn");
+            json.put("sdk_version", ATSDK.getSDKVersionName());
+            json.put("adapter_version", AlxMetaInf.ADAPTER_VERSION);
+            AlxAdSDK.addExtraParameters("alx_adapter", json);
+        } catch (Exception e) {
+            Log.e(TAG, "error:" + e.getMessage());
+        }
     }
 
 }

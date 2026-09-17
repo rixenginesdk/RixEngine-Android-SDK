@@ -17,7 +17,7 @@ import com.tradplus.ads.open.reward.RewardAdListener;
 import com.tradplus.ads.open.reward.TPReward;
 
 public class TradPlusRewardVideoActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = "TradPlusRewardVideoDemo";
+    private static final String TAG = "TradPlusRewardVideoActivity";
 
     private TextView mTvClearLog;
     private TextView mTvShowLog;

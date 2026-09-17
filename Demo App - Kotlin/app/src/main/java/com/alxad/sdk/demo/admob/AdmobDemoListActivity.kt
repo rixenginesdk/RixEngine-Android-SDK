@@ -27,6 +27,7 @@ class AdmobDemoListActivity : BaseListViewActivity() {
         list.add(AdapterData(getString(R.string.reward_ad), AdmobRewardVideoActivity::class.java))
         list.add(AdapterData(getString(R.string.interstitial_ad),AdmobInterstitialActivity::class.java))
         list.add(AdapterData(getString(R.string.native_ad), AdmobNativeActivity::class.java))
+        list.add(AdapterData(getString(R.string.splash_banner_ad),AdmobSplashActivity::class.java))
 
         return list
     }

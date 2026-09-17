@@ -14,6 +14,8 @@ import androidx.core.content.ContextCompat;
 
 import com.alxad.sdk.demo.alx.AlxDemoListActivity;
 import com.rixengine.api.AlxAdSDK;
+import com.rixengine.api.AlxDeviceInfo;
+import com.rixengine.api.AlxDeviceInfoCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,7 @@ public class MainActivity extends BaseListViewActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addBottomLayout();
+        addSDKInfo();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
         toolbar.setNavigationIcon(null);
         initPermission();
@@ -62,12 +64,13 @@ public class MainActivity extends BaseListViewActivity {
         return list;
     }
 
-    private void addBottomLayout() {
+    private void addBottomLayout(AlxDeviceInfo deviceInfo) {
         View convertView = LayoutInflater.from(this).inflate(R.layout.layout_bottom_content, null);
         TextView tvContent = (TextView) convertView.findViewById(R.id.bottom_tv_content);
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append("SDK Name: ").append(AlxAdSDK.getNetWorkName()).append("\r\n");
         sb.append("SDK Version: ").append(AlxAdSDK.getNetWorkVersion()).append("\r\n");
+
         sb.append("\r\n");
         sb.append("Ad SDK Config: ").append("\r\n");
         sb.append("host: ").append(AdConfig.ALX_HOST).append("\r\n");
@@ -75,8 +78,28 @@ public class MainActivity extends BaseListViewActivity {
         sb.append("SID: ").append(AdConfig.ALX_SID).append("\r\n");
         sb.append("token: ").append(AdConfig.ALX_TOKEN).append("\r\n");
 
+        sb.append("\r\n");
+        sb.append("Ad SDK info: ").append("\r\n");
+        sb.append("OMSDK Version: ").append(AlxAdSDK.getOMSDKVersion()).append("\r\n");
+        sb.append("UserId: ").append(deviceInfo.getUserId() == null ? "" : deviceInfo.getUserId()).append("\r\n");
+        sb.append("GAID: ").append(deviceInfo.getGAID() == null ? "" : deviceInfo.getGAID()).append("\r\n");
+
         tvContent.setText(sb);
         mListView.addFooterView(convertView);
+    }
+
+    private void addSDKInfo() {
+        AlxAdSDK.testModeDeviceInfo(this, new AlxDeviceInfoCallback() {
+            @Override
+            public void deviceInfo(AlxDeviceInfo info) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        addBottomLayout(info);
+                    }
+                });
+            }
+        });
     }
 
 

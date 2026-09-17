@@ -13,6 +13,8 @@
     <string name="interstitial_banner_ad">插屏-banner广告</string>
     <string name="native_ad">原生广告</string>
     <string name="splash_ad">开屏广告</string>
+    <string name="splash_video_ad">开屏-视频广告</string>
+    <string name="splash_banner_ad">开屏-banner广告</string>
 
     <string name="load_ad">加载广告</string>
     <string name="show_ad">展示广告</string>
@@ -35,5 +37,6 @@
     <string name="list_item_native_desc">原生广告测试描述</string>
     <string name="other_platform_demo">聚合广告平台 Demo</string>
     <string name="alx_sdk_demo">Alx广告 Demo</string>
+    <string name="clear_log">清空日志</string>
 
 </resources>

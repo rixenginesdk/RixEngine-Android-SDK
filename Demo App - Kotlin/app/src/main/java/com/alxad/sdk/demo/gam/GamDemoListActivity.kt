@@ -27,6 +27,7 @@ class GamDemoListActivity : BaseListViewActivity() {
         list.add(AdapterData(getString(R.string.reward_ad), GamRewardVideoActivity::class.java))
         list.add(AdapterData(getString(R.string.interstitial_ad), GamInterstitialActivity::class.java))
         list.add(AdapterData(getString(R.string.native_ad), GamNativeActivity::class.java))
+        list.add(AdapterData(getString(R.string.splash_ad), GamSplashActivity::class.java))
 
         return list
     }

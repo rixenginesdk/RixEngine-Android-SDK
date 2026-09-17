@@ -28,6 +28,7 @@ class MaxDemoListActivity : BaseListViewActivity() {
         list.add(AdapterData(getString(R.string.reward_ad), MaxRewardVideoActivity::class.java))
         list.add(AdapterData(getString(R.string.interstitial_ad), MaxInterstitialActivity::class.java))
         list.add(AdapterData(getString(R.string.native_ad), MaxNativeActivity::class.java))
+        list.add(AdapterData(getString(R.string.splash_ad), MaxSplashActivity::class.java))
 
         return list
     }

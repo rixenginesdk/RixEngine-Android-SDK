@@ -8,11 +8,7 @@ import android.util.Log;
 
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.VersionInfo;
-import com.google.android.gms.ads.mediation.Adapter;
-import com.google.android.gms.ads.mediation.InitializationCompleteCallback;
 import com.google.android.gms.ads.mediation.MediationAdLoadCallback;
-import com.google.android.gms.ads.mediation.MediationConfiguration;
 import com.google.android.gms.ads.mediation.MediationRewardedAd;
 import com.google.android.gms.ads.mediation.MediationRewardedAdCallback;
 import com.google.android.gms.ads.mediation.MediationRewardedAdConfiguration;
@@ -24,15 +20,10 @@ import com.rixengine.api.AlxSdkInitCallback;
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Google Mobile ads RixEngine Reward Video Adapter
  */
-public class AlxRewardVideoAdapter extends Adapter implements MediationRewardedAd {
+public class AlxRewardVideoAdapter extends AlxBaseAdapter implements MediationRewardedAd {
     private final String TAG = "AlxRewardVideoAdapter";
     private static final String ALX_AD_UNIT_KEY = "parameter";
 
@@ -43,56 +34,9 @@ public class AlxRewardVideoAdapter extends Adapter implements MediationRewardedA
     private String token = "";
     private String host = "";
     private Boolean isDebug = null;
-    private JSONObject extras = null;
     private Context mContext;
     private MediationAdLoadCallback<MediationRewardedAd, MediationRewardedAdCallback> mediationAdLoadCallBack;
     private MediationRewardedAdCallback mMediationRewardedAdCallback;
-
-    @Override
-    public void initialize(Context context, InitializationCompleteCallback initializationCompleteCallback
-            , List<MediationConfiguration> list) {
-        Log.e(TAG, "initialize");
-        for (MediationConfiguration configuration : list) {
-            Bundle serverParameters = configuration.getServerParameters();
-            String serviceString = serverParameters.getString(ALX_AD_UNIT_KEY);
-            if (!TextUtils.isEmpty(serviceString)) {
-                parseServer(serviceString);
-            }
-        }
-        if (initSDk(context)) {
-            initializationCompleteCallback.onInitializationSucceeded();
-        } else {
-            initializationCompleteCallback.onInitializationFailed("alx sdk init error");
-        }
-    }
-
-    @Override
-    public VersionInfo getVersionInfo() {
-        String versionString = AlxAdSDK.getNetWorkVersion();
-        String[] splits = versionString.split("\\.");
-
-        if (splits.length >= 3) {
-            int major = Integer.parseInt(splits[0]);
-            int minor = Integer.parseInt(splits[1]);
-            int micro = Integer.parseInt(splits[2]) * 100 + Integer.parseInt(splits[3]);
-            return new VersionInfo(major, minor, micro);
-        }
-
-        return new VersionInfo(0, 0, 0);
-    }
-
-    @Override
-    public VersionInfo getSDKVersionInfo() {
-        String versionString = AlxAdSDK.getNetWorkVersion();
-        String[] splits = versionString.split("\\.");
-        if (splits.length >= 3) {
-            int major = Integer.parseInt(splits[0]);
-            int minor = Integer.parseInt(splits[1]);
-            int micro = Integer.parseInt(splits[2]);
-            return new VersionInfo(major, minor, micro);
-        }
-        return new VersionInfo(0, 0, 0);
-    }
 
     @Override
     public void showAd(Context context) {
@@ -175,6 +119,7 @@ public class AlxRewardVideoAdapter extends Adapter implements MediationRewardedA
             AlxAdSDK.init(context, host, token, sid, appid, new AlxSdkInitCallback() {
                 @Override
                 public void onInit(boolean isOk, String msg) {
+                    AlxBaseAdapter.sdkInfo();
                     //sdk init success, begin load ad
                     alxRewardVideoAD = new AlxRewardVideoAD();
                     alxRewardVideoAD.load(context, unitid, new AlxRewardVideoADListener() {
@@ -259,9 +204,6 @@ public class AlxRewardVideoAdapter extends Adapter implements MediationRewardedA
                     });
                 }
             });
-            Map<String, Object> extraParameters = getAlxExtraParameters(extras);
-            printExtraParameters(extraParameters);
-            setAlxExtraParameters(extraParameters);
 //            // set GDPR
 //            AlxAdSDK.setSubjectToGDPR(true);
 //            // set GDPR Consent
@@ -271,7 +213,7 @@ public class AlxRewardVideoAdapter extends Adapter implements MediationRewardedA
 //            // set CCPA
 //            AlxAdSDK.subjectToUSPrivacy("1YYY");
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "error:" + e.getMessage());
         }
         return true;
     }
@@ -291,7 +233,6 @@ public class AlxRewardVideoAdapter extends Adapter implements MediationRewardedA
             token = json.getString("token");
             unitid = json.getString("unitid");
             String debug = json.optString("isdebug");
-            extras = json.optJSONObject("extras");
             if (debug != null) {
                 if (debug.equalsIgnoreCase("true")) {
                     isDebug = Boolean.TRUE;
@@ -300,46 +241,7 @@ public class AlxRewardVideoAdapter extends Adapter implements MediationRewardedA
                 }
             }
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage() + "");
-        }
-    }
-
-    private void setAlxExtraParameters(Map<String, Object> parameters) {
-        if (parameters != null && !parameters.isEmpty()) {
-            for (Map.Entry<String, Object> entry : parameters.entrySet()) {
-                AlxAdSDK.addExtraParameters(entry.getKey(), entry.getValue());
-            }
-        }
-    }
-
-    private Map<String, Object> getAlxExtraParameters(JSONObject extras) {
-        Map<String, Object> map = new HashMap<>();
-        try {
-            if (extras == null) {
-                return map;
-            }
-            Iterator<String> keys = extras.keys();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                Object value = extras.get(key);
-                map.put(key, value);
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "alx extras field error:" + e.getMessage());
-        }
-        return map;
-    }
-
-    private void printExtraParameters(Map<String, Object> map) {
-        try {
-            if (map == null || map.isEmpty()) {
-                Log.d(TAG, "alx Extra Parameters:null");
-                return;
-            }
-            JSONObject json = new JSONObject(map);
-            Log.d(TAG, "alx Extra Parameters:" + json.toString());
-        } catch (Exception e) {
-            Log.e(TAG, "printExtraParameters error:" + e.getMessage());
+            Log.e(TAG, "error:"+e.getMessage());
         }
     }
 

@@ -1,5 +1,6 @@
 package com.tradplus.custom.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,6 +29,7 @@ public class AlxSplashAdapter extends TPSplashAdapter {
     private Boolean isDebug = null;
     private AlxSplashAd mAdObj;
     private boolean isReady = false;
+    private Context mContext;
 
     @Override
     public void loadCustomAd(Context context, Map<String, Object> map, Map<String, String> tpParams) {
@@ -35,6 +37,7 @@ public class AlxSplashAdapter extends TPSplashAdapter {
         Log.d(TAG, "tradplus-sdk-version:" + TradPlusSdk.getSdkVersion());
         Log.i(TAG, "loadCustomAd");
         isReady = false;
+        mContext = context;
         if (tpParams != null && parseServer(tpParams)) {
             initSdk(context);
         } else {
@@ -108,10 +111,10 @@ public class AlxSplashAdapter extends TPSplashAdapter {
     }
 
     private void loadAd(final Context context) {
-        mAdObj = new AlxSplashAd(context, unitid);
-        mAdObj.load(new AlxSplashAdListener() {
+        mAdObj = new AlxSplashAd();
+        mAdObj.load(context, unitid, new AlxSplashAdListener() {
             @Override
-            public void onAdLoadSuccess() {
+            public void onAdLoaded() {
                 isReady = true;
                 if (mLoadAdapterListener != null) {
                     mLoadAdapterListener.loadAdapterLoaded(null);
@@ -134,14 +137,14 @@ public class AlxSplashAdapter extends TPSplashAdapter {
             }
 
             @Override
-            public void onAdClick() {
+            public void onAdClicked() {
                 if (mShowListener != null) {
                     mShowListener.onAdClicked();
                 }
             }
 
             @Override
-            public void onAdDismissed() {
+            public void onAdClose() {
                 if (mShowListener != null) {
                     mShowListener.onAdClosed();
                 }
@@ -151,8 +154,11 @@ public class AlxSplashAdapter extends TPSplashAdapter {
 
     @Override
     public void showAd() {
-        if (mAdObj != null && isReady) {
-            mAdObj.showAd(mAdContainerView);
+        if (mAdObj != null && mAdObj.isReady()) {
+            if (mContext instanceof Activity) {
+                Activity activity = (Activity) mContext;
+                mAdObj.show(activity);
+            }
         }
     }
 

@@ -2,6 +2,19 @@ package com.alxad.sdk.demo;
 
 public class AdConfig {
 
+    // Alx develop config info
+//    public static String ALX_HOST = "https://rix.svr.rixengine.com/rtb";
+//    public static String ALX_SID = "39337";
+//    public static String ALX_APP_ID = "102825";
+//    public static String ALX_TOKEN = "7c2963c27a39a1febafecde3f4031693";
+//    public static String ALX_BANNER_AD_ID = "204042";
+//    public static String ALX_NATIVE_AD_ID = "204046";
+//    public static String ALX_REWARD_VIDEO_AD_ID = "204043";
+//    public static String ALX_INTERSTITIAL_VIDEO_AD_ID = "204045";
+//    public static String ALX_INTERSTITIAL_BANNER_AD_ID = "204044";
+//    public static String ALX_SPLASH_AD_ID = "201307";
+
+
     // Alx demo config info
     public static String ALX_HOST = "https://demo.use.svr.rixengine.com/rtb";
     public static String ALX_SID = "36057";
@@ -12,7 +25,8 @@ public class AdConfig {
     public static String ALX_REWARD_VIDEO_AD_ID = "201306";
     public static String ALX_INTERSTITIAL_VIDEO_AD_ID = "201299";
     public static String ALX_INTERSTITIAL_BANNER_AD_ID = "203850";
-    public static String ALX_SPLASH_AD_ID = "201307";
+    public static String ALX_SPLASH_VIDEO_AD_ID = "204324";
+    public static String ALX_SPLASH_BANNER_AD_ID = "204323";
 
 
     //topon demo config info
@@ -22,7 +36,7 @@ public class AdConfig {
     public static final String TOPON_VIDEO_AD_ID = "n67dcdae5e7958";
     public static final String TOPON_INTERSTITIAL_ID = "n67dcdae7d6821";
     public static final String TOPON_NATIVE_ID = "n67dcdbef86db6";
-    public static final String TOPON_SPLASH_ID = "b611335c2f2678";
+    public static final String TOPON_SPLASH_ID = "n6a951b668b975";
 
 
     //Google AdMob demo config info
@@ -31,6 +45,7 @@ public class AdConfig {
     public static final String ADMOB_INTERSTITIAL_ID = "ca-app-pub-2258587227088809/7959894454";
     public static final String ADMOB_REWARD_ID = "ca-app-pub-2258587227088809/1913360859";
     public static final String ADMOB_NATIVE_ID = "ca-app-pub-2258587227088809/3086454689";
+    public static final String ADMOB_SPLASH_ID = "ca-app-pub-2258587227088809/1248603643";
 
 
     //Google Ad Manager demo config info
@@ -39,6 +54,7 @@ public class AdConfig {
     public static final String GAM_INTERSTITIAL_ID = "/6499/example/interstitial";
     public static final String GAM_REWARD_ID = "/6499/example/rewarded";
     public static final String GAM_NATIVE_ID = "/6499/example/native";
+    public static final String GAM_SPLASH_ID = "/6499/example/native";
 
 
     //TradPlus demo config info
@@ -64,5 +80,6 @@ public class AdConfig {
     public static final String MAX_INTERSTITIAL_AD = "3baefbf3a4bc0f5a";
     public static final String MAX_REWARD_VIDEO_AD = "681616810a8bbf5d";
     public static final String MAX_NATIVE_AD = "754a8d58b75c9563";
+    public static final String MAX_SPLASH_AD = "754a8d58b75c9563";
 
 }

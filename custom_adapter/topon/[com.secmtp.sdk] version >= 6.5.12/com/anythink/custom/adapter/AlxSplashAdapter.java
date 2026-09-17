@@ -32,10 +32,10 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
 
     public void startLoadAd(Context context) {
         Log.d(TAG, "startLoadAd");
-        mAdObj = new AlxSplashAd(context, unitid);
-        mAdObj.load(new AlxSplashAdListener() {
+        mAdObj = new AlxSplashAd();
+        mAdObj.load(context, unitid,new AlxSplashAdListener() {
             @Override
-            public void onAdLoadSuccess() {
+            public void onAdLoaded() {
                 isReady = true;
                 if (mLoadListener != null) {
                     Log.d(TAG, "load success");
@@ -67,14 +67,14 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
             }
 
             @Override
-            public void onAdClick() {
+            public void onAdClicked() {
                 if (mImpressionListener != null) {
                     mImpressionListener.onSplashAdClicked();
                 }
             }
 
             @Override
-            public void onAdDismissed() {
+            public void onAdClose() {
                 if (mImpressionListener != null) {
                     mImpressionListener.onSplashAdDismiss();
                 }
@@ -192,8 +192,8 @@ public class AlxSplashAdapter extends CustomSplashAdapter {
 
     @Override
     public void show(Activity activity, ViewGroup viewGroup) {
-        if (mAdObj != null && isReady) {
-            mAdObj.showAd(viewGroup);
+        if (mAdObj != null && mAdObj.isReady()) {
+            mAdObj.show(activity);
         }
     }
 

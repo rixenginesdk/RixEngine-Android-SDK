@@ -20,7 +20,7 @@ import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.R;
 
 public class AdmobInterstitialActivity extends BaseActivity implements View.OnClickListener {
-    private final String TAG = "AdmobInterstitial";
+    private final String TAG = "AdmobInterstitialActivity";
     private InterstitialAd mAd;
     private TextView mTvClearLog;
     private TextView mTvShowLog;

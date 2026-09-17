@@ -15,6 +15,17 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
+        android:id="@+id/ad_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/style_ad_unitid"
+        tools:text="ad unitid"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_action_bar"/>
+
+    <TextView
         android:id="@+id/tv_load"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
@@ -25,7 +36,7 @@
         style="@style/style_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_action_bar" />
+        app:layout_constraintTop_toBottomOf="@+id/ad_info" />
 
 
     <TextView

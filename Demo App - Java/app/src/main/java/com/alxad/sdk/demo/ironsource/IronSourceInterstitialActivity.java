@@ -19,7 +19,7 @@ import com.unity3d.mediation.interstitial.LevelPlayInterstitialAdListener;
 
 public class IronSourceInterstitialActivity extends BaseActivity implements View.OnClickListener {
 
-    private final String TAG = "IronSourceInterstitial";
+    private final String TAG = "IronSourceInterstitialActivity";
     private TextView mTvClearLog;
     private TextView mTvShowLog;
     private TextView mTvShow;

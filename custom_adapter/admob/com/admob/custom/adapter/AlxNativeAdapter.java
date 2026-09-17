@@ -14,15 +14,11 @@ import androidx.annotation.Nullable;
 
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.nativead.NativeAd;
-import com.google.android.gms.ads.mediation.Adapter;
-import com.google.android.gms.ads.mediation.InitializationCompleteCallback;
 import com.google.android.gms.ads.mediation.MediationAdLoadCallback;
-import com.google.android.gms.ads.mediation.MediationConfiguration;
 import com.google.android.gms.ads.mediation.MediationNativeAdCallback;
 import com.google.android.gms.ads.mediation.MediationNativeAdConfiguration;
 import com.google.android.gms.ads.mediation.NativeAdMapper;
-import com.google.android.gms.ads.VersionInfo;
+import com.google.android.gms.ads.nativead.NativeAd;
 import com.rixengine.api.AlxAdParam;
 import com.rixengine.api.AlxAdSDK;
 import com.rixengine.api.AlxImage;
@@ -37,15 +33,13 @@ import com.rixengine.api.nativead.AlxNativeEventListener;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Google Mobile ads RixEngine Native Adapter
  */
-public class AlxNativeAdapter extends Adapter {
+public class AlxNativeAdapter extends AlxBaseAdapter {
     private static final String TAG = "AlxNativeAdapter";
 
     private String unitid = "";
@@ -54,23 +48,11 @@ public class AlxNativeAdapter extends Adapter {
     private String token = "";
     private String host = "";
     private Boolean isDebug = null;
-    private JSONObject extras = null;
     private MediationAdLoadCallback<NativeAdMapper, MediationNativeAdCallback> mMediationLoadCallback;
     private MediationNativeAdCallback mMediationEventCallback;
 
     private AlxNativeAd nativeAd;
     private CustomNativeAdMapper nativeAdMapper;
-
-    @Override
-    public void initialize(@NonNull Context context, @NonNull InitializationCompleteCallback initializationCompleteCallback, @NonNull List<MediationConfiguration> list) {
-        Log.d(TAG, "alx-admob-adapter: initialize");
-        if (context == null) {
-            initializationCompleteCallback.onInitializationFailed(
-                    "Initialization Failed: Context is null.");
-            return;
-        }
-        initializationCompleteCallback.onInitializationSucceeded();
-    }
 
     @Override
     public void loadNativeAdMapper(@NonNull MediationNativeAdConfiguration configuration, @NonNull MediationAdLoadCallback<NativeAdMapper, MediationNativeAdCallback> callback) throws RemoteException {
@@ -113,7 +95,7 @@ public class AlxNativeAdapter extends Adapter {
                 return;
             }
             host = AlxMetaInf.ADAPTER_SDK_HOST_URL;
-            Log.e(TAG,"host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
+            Log.e(TAG, "host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
         }
 
         try {
@@ -125,12 +107,10 @@ public class AlxNativeAdapter extends Adapter {
             AlxAdSDK.init(context, host, token, sid, appid, new AlxSdkInitCallback() {
                 @Override
                 public void onInit(boolean isOk, String msg) {
+                    AlxBaseAdapter.sdkInfo();
                     loadAds(context, unitid);
                 }
             });
-            Map<String, Object> extraParameters = getAlxExtraParameters(extras);
-            printExtraParameters(extraParameters);
-            setAlxExtraParameters(extraParameters);
 //            // set GDPR
 //            AlxAdSDK.setSubjectToGDPR(true);
 //            // set GDPR Consent
@@ -140,8 +120,7 @@ public class AlxNativeAdapter extends Adapter {
 //            // set CCPA
 //            AlxAdSDK.subjectToUSPrivacy("1YYY");
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-            e.printStackTrace();
+            Log.e(TAG, "error:" + e.getMessage());
             loadError(1, "alx sdk init error");
         }
     }
@@ -177,8 +156,7 @@ public class AlxNativeAdapter extends Adapter {
                         mMediationEventCallback = mMediationLoadCallback.onSuccess(nativeAdMapper);
                     }
                 } catch (Exception e) {
-                    Log.e(TAG, e.getMessage());
-                    e.printStackTrace();
+                    Log.e(TAG, "error+" + e.getMessage());
                     loadError(101, e.getMessage());
                 }
 
@@ -200,7 +178,6 @@ public class AlxNativeAdapter extends Adapter {
             token = json.getString("token");
             unitid = json.getString("unitid");
             String debug = json.optString("isdebug");
-            extras = json.optJSONObject("extras");
             if (debug != null) {
                 if (debug.equalsIgnoreCase("true")) {
                     isDebug = Boolean.TRUE;
@@ -260,14 +237,14 @@ public class AlxNativeAdapter extends Adapter {
                     if (mRootView == null) {
                         mRootView = new AlxNativeAdView(context);
                     }
-                    mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    if (map != null && !map.isEmpty()) {
+                    mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 4));
+                    if (!map.isEmpty()) {
                         for (Map.Entry<String, View> entry : map.entrySet()) {
                             Log.i(TAG, "register:key=" + entry.getKey());
                             mRootView.addView(entry.getKey(), entry.getValue());
                         }
                     }
-                    if (map1 != null && !map1.isEmpty()) {
+                    if (!map1.isEmpty()) {
                         for (Map.Entry<String, View> entry : map1.entrySet()) {
                             Log.i(TAG, "register2:key=" + entry.getKey());
                         }
@@ -275,8 +252,7 @@ public class AlxNativeAdapter extends Adapter {
                     mRootView.setNativeAd(bean);
                     rootView.addView(mRootView, 0);
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.e(TAG, e.getMessage());
+                    Log.e(TAG, "error:" + e.getMessage());
                 }
             } else {
                 Log.i(TAG, "trackViews: rootView is other");
@@ -370,86 +346,6 @@ public class AlxNativeAdapter extends Adapter {
     private void loadError(int code, String message) {
         if (mMediationLoadCallback != null) {
             mMediationLoadCallback.onFailure(new AdError(code, message, AlxAdSDK.getNetWorkName()));
-        }
-    }
-
-    @NonNull
-    @Override
-    public VersionInfo getSDKVersionInfo() {
-        String versionString = AlxAdSDK.getNetWorkVersion();
-        VersionInfo result = getAdapterVersionInfo(versionString);
-        if (result != null) {
-            return result;
-        }
-        return new VersionInfo(0, 0, 0);
-    }
-
-    @NonNull
-    @Override
-    public VersionInfo getVersionInfo() {
-        String versionString = AlxAdSDK.getNetWorkVersion();
-        VersionInfo result = getAdapterVersionInfo(versionString);
-        if (result != null) {
-            return result;
-        }
-        return new VersionInfo(0, 0, 0);
-    }
-
-    private VersionInfo getAdapterVersionInfo(String version) {
-        if (TextUtils.isEmpty(version)) {
-            return null;
-        }
-        try {
-            String[] arr = version.split("\\.");
-            if (arr == null || arr.length < 3) {
-                return null;
-            }
-            int major = Integer.parseInt(arr[0]);
-            int minor = Integer.parseInt(arr[1]);
-            int micro = Integer.parseInt(arr[2]);
-            return new VersionInfo(major, minor, micro);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private void setAlxExtraParameters(Map<String, Object> parameters) {
-        if (parameters != null && !parameters.isEmpty()) {
-            for (Map.Entry<String, Object> entry : parameters.entrySet()) {
-                AlxAdSDK.addExtraParameters(entry.getKey(), entry.getValue());
-            }
-        }
-    }
-
-    private Map<String, Object> getAlxExtraParameters(JSONObject extras) {
-        Map<String, Object> map = new HashMap<>();
-        try {
-            if (extras == null) {
-                return map;
-            }
-            Iterator<String> keys = extras.keys();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                Object value = extras.get(key);
-                map.put(key, value);
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "alx extras field error:" + e.getMessage());
-        }
-        return map;
-    }
-
-    private void printExtraParameters(Map<String, Object> map) {
-        try {
-            if (map == null || map.isEmpty()) {
-                Log.d(TAG, "alx Extra Parameters:null");
-                return;
-            }
-            JSONObject json = new JSONObject(map);
-            Log.d(TAG, "alx Extra Parameters:" + json.toString());
-        } catch (Exception e) {
-            Log.e(TAG, "printExtraParameters error:" + e.getMessage());
         }
     }
 

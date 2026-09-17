@@ -12,7 +12,8 @@ object AdConfig {
     const val ALX_REWARD_VIDEO_AD_ID = "201306"
     const val ALX_INTERSTITIAL_VIDEO_AD_ID = "201299"
     const val ALX_INTERSTITIAL_BANNER_AD_ID = "203850"
-    const val ALX_SPLASH_AD_ID = "172140"
+    const val ALX_SPLASH_VIDEO_AD_ID: String = "204324"
+    const val ALX_SPLASH_BANNER_AD_ID: String = "204323"
 
     //topon demo config info
     const val TOPON_KEY: String = "aa10e0b266ae76d73f3185ec7a58a211c"
@@ -21,7 +22,7 @@ object AdConfig {
     const val TOPON_VIDEO_AD_ID: String = "n67dcdae5e7958"
     const val TOPON_INTERSTITIAL_ID: String = "n67dcdae7d6821"
     const val TOPON_NATIVE_ID: String = "n67dcdbef86db6"
-    const val TOPON_SPLASH_ID: String = "b611335c2f2678"
+    const val TOPON_SPLASH_ID: String = "n6a951b668b975"
 
 
     //Google AdMob demo config info
@@ -30,6 +31,7 @@ object AdConfig {
     const val ADMOB_INTERSTITIAL_ID: String = "ca-app-pub-2258587227088809/7959894454"
     const val ADMOB_REWARD_ID: String = "ca-app-pub-2258587227088809/1913360859"
     const val ADMOB_NATIVE_ID: String = "ca-app-pub-2258587227088809/3086454689"
+    const val ADMOB_SPLASH_ID: String = "ca-app-pub-2258587227088809/1248603643"
 
 
     //Google Ad Manager demo config info
@@ -38,6 +40,8 @@ object AdConfig {
     const val GAM_INTERSTITIAL_ID: String = "/6499/example/interstitial"
     const val GAM_REWARD_ID: String = "/6499/example/rewarded"
     const val GAM_NATIVE_ID: String = "/6499/example/native"
+
+    const val GAM_SPLASH_ID: String = "/6499/example/native"
 
 
     //TradPlus demo config info
@@ -63,5 +67,7 @@ object AdConfig {
     const val MAX_INTERSTITIAL_AD: String = "3baefbf3a4bc0f5a"
     const val MAX_REWARD_VIDEO_AD: String = "681616810a8bbf5d"
     const val MAX_NATIVE_AD: String = "754a8d58b75c9563"
+
+    const val MAX_SPLASH_AD: String = "754a8d58b75c9563"
 
 }

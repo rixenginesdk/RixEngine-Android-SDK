@@ -19,7 +19,10 @@ legacySupportV4 = "1.0.0"
 compileSdkVersion = "36"
 minSdkVersion = "23"
 targetSdkVersions = "36"
+adSdkMinSdkVersion = "16"
+mavenPublish = "0.35.0"
 kotlin = "2.2.20"
+fatAar = "1.4.5"
 coreKtx = "1.13.0"
 
 
@@ -41,6 +44,7 @@ gms-ads-identifier = { module = "com.google.android.gms:play-services-ads-identi
 ads-max = { module = "com.applovin:applovin-sdk", version.ref = "adsMax" }
 ads-tradplus = { module = "com.tradplusad:tradplus", version.ref = "adsTradplus" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+fat-aar = { module = "com.github.aasitnikov:fat-aar-android", version.ref = "fatAar" }
 
 
 [plugins]
@@ -48,3 +52,4 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish"}

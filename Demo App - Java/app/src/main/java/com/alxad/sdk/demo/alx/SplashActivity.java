@@ -1,20 +1,18 @@
 package com.alxad.sdk.demo.alx;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.rixengine.api.AlxAdParam;
-import com.rixengine.api.AlxSplashAd;
-import com.rixengine.api.AlxSplashAdListener;
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.MainActivity;
 import com.alxad.sdk.demo.R;
+import com.rixengine.api.AlxAdParam;
+import com.rixengine.api.AlxSplashAd;
+import com.rixengine.api.AlxSplashAdListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,28 +22,20 @@ public class SplashActivity extends BaseActivity {
 
     //[ZH] 开屏广告加载的超时时间5s
     //[EN] Splash Ad Load Timeout 5s
-    private final int AD_TIMEOUT = 5 * 1000;
-
-
-    private FrameLayout mAdContainerView;
-    private ImageView mIvWelcome;
+    private final int LOAD_AD_TIMEOUT = 5 * 1000;
 
     //[ZH] 控制开屏广告点击跳转
     //[EN] Control the click-through of in-screen advertisements
     private boolean canJump = false;
     private AlxSplashAd mSlashAd;
+    private Activity mActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        initView();
+        mActivity = this;
         loadAd();
-    }
-
-    private void initView() {
-        mAdContainerView = (FrameLayout) findViewById(R.id.ad_container);
-        mIvWelcome = (ImageView) findViewById(R.id.iv_welcome);
     }
 
     private void loadAd() {
@@ -59,42 +49,59 @@ public class SplashActivity extends BaseActivity {
         userExtras.put("bid_floor", "1.5");
         AlxAdParam.Builder builder = new AlxAdParam.Builder().setUserExtras(userExtras);
 
-        mSlashAd = new AlxSplashAd(this, AdConfig.ALX_SPLASH_AD_ID, builder.build());
+        mSlashAd = new AlxSplashAd();
         Log.d(TAG, "ad start load");
-        mSlashAd.load(new AlxSplashAdListener() {
+        mSlashAd.load(this, AdConfig.ALX_SPLASH_BANNER_AD_ID, builder.build(), new AlxSplashAdListener() {
             @Override
-            public void onAdLoadSuccess() {
-                Log.d(TAG, "onAdLoadSuccess: | price：" + mSlashAd.getPrice());
-                mSlashAd.showAd(mAdContainerView);
+            public void onAdLoaded() {
+                Log.d(TAG, "onAdLoaded: | price：" + mSlashAd.getPrice());
+                mSlashAd.show(mActivity);
                 mSlashAd.reportChargingUrl();
                 mSlashAd.reportBiddingUrl();
             }
 
             @Override
             public void onAdLoadFail(int errorCode, String errorMsg) {
-                Log.e(TAG, "onAdLoadFail:" + errorCode + "--" + errorMsg);
+                String msg = "errorCode=" + errorCode + ";errorMsg=" + errorMsg;
+                Log.e(TAG, "onAdLoadFail:" + msg);
                 goToMainActivity();
             }
 
             @Override
             public void onAdShow() {
                 Log.d(TAG, "onAdShow");
-                mIvWelcome.setVisibility(View.GONE);
+//                mIvWelcome.setVisibility(View.GONE);
             }
 
             @Override
-            public void onAdClick() {
+            public void onAdClicked() {
                 Log.d(TAG, "onAdClick");
-                canJump = true;
+//                canJump = true;
             }
 
             @Override
-            public void onAdDismissed() {
-                Log.d(TAG, "onAdDismissed");
-                Toast.makeText(SplashActivity.this, "onAdDismissed be called", Toast.LENGTH_SHORT).show();
+            public void onAdClose() {
+                Log.d(TAG, "onAdClose");
+                Toast.makeText(mActivity, "onAdClose be called", Toast.LENGTH_SHORT).show();
                 goToMainActivity();
             }
-        }, AD_TIMEOUT);
+
+            @Override
+            public void onAdVideoStart() {
+                Log.d(TAG, "onAdVideoStart");
+            }
+
+            @Override
+            public void onAdVideoEnd() {
+                Log.d(TAG, "onAdVideoEnd");
+            }
+
+            @Override
+            public void onAdVideoError(int errorCode, String errorMsg) {
+                String msg = "errorCode=" + errorCode + ";errorMsg=" + errorMsg;
+                Log.d(TAG, "onAdVideoError:" + msg);
+            }
+        }, LOAD_AD_TIMEOUT);
     }
 
     @Override

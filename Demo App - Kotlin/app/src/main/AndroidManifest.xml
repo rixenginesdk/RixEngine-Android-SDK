@@ -56,6 +56,12 @@
         <activity
             android:name="com.alxad.sdk.demo.alx.NativeActivity"
             android:label="Alx Ad: native" />
+        <activity
+            android:name="com.alxad.sdk.demo.alx.SplashVideoActivity"
+            android:label="Alx Ad: splash  Ad - video" />
+        <activity
+            android:name="com.alxad.sdk.demo.alx.SplashBannerActivity"
+            android:label="Alx Ad: splash Ad - banner" />
         <!-- Alx demo：end -->
 
         <!-- TopOn平台 demo案例 -->
@@ -85,6 +91,8 @@
             android:label="Admob Ad: interstitial"/>
         <activity android:name="com.alxad.sdk.demo.admob.AdmobNativeActivity"
             android:label="Admob Ad: native"/>
+        <activity android:name="com.alxad.sdk.demo.admob.AdmobSplashActivity"
+            android:label="Admob Ad: splash"/>
 
 
         <!-- GAM平台 demo案例 -->
@@ -99,6 +107,8 @@
             android:label="Gam Ad: interstitial"/>
         <activity android:name="com.alxad.sdk.demo.gam.GamNativeActivity"
             android:label="Gam Ad: native"/>
+        <activity android:name="com.alxad.sdk.demo.gam.GamSplashActivity"
+            android:label="Gam Ad: splash"/>
 
 
         <!-- TradPlus平台 demo案例 -->
@@ -145,6 +155,9 @@
         <activity
             android:name="com.alxad.sdk.demo.max.MaxNativeActivity"
             android:label="max Ad:native" />
+        <activity
+            android:name="com.alxad.sdk.demo.max.MaxSplashActivity"
+            android:label="max Ad:splash" />
 
 
         <!-- 下面是配置信息 -->

@@ -20,7 +20,7 @@ import com.unity3d.mediation.banner.LevelPlayBannerAdView;
 import com.unity3d.mediation.banner.LevelPlayBannerAdViewListener;
 
 public class IronSourceBannerActivity extends BaseActivity implements View.OnClickListener {
-    private final String TAG = "IronSourceBanner";
+    private final String TAG = "IronSourceBannerActivity";
 
     private FrameLayout mAdContainerView;
     private View mBnLoad;

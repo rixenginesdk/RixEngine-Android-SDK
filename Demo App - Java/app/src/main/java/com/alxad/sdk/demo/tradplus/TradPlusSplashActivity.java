@@ -15,7 +15,7 @@ import com.tradplus.ads.open.splash.SplashAdListener;
 import com.tradplus.ads.open.splash.TPSplash;
 
 public class TradPlusSplashActivity extends BaseActivity {
-    private static final String TAG = "TradPlusSplashDemo";
+    private static final String TAG = "TradPlusSplashActivity";
 
     private TPSplash mAD;
     private FrameLayout mAdContainer;

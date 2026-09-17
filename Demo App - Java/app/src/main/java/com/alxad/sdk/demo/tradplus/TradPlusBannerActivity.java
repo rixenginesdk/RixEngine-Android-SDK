@@ -17,7 +17,7 @@ import com.tradplus.ads.open.banner.BannerAdListener;
 import com.tradplus.ads.open.banner.TPBanner;
 
 public class TradPlusBannerActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = "TradPlusBannerDemo";
+    private static final String TAG = "TradPlusBannerActivity";
 
     private FrameLayout mAdContainerView;
     private View mBnLoad;

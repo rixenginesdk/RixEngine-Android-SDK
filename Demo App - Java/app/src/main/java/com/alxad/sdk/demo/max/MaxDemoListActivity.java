@@ -33,10 +33,12 @@ public class MaxDemoListActivity extends BaseListViewActivity {
         AdapterData rewardItem = new AdapterData(getString(R.string.reward_ad), MaxRewardVideoActivity.class);
         AdapterData interstitialItem = new AdapterData(getString(R.string.interstitial_ad), MaxInterstitialActivity.class);
         AdapterData nativeItem = new AdapterData(getString(R.string.native_ad), MaxNativeActivity.class);
+        AdapterData splashItem = new AdapterData(getString(R.string.splash_ad), MaxSplashActivity.class);
         list.add(bannerItem);
         list.add(rewardItem);
         list.add(interstitialItem);
         list.add(nativeItem);
+        list.add(splashItem);
         return list;
     }
 

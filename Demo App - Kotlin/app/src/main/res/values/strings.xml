@@ -13,6 +13,8 @@
     <string name="interstitial_banner_ad">interstitial Ad - banner</string>
     <string name="native_ad">native Ad</string>
     <string name="splash_ad">splash Ad</string>
+    <string name="splash_video_ad">splash Ad - video</string>
+    <string name="splash_banner_ad">splash Ad - banner</string>
 
     <string name="load_ad">load Ad</string>
     <string name="show_ad">show Ad</string>
@@ -35,5 +37,6 @@
     <string name="list_item_native_desc">native test desc ad</string>
     <string name="other_platform_demo">Aggregated Ad Platform Demo</string>
     <string name="alx_sdk_demo">Alx Ad Demo</string>
+    <string name="clear_log">clear Log</string>
 
 </resources>

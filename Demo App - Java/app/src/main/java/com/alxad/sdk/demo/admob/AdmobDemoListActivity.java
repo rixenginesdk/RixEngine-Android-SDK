@@ -35,10 +35,12 @@ public class AdmobDemoListActivity extends BaseListViewActivity {
         AdapterData rewardItem = new AdapterData(getString(R.string.reward_ad), AdmobRewardVideoActivity.class);
         AdapterData interstitialItem = new AdapterData(getString(R.string.interstitial_ad), AdmobInterstitialActivity.class);
         AdapterData nativeItem = new AdapterData(getString(R.string.native_ad), AdmobNativeActivity.class);
+        AdapterData splashItem = new AdapterData(getString(R.string.splash_ad), AdmobSplashActivity.class);
         list.add(bannerItem);
         list.add(rewardItem);
         list.add(interstitialItem);
         list.add(nativeItem);
+        list.add(splashItem);
         return list;
     }
 

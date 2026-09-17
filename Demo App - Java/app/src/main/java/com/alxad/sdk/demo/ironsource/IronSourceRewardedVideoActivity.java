@@ -21,7 +21,7 @@ import com.unity3d.mediation.rewarded.LevelPlayRewardedAdListener;
 
 public class IronSourceRewardedVideoActivity extends BaseActivity implements View.OnClickListener {
 
-    private final String TAG = "IronSourceRewardedVideo";
+    private final String TAG = "IronSourceRewardedVideoActivity";
     private TextView mTvClearLog;
     private TextView mTvShowLog;
     private TextView mTvShow;

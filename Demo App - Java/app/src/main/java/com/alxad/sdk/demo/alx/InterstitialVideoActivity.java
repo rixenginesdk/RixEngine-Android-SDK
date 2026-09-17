@@ -21,6 +21,7 @@ import java.util.Map;
 public class InterstitialVideoActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "AlxInterstitialVideoActivity";
 
+    private TextView mAdInfo;
     private TextView mTvClearLog;
     private TextView mTvShowLog;
     private TextView mTvShow;
@@ -38,6 +39,7 @@ public class InterstitialVideoActivity extends BaseActivity implements View.OnCl
     private void initView() {
         TextView tv_load = findViewById(R.id.tv_load);
         mTvShow = findViewById(R.id.tv_show);
+        mAdInfo = (TextView) findViewById(R.id.ad_info);
         mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
         mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
         mTvShow.setEnabled(false);
@@ -46,6 +48,9 @@ public class InterstitialVideoActivity extends BaseActivity implements View.OnCl
         mTvClearLog.setOnClickListener(this);
         tv_load.setOnClickListener(this);
         mTvShow.setOnClickListener(this);
+
+        mAdInfo.setVisibility(View.VISIBLE);
+        setAdInfo(AdConfig.ALX_INTERSTITIAL_VIDEO_AD_ID);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -149,4 +154,9 @@ public class InterstitialVideoActivity extends BaseActivity implements View.OnCl
         mTvShowLog.append(msg);
         mTvShowLog.append("\r\n");
     }
+
+    private void setAdInfo(String unitId){
+        mAdInfo.setText(getString(R.string.format_ad_unitid, getString(R.string.interstitial_ad), unitId));
+    }
+
 }

@@ -9,10 +9,12 @@
     <string name="banner_ad">banner Ad</string>
     <string name="reward_ad">reward Ad</string>
     <string name="interstitial_ad">interstitial Ad</string>
-    <string name="interstitial_video_ad">interstitial Ad - video</string>
-    <string name="interstitial_banner_ad">interstitial Ad - banner</string>
     <string name="native_ad">native Ad</string>
     <string name="splash_ad">splash Ad</string>
+    <string name="interstitial_video_ad">interstitial Ad - video</string>
+    <string name="interstitial_banner_ad">interstitial Ad - banner</string>
+    <string name="splash_video_ad">splash Ad - video</string>
+    <string name="splash_banner_ad">splash Ad - banner</string>
 
     <string name="load_ad">load Ad</string>
     <string name="show_ad">show Ad</string>
@@ -36,5 +38,6 @@
     <string name="other_platform_demo">Aggregated Ad Platform Demo</string>
     <string name="alx_sdk_demo">Alx Ad Demo</string>
     <string name="clear_log">clear Log</string>
+    <string name="format_ad_unitid">%s Unit ID: %s</string>
 
 </resources>

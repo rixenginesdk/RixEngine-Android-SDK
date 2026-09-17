@@ -24,7 +24,7 @@ import com.tradplus.ads.open.nativead.TPNativeAdRender;
 
 
 public class TradPlusNativeActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = "TradPlusNativeDemo";
+    private static final String TAG = "TradPlusNativeActivity";
 
     private FrameLayout mAdContainerView;
     private View mBnLoad;

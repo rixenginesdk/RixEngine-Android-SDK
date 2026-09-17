@@ -23,6 +23,8 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
     private TextView mBnLoad;
     private TextView mBnShow;
 
+    private TextView mAdInfo;
+
     private TextView mTvClearLog;
     private TextView mTvShowLog;
     private TextView mBnLoadAndShow;
@@ -37,6 +39,7 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
         setContentView(R.layout.activity_banner);
         setActionBar();
 
+        mAdInfo = (TextView) findViewById(R.id.ad_info);
         mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
         mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
         mBnLoad = (TextView) findViewById(R.id.bn_load);
@@ -51,6 +54,8 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
         mBnShow.setOnClickListener(this);
         mBnLoadAndShow.setOnClickListener(this);
         mBnShow.setEnabled(false);
+
+        setAdInfo(AdConfig.ALX_BANNER_AD_ID);
     }
 
     @Override
@@ -185,6 +190,10 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
     private void showLogMessage(String msg) {
         mTvShowLog.append(msg);
         mTvShowLog.append("\r\n");
+    }
+
+    private void setAdInfo(String unitId){
+        mAdInfo.setText(getString(R.string.format_ad_unitid, getString(R.string.banner_ad), unitId));
     }
 
 }

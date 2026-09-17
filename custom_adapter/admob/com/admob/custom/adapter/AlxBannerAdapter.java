@@ -7,32 +7,23 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.rixengine.api.AlxAdSDK;
-import com.rixengine.api.AlxBannerView;
-import com.rixengine.api.AlxBannerViewAdListener;
-import com.rixengine.api.AlxSdkInitCallback;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.mediation.Adapter;
-import com.google.android.gms.ads.mediation.InitializationCompleteCallback;
 import com.google.android.gms.ads.mediation.MediationAdLoadCallback;
 import com.google.android.gms.ads.mediation.MediationBannerAd;
 import com.google.android.gms.ads.mediation.MediationBannerAdCallback;
 import com.google.android.gms.ads.mediation.MediationBannerAdConfiguration;
-import com.google.android.gms.ads.mediation.MediationConfiguration;
-import com.google.android.gms.ads.VersionInfo;
+import com.rixengine.api.AlxAdSDK;
+import com.rixengine.api.AlxBannerView;
+import com.rixengine.api.AlxBannerViewAdListener;
+import com.rixengine.api.AlxSdkInitCallback;
 
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Google Mobile ads RixEngine Banner Adapter
  */
-public class AlxBannerAdapter extends Adapter implements MediationBannerAd {
+public class AlxBannerAdapter extends AlxBaseAdapter implements MediationBannerAd {
 
     private static final String TAG = "AlxBannerAdapter";
     private String unitid = "";
@@ -42,23 +33,10 @@ public class AlxBannerAdapter extends Adapter implements MediationBannerAd {
     private String host = "";
     private Boolean isDebug = null;
 
-    private JSONObject extras = null;
-
     private MediationAdLoadCallback<MediationBannerAd, MediationBannerAdCallback> mMediationLoadCallback;
     private MediationBannerAdCallback mMediationEventCallback;
 
     AlxBannerView mBannerView;
-
-    @Override
-    public void initialize(Context context, InitializationCompleteCallback initializationCompleteCallback, List<MediationConfiguration> list) {
-        Log.d(TAG, "alx-admob-adapter: initialize");
-        if (context == null) {
-            initializationCompleteCallback.onInitializationFailed(
-                    "Initialization Failed: Context is null.");
-            return;
-        }
-        initializationCompleteCallback.onInitializationSucceeded();
-    }
 
     @Override
     public void loadBannerAd(@NonNull MediationBannerAdConfiguration configuration, @NonNull MediationAdLoadCallback<MediationBannerAd, MediationBannerAdCallback> callback) {
@@ -113,12 +91,10 @@ public class AlxBannerAdapter extends Adapter implements MediationBannerAd {
             AlxAdSDK.init(context, host, token, sid, appid, new AlxSdkInitCallback() {
                 @Override
                 public void onInit(boolean isOk, String msg) {
+                    AlxBaseAdapter.sdkInfo();
                     load(context);
                 }
             });
-            Map<String, Object> extraParameters = getAlxExtraParameters(extras);
-            printExtraParameters(extraParameters);
-            setAlxExtraParameters(extraParameters);
 //            // set GDPR
 //            AlxAdSDK.setSubjectToGDPR(true);
 //            // set GDPR Consent
@@ -128,8 +104,7 @@ public class AlxBannerAdapter extends Adapter implements MediationBannerAd {
 //            // set CCPA
 //            AlxAdSDK.subjectToUSPrivacy("1YYY");
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-            e.printStackTrace();
+            Log.e(TAG, "error:" + e.getMessage());
             loadError(1, "alx sdk init error");
         }
     }
@@ -154,7 +129,6 @@ public class AlxBannerAdapter extends Adapter implements MediationBannerAd {
             token = json.getString("token");
             unitid = json.getString("unitid");
             String debug = json.optString("isdebug");
-            extras = json.optJSONObject("extras");
             if (debug != null) {
                 if (debug.equalsIgnoreCase("true")) {
                     isDebug = Boolean.TRUE;
@@ -217,81 +191,4 @@ public class AlxBannerAdapter extends Adapter implements MediationBannerAd {
         }
     }
 
-    @Override
-    public VersionInfo getVersionInfo() {
-        String versionString = AlxAdSDK.getNetWorkVersion();
-        VersionInfo result = getAdapterVersionInfo(versionString);
-        if (result != null) {
-            return result;
-        }
-        return new VersionInfo(0, 0, 0);
-    }
-
-    @Override
-    public VersionInfo getSDKVersionInfo() {
-        String versionString = AlxAdSDK.getNetWorkVersion();
-        VersionInfo result = getAdapterVersionInfo(versionString);
-        if (result != null) {
-            return result;
-        }
-        return new VersionInfo(0, 0, 0);
-    }
-
-    private VersionInfo getAdapterVersionInfo(String version) {
-        if (TextUtils.isEmpty(version)) {
-            return null;
-        }
-        try {
-            String[] arr = version.split("\\.");
-            if (arr == null || arr.length < 3) {
-                return null;
-            }
-            int major = Integer.parseInt(arr[0]);
-            int minor = Integer.parseInt(arr[1]);
-            int micro = Integer.parseInt(arr[2]);
-            return new VersionInfo(major, minor, micro);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private void setAlxExtraParameters(Map<String, Object> parameters) {
-        if (parameters != null && !parameters.isEmpty()) {
-            for (Map.Entry<String, Object> entry : parameters.entrySet()) {
-                AlxAdSDK.addExtraParameters(entry.getKey(), entry.getValue());
-            }
-        }
-    }
-
-    private Map<String, Object> getAlxExtraParameters(JSONObject extras) {
-        Map<String, Object> map = new HashMap<>();
-        try {
-            if (extras == null) {
-                return map;
-            }
-            Iterator<String> keys = extras.keys();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                Object value = extras.get(key);
-                map.put(key, value);
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "alx extras field error:" + e.getMessage());
-        }
-        return map;
-    }
-
-    private void printExtraParameters(Map<String, Object> map) {
-        try {
-            if (map == null || map.isEmpty()) {
-                Log.d(TAG, "alx Extra Parameters:null");
-                return;
-            }
-            JSONObject json = new JSONObject(map);
-            Log.d(TAG, "alx Extra Parameters:" + json.toString());
-        } catch (Exception e) {
-            Log.e(TAG, "printExtraParameters error:" + e.getMessage());
-        }
-    }
 }

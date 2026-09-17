@@ -23,7 +23,7 @@ import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.R;
 
 public class AdmobRewardVideoActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = "AdmobRewardVideo";
+    private static final String TAG = "AdmobRewardVideoActivity";
     private RewardedAd mRewardedAd;
     private TextView mTvClearLog;
     private TextView mTvShowLog;

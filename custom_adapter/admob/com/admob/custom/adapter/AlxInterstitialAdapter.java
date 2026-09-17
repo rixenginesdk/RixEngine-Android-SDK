@@ -7,32 +7,23 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.mediation.MediationAdLoadCallback;
+import com.google.android.gms.ads.mediation.MediationInterstitialAd;
+import com.google.android.gms.ads.mediation.MediationInterstitialAdCallback;
+import com.google.android.gms.ads.mediation.MediationInterstitialAdConfiguration;
 import com.rixengine.api.AlxAdSDK;
 import com.rixengine.api.AlxInterstitialAD;
 import com.rixengine.api.AlxInterstitialADListener;
 import com.rixengine.api.AlxSdkInitCallback;
-import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.mediation.Adapter;
-import com.google.android.gms.ads.mediation.InitializationCompleteCallback;
-import com.google.android.gms.ads.mediation.MediationAdLoadCallback;
-import com.google.android.gms.ads.mediation.MediationConfiguration;
-import com.google.android.gms.ads.mediation.MediationInterstitialAd;
-import com.google.android.gms.ads.mediation.MediationInterstitialAdCallback;
-import com.google.android.gms.ads.mediation.MediationInterstitialAdConfiguration;
-import com.google.android.gms.ads.VersionInfo;
 
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Google Mobile ads RixEngine Interstitial Adapter
  */
-public class AlxInterstitialAdapter extends Adapter implements MediationInterstitialAd {
+public class AlxInterstitialAdapter extends AlxBaseAdapter implements MediationInterstitialAd {
 
     private static final String TAG = "AlxInterstitialAdapter";
 
@@ -43,23 +34,10 @@ public class AlxInterstitialAdapter extends Adapter implements MediationIntersti
     private String host = "";
     private Boolean isDebug = null;
 
-    private JSONObject extras = null;
-
     private MediationAdLoadCallback<MediationInterstitialAd, MediationInterstitialAdCallback> mMediationLoadCallback;
     private MediationInterstitialAdCallback mMediationEventCallback;
 
     AlxInterstitialAD interstitialAd;
-
-    @Override
-    public void initialize(Context context, InitializationCompleteCallback initializationCompleteCallback, List<MediationConfiguration> list) {
-        Log.d(TAG, "alx-admob-adapter: initialize");
-        if (context == null) {
-            initializationCompleteCallback.onInitializationFailed(
-                    "Initialization Failed: Context is null.");
-            return;
-        }
-        initializationCompleteCallback.onInitializationSucceeded();
-    }
 
     @Override
     public void loadInterstitialAd(@NonNull MediationInterstitialAdConfiguration configuration, @NonNull MediationAdLoadCallback<MediationInterstitialAd, MediationInterstitialAdCallback> callback) {
@@ -114,12 +92,10 @@ public class AlxInterstitialAdapter extends Adapter implements MediationIntersti
             AlxAdSDK.init(context, host, token, sid, appid, new AlxSdkInitCallback() {
                 @Override
                 public void onInit(boolean isOk, String msg) {
+                    AlxBaseAdapter.sdkInfo();
                     preloadAd(context);
                 }
             });
-            Map<String, Object> extraParameters = getAlxExtraParameters(extras);
-            printExtraParameters(extraParameters);
-            setAlxExtraParameters(extraParameters);
 //            // set GDPR
 //            AlxAdSDK.setSubjectToGDPR(true);
 //            // set GDPR Consent
@@ -129,8 +105,7 @@ public class AlxInterstitialAdapter extends Adapter implements MediationIntersti
 //            // set CCPA
 //            AlxAdSDK.subjectToUSPrivacy("1YYY");
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-            e.printStackTrace();
+            Log.e(TAG, "error:"+e.getMessage());
             loadError(1, "alx sdk init error");
         }
     }
@@ -175,7 +150,6 @@ public class AlxInterstitialAdapter extends Adapter implements MediationIntersti
             token = json.getString("token");
             unitid = json.getString("unitid");
             String debug = json.optString("isdebug");
-            extras = json.optJSONObject("extras");
             if (debug != null) {
                 if (debug.equalsIgnoreCase("true")) {
                     isDebug = Boolean.TRUE;
@@ -242,82 +216,4 @@ public class AlxInterstitialAdapter extends Adapter implements MediationIntersti
         });
     }
 
-
-    @Override
-    public VersionInfo getVersionInfo() {
-        String versionString = AlxAdSDK.getNetWorkVersion();
-        VersionInfo result = getAdapterVersionInfo(versionString);
-        if (result != null) {
-            return result;
-        }
-        return new VersionInfo(0, 0, 0);
-    }
-
-    @Override
-    public VersionInfo getSDKVersionInfo() {
-        String versionString = AlxAdSDK.getNetWorkVersion();
-        VersionInfo result = getAdapterVersionInfo(versionString);
-        if (result != null) {
-            return result;
-        }
-        return new VersionInfo(0, 0, 0);
-    }
-
-    private VersionInfo getAdapterVersionInfo(String version) {
-        if (TextUtils.isEmpty(version)) {
-            return null;
-        }
-        try {
-            String[] arr = version.split("\\.");
-            if (arr == null || arr.length < 3) {
-                return null;
-            }
-            int major = Integer.parseInt(arr[0]);
-            int minor = Integer.parseInt(arr[1]);
-            int micro = Integer.parseInt(arr[2]);
-            return new VersionInfo(major, minor, micro);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private void setAlxExtraParameters(Map<String, Object> parameters) {
-        if (parameters != null && !parameters.isEmpty()) {
-            for (Map.Entry<String, Object> entry : parameters.entrySet()) {
-                AlxAdSDK.addExtraParameters(entry.getKey(), entry.getValue());
-            }
-        }
-    }
-
-    private Map<String, Object> getAlxExtraParameters(JSONObject extras) {
-        Map<String, Object> map = new HashMap<>();
-        try {
-            if (extras == null) {
-                return map;
-            }
-            Iterator<String> keys = extras.keys();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                Object value = extras.get(key);
-                map.put(key, value);
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "alx extras field error:" + e.getMessage());
-        }
-        return map;
-    }
-
-    private void printExtraParameters(Map<String, Object> map) {
-        try {
-            if (map == null || map.isEmpty()) {
-                Log.d(TAG, "alx Extra Parameters:null");
-                return;
-            }
-            JSONObject json = new JSONObject(map);
-            Log.d(TAG, "alx Extra Parameters:" + json.toString());
-        } catch (Exception e) {
-            Log.e(TAG, "printExtraParameters error:" + e.getMessage());
-        }
-    }
 }

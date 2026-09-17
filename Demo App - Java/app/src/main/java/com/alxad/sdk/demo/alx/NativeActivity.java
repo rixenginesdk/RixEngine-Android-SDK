@@ -18,6 +18,7 @@ import com.rixengine.api.AlxAdParam;
 import com.rixengine.api.nativead.AlxMediaContent;
 import com.rixengine.api.nativead.AlxMediaView;
 import com.rixengine.api.nativead.AlxNativeAd;
+import com.rixengine.api.nativead.AlxNativeAdCreativeType;
 import com.rixengine.api.nativead.AlxNativeAdLoadedListener;
 import com.rixengine.api.nativead.AlxNativeAdLoader;
 import com.rixengine.api.nativead.AlxNativeAdView;
@@ -37,29 +38,7 @@ import java.util.Map;
 public class NativeActivity extends BaseActivity implements View.OnClickListener{
     private final String TAG = "AlxNativeActivity";
 
-    //中文：AlxNativeAd.getCreativeType() 得到的广告素材类型【如：大图、小图、组图、视频、其他：未知类型】
-    //English：AlxNativeAd. GetCreativeType () the advertising material type (such as a larger version, insets, picture, video and other: unknown type 】
-
-    //中文：未知类型
-    //English：Unknown type
-    public static final int NATIVE_AD_CREATE_TYPE_UNKNOWN = 0;
-
-    //中文：大图
-    //English：Large image
-    public static final int NATIVE_AD_CREATE_TYPE_LARGE_IMAGE = 1;
-
-    //中文：小图
-    //English：Small image
-    public static final int NATIVE_AD_CREATE_TYPE_SMALL_IMAGE = 2;
-
-    //中文：多图
-    //English：Multiple images
-    public static final int NATIVE_AD_CREATE_TYPE_GROUP_IMAGE = 3;
-
-    //中文：视频
-    //English：Video
-    public static final int NATIVE_AD_CREATE_TYPE_VIDEO = 4;
-
+    private TextView mAdInfo;
     private TextView mTvClearLog;
     private TextView mTvShowLog;
     private TextView mTvShow;
@@ -78,6 +57,7 @@ public class NativeActivity extends BaseActivity implements View.OnClickListener
     private void initView() {
         TextView tv_load = findViewById(R.id.tv_load);
         mTvShow = findViewById(R.id.tv_show);
+        mAdInfo = (TextView) findViewById(R.id.ad_info);
         mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
         mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
         mAdContainerView = (FrameLayout) findViewById(R.id.ad_container);
@@ -87,6 +67,8 @@ public class NativeActivity extends BaseActivity implements View.OnClickListener
         mTvClearLog.setOnClickListener(this);
         tv_load.setOnClickListener(this);
         mTvShow.setOnClickListener(this);
+
+        setAdInfo(AdConfig.ALX_NATIVE_AD_ID);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -182,7 +164,7 @@ public class NativeActivity extends BaseActivity implements View.OnClickListener
 
     private View createNativeView(AlxNativeAd nativeAd) {
         int createType = nativeAd.getCreativeType();
-        if (createType == NATIVE_AD_CREATE_TYPE_VIDEO || createType == NATIVE_AD_CREATE_TYPE_LARGE_IMAGE) { //也可以不共用一个模版
+        if (createType == AlxNativeAdCreativeType.VIDEO || createType == AlxNativeAdCreativeType.LARGE_IMAGE) { //也可以不共用一个模版
             return createVideoTemplateView(nativeAd);
         }
         return null;
@@ -302,6 +284,10 @@ public class NativeActivity extends BaseActivity implements View.OnClickListener
     private void showLogMessage(String msg) {
         mTvShowLog.append(msg);
         mTvShowLog.append("\r\n");
+    }
+
+    private void setAdInfo(String unitId){
+        mAdInfo.setText(getString(R.string.format_ad_unitid, getString(R.string.native_ad), unitId));
     }
 
 

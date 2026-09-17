@@ -18,7 +18,7 @@ import com.tradplus.ads.open.interstitial.TPInterstitial;
 
 @SuppressLint("LongLogTag")
 public class TradPlusInterstitialActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = "TradPlusInterstitialDemo";
+    private static final String TAG = "TradPlusInterstitialActivity";
 
     private TextView mTvClearLog;
     private TextView mTvShowLog;

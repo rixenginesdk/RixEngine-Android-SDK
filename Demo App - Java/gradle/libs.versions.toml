@@ -1,5 +1,5 @@
 [versions]
-agp = "8.13.0"
+agp = "8.13.2"
 appcompat = "1.1.0"
 constraintlayout = "2.2.1"
 material = "1.1.0"
@@ -16,6 +16,14 @@ gmsAdsIdentifier = "18.0.1"
 adsTradplus = "14.5.0.1"
 glide = "5.0.5"
 legacySupportV4 = "1.0.0"
+compileSdkVersion = "36"
+minSdkVersion = "23"
+targetSdkVersions = "36"
+adSdkMinSdkVersion = "16"
+mavenPublish = "0.35.0"
+kotlin = "2.2.20"
+fatAar = "1.4.5"
+coreKtx = "1.13.0"
 
 
 [libraries]
@@ -35,11 +43,12 @@ ads-ironsource = { module = "com.unity3d.ads-mediation:mediation-sdk", version.r
 gms-ads-identifier = { module = "com.google.android.gms:play-services-ads-identifier", version.ref = "gmsAdsIdentifier" }
 ads-max = { module = "com.applovin:applovin-sdk", version.ref = "adsMax" }
 ads-tradplus = { module = "com.tradplusad:tradplus", version.ref = "adsTradplus" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+fat-aar = { module = "com.github.aasitnikov:fat-aar-android", version.ref = "fatAar" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-
-
-
-
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

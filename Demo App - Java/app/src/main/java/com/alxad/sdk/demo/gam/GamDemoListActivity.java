@@ -36,10 +36,12 @@ public class GamDemoListActivity extends BaseListViewActivity {
         AdapterData rewardItem = new AdapterData(getString(R.string.reward_ad), GamRewardVideoActivity.class);
         AdapterData interstitialItem = new AdapterData(getString(R.string.interstitial_ad), GamInterstitialActivity.class);
         AdapterData nativeItem = new AdapterData(getString(R.string.native_ad), GamNativeActivity.class);
+        AdapterData splashItem = new AdapterData(getString(R.string.splash_ad), GamSplashActivity.class);
         list.add(bannerItem);
         list.add(rewardItem);
         list.add(interstitialItem);
         list.add(nativeItem);
+        list.add(splashItem);
         return list;
     }
 
