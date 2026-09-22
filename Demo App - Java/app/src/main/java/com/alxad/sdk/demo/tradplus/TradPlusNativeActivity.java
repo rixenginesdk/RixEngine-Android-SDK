@@ -1,0 +1,178 @@
+package com.alxad.sdk.demo.tradplus;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.alxad.sdk.demo.AdConfig;
+import com.alxad.sdk.demo.BaseActivity;
+import com.alxad.sdk.demo.R;
+import com.tradplus.ads.base.bean.TPAdError;
+import com.tradplus.ads.base.bean.TPAdInfo;
+import com.tradplus.ads.base.bean.TPBaseAd;
+import com.tradplus.ads.open.nativead.NativeAdListener;
+import com.tradplus.ads.open.nativead.TPNative;
+import com.tradplus.ads.open.nativead.TPNativeAdRender;
+
+
+public class TradPlusNativeActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = "TradPlusNativeActivity";
+
+    private FrameLayout mAdContainerView;
+    private View mBnLoad;
+    private TextView mTvClearLog;
+    private TextView mTvShowLog;
+    private long mStartTime;
+
+    private TPNative mAdObj;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_load_ads);
+        setActionBar();
+        initView();
+    }
+
+    private void initView() {
+        mAdContainerView = (FrameLayout) findViewById(R.id.ad_container);
+        mTvClearLog = (TextView) findViewById(R.id.tv_clear_log);
+        mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
+        mBnLoad = findViewById(R.id.bn_load);
+
+        mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mTvClearLog.setOnClickListener(this);
+        mBnLoad.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.bn_load) {
+            loadAd();
+        } else if (v.getId() == R.id.tv_clear_log) {
+            clearLog();
+        }
+    }
+
+    /**
+     * 加载广告
+     */
+    public void loadAd() {
+        showLogMessage(getString(R.string.loading));
+        mBnLoad.setEnabled(false);
+        mStartTime = System.currentTimeMillis();
+
+        mAdObj = new TPNative(this, AdConfig.TRAD_PLUS_NATIVE_AD);
+        mAdObj.setAdListener(new NativeAdListener() {
+            @Override
+            public void onAdLoaded(TPAdInfo tpAdInfo, TPBaseAd tpBaseAd) {
+                Log.i(TAG, "onAdLoaded:" + getCurrentThreadName());
+                mBnLoad.setEnabled(true);
+                showLogMessage("onAdLoaded");
+                showLogMessage(getString(R.string.format_load_success, (System.currentTimeMillis() - mStartTime) / 1000));
+
+                //以下两种方式任选其一都可以
+//                mAdObj.showAd(mAdContainer,R.layout.tp_native_ad_list_item,null);
+                mAdObj.showAd(mAdContainerView, new CustomAdRender(TradPlusNativeActivity.this), "");
+            }
+
+            @Override
+            public void onAdLoadFailed(TPAdError tpAdError) {
+                String msg = "errorCode=" + tpAdError.getErrorCode() + ";errorMsg=" + tpAdError.getErrorMsg();
+                Log.i(TAG, "onAdLoadFailed：" + msg + ";" + getCurrentThreadName());
+                mBnLoad.setEnabled(true);
+                showLogMessage("onAdLoadFailed");
+                showLogMessage(getString(R.string.format_load_failed, msg));
+            }
+
+            @Override
+            public void onAdShowFailed(TPAdError tpAdError, TPAdInfo tpAdInfo) {
+                String msg = "errorCode=" + tpAdError.getErrorCode() + ";errorMsg=" + tpAdError.getErrorMsg();
+                Log.i(TAG, "onAdShowFailed：" + msg + ";" + getCurrentThreadName());
+                showLogMessage("onAdShowFailed：" + msg);
+            }
+
+            @Override
+            public void onAdClicked(TPAdInfo tpAdInfo) {
+                Log.i(TAG, "onAdClicked:" + getCurrentThreadName());
+                showLogMessage("onAdClicked");
+            }
+
+            @Override
+            public void onAdImpression(TPAdInfo tpAdInfo) {
+                Log.i(TAG, "onAdImpression:" + getCurrentThreadName());
+                showLogMessage("onAdImpression");
+            }
+
+            @Override
+            public void onAdClosed(TPAdInfo tpAdInfo) {
+                Log.i(TAG, "onAdClosed:" + getCurrentThreadName());
+                showLogMessage("onAdClosed");
+            }
+        });
+        mAdObj.loadAd();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mAdObj != null) {
+            mAdObj.onDestroy();
+        }
+    }
+
+    private class CustomAdRender extends TPNativeAdRender {
+        private Context context;
+
+        public CustomAdRender(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public ViewGroup createAdLayoutView() {
+            ViewGroup view = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.tradplus_native_custom_ad_view, null);
+
+            TextView titleView = (TextView) view.findViewById(R.id.native_title);
+            setTitleView(titleView, true);
+
+            TextView description = (TextView) view.findViewById(R.id.native_description);
+            setSubTitleView(description, true);
+
+            ImageView iconView = (ImageView) view.findViewById(R.id.native_icon);
+            setIconView(iconView, true);
+
+            ImageView mainView = (ImageView) view.findViewById(R.id.native_image);
+            setImageView(mainView, true);
+
+            TextView callToActionView = (TextView) view.findViewById(R.id.native_source);
+            setCallToActionView(callToActionView, true);
+
+            FrameLayout adChoiceView = (FrameLayout) view.findViewById(R.id.native_choice_container);
+            setAdChoicesContainer(adChoiceView, false);
+
+//            ImageView adChoice=(ImageView)view.findViewById(R.id.native_choice);
+//            setAdChoiceView(adChoice,true);
+
+            return view;
+        }
+
+    }
+
+    private void clearLog() {
+        mTvShowLog.setText("");
+    }
+
+    private void showLogMessage(String msg) {
+        mTvShowLog.append(msg);
+        mTvShowLog.append("\r\n");
+    }
+
+}

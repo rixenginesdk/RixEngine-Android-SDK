@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_action_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/bn_load"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="10dp"
+                android:includeFontPadding="false"
+                android:text="@string/load_ad"
+                android:textAllCaps="false"
+                style="@style/style_btn"
+                />
+
+            <TextView
+                android:id="@+id/tv_clear_log"
+                android:layout_width="100dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/clear_log"
+                style="@style/style_btn"
+                android:layout_gravity="end"/>
+
+            <TextView
+                android:id="@+id/tv_show_log"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/log_height"
+                style="@style/style_log"/>
+
+            <com.secmtp.sdk.nativead.api.ATNativeAdView
+                android:id="@+id/ad_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp">
+            </com.secmtp.sdk.nativead.api.ATNativeAdView>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
