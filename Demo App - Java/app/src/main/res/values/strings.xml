@@ -39,5 +39,6 @@
     <string name="alx_sdk_demo">Alx Ad Demo</string>
     <string name="clear_log">clear Log</string>
     <string name="format_ad_unitid">%s Unit ID: %s</string>
+    <string name="copy_config_info">Copy config info</string>
 
 </resources>

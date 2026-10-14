@@ -39,6 +39,7 @@
     <string name="alx_sdk_demo">Alx广告 Demo</string>
     <string name="clear_log">清空日志</string>
     <string name="format_ad_unitid">%s位ID: %s</string>
+    <string name="copy_config_info">复制配置信息</string>
 
 
 </resources>

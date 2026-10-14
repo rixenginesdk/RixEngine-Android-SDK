@@ -1,11 +1,14 @@
 package com.alxad.sdk.demo;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -84,7 +87,16 @@ public class MainActivity extends BaseListViewActivity {
         sb.append("UserId: ").append(deviceInfo.getUserId() == null ? "" : deviceInfo.getUserId()).append("\r\n");
         sb.append("GAID: ").append(deviceInfo.getGAID() == null ? "" : deviceInfo.getGAID()).append("\r\n");
 
+        sb.append("\r\n");
+        sb.append("Package Name: ").append(getPackageName() == null ? "" : getPackageName()).append("\r\n");
+
         tvContent.setText(sb);
+
+        Button btnCopy = (Button) convertView.findViewById(R.id.btn_copy_config);
+        btnCopy.setOnClickListener(v -> {
+            ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+            cm.setPrimaryClip(ClipData.newPlainText("config",sb));
+        });
         mListView.addFooterView(convertView);
     }
 

@@ -38,5 +38,6 @@
     <string name="other_platform_demo">聚合广告平台 Demo</string>
     <string name="alx_sdk_demo">Alx广告 Demo</string>
     <string name="clear_log">清空日志</string>
+    <string name="copy_config_info">复制配置信息</string>
 
 </resources>

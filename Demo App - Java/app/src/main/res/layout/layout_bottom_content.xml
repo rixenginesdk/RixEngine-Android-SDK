@@ -6,6 +6,13 @@
     android:orientation="vertical"
     android:paddingTop="100dp">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/copy_config_info"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/btn_copy_config"/>
+
     <TextView
         android:id="@+id/bottom_tv_content"
         android:layout_width="wrap_content"

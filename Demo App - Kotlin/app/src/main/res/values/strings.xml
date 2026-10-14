@@ -38,5 +38,6 @@
     <string name="other_platform_demo">Aggregated Ad Platform Demo</string>
     <string name="alx_sdk_demo">Alx Ad Demo</string>
     <string name="clear_log">clear Log</string>
+    <string name="copy_config_info">Copy config info</string>
 
 </resources>
