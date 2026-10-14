@@ -12,6 +12,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.alxad.sdk.demo.alx.AlxDemoListActivity
 import com.rixengine.api.AlxAdSDK
+import com.rixengine.api.AlxDeviceInfo
 
 class MainActivity : BaseListViewActivity() {
 
@@ -26,7 +27,7 @@ class MainActivity : BaseListViewActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addBottomLayout()
+        addSDKInfo()
         val toolbar: Toolbar = findViewById<View?>(R.id.toolBar) as Toolbar
         toolbar.setNavigationIcon(null)
         initPermission()
@@ -57,16 +58,37 @@ class MainActivity : BaseListViewActivity() {
         return list
     }
 
-    private fun addBottomLayout() {
+    private fun addBottomLayout(deviceInfo: AlxDeviceInfo) {
         val convertView = LayoutInflater.from(this).inflate(R.layout.layout_bottom_content, null)
         val tvContent = convertView.findViewById<View?>(R.id.bottom_tv_content) as TextView
-        val sb = "SDK Name: " +
-                AlxAdSDK.getNetWorkName() +
-                "\r\n" +
-                "SDK Version: " +
-                AlxAdSDK.getNetWorkVersion()
+        val sb = StringBuilder()
+        sb.append("SDK Name: ").append(AlxAdSDK.getNetWorkName()).append("\r\n")
+        sb.append("SDK Version: ").append(AlxAdSDK.getNetWorkVersion()).append("\r\n")
+
+        sb.append("\r\n")
+        sb.append("Ad SDK Config: ").append("\r\n")
+        sb.append("host: ").append(AdConfig.ALX_HOST).append("\r\n")
+        sb.append("AppID: ").append(AdConfig.ALX_APP_ID).append("\r\n")
+        sb.append("SID: ").append(AdConfig.ALX_SID).append("\r\n")
+        sb.append("token: ").append(AdConfig.ALX_TOKEN).append("\r\n")
+
+        sb.append("\r\n")
+        sb.append("Ad SDK info: ").append("\r\n")
+        sb.append("OMSDK Version: ").append(AlxAdSDK.getOMSDKVersion()).append("\r\n")
+        sb.append("UserId: ")
+            .append(deviceInfo.userId ?: "")
+            .append("\r\n")
+        sb.append("GAID: ").append(deviceInfo.gaid ?: "")
+            .append("\r\n")
+
         tvContent.text = sb
         mListView?.addFooterView(convertView)
+    }
+
+    private fun addSDKInfo() {
+        AlxAdSDK.testModeDeviceInfo(this) { info ->
+            runOnUiThread { addBottomLayout(info) }
+        }
     }
 
 }
