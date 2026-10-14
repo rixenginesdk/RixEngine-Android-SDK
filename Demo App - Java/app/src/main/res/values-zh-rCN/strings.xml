@@ -40,11 +40,6 @@
     <string name="clear_log">清空日志</string>
     <string name="format_ad_unitid">%s位ID: %s</string>
     <string name="copy_config_info">复制配置信息</string>
-    <string name="clear_local_cache">清除本地缓存</string>
-    <string name="settings">设置</string>
-    <string name="cache_cleared">缓存已清除</string>
-    <string name="clear_cache_confirm">确定要清除所有本地缓存吗？</string>
-
 
 
 </resources>

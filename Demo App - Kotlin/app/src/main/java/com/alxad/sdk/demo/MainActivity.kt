@@ -1,11 +1,14 @@
 package com.alxad.sdk.demo
 
 import android.Manifest
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
@@ -81,7 +84,16 @@ class MainActivity : BaseListViewActivity() {
         sb.append("GAID: ").append(deviceInfo.gaid ?: "")
             .append("\r\n")
 
+        sb.append("\r\n")
+        sb.append("Package Name: ").append(packageName ?: "").append("\r\n")
         tvContent.text = sb
+
+        val btnCopy: Button = convertView.findViewById(R.id.btn_copy_config)
+        btnCopy.setOnClickListener {
+            val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            clipboardManager.setPrimaryClip(ClipData.newPlainText("config",sb))
+        }
+
         mListView?.addFooterView(convertView)
     }
 
