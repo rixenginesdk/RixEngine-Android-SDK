@@ -57,6 +57,7 @@ class MainActivity : BaseListViewActivity() {
         val list: MutableList<AdapterData> = ArrayList<AdapterData>()
         list.add(AdapterData(getString(R.string.alx_sdk_demo), AlxDemoListActivity::class.java))
         list.add(AdapterData(getString(R.string.other_platform_demo),OtherPlatformActivity::class.java))
+        list.add(AdapterData(getString(R.string.settings), SettingsActivity::class.java))
 
         return list
     }
