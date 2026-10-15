@@ -63,6 +63,7 @@ public class MainActivity extends BaseListViewActivity {
         List<AdapterData> list = new ArrayList<>();
         list.add(new AdapterData(getString(R.string.alx_sdk_demo), AlxDemoListActivity.class));
         list.add(new AdapterData(getString(R.string.other_platform_demo), OtherPlatformActivity.class));
+        list.add(new AdapterData(getString(R.string.settings), SettingsActivity.class));
 
         return list;
     }
