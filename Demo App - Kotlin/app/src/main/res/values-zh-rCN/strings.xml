@@ -42,6 +42,6 @@
     <string name="clear_local_cache">清除本地缓存</string>
     <string name="settings">设置</string>
     <string name="cache_cleared">缓存已清除</string>
-    <string name="clear_cache_confirm">确定要清除所有本地缓存（包括 SharedPreferences）吗？</string>
+    <string name="clear_cache_confirm">确定要清除所有本地缓存吗？</string>
 
 </resources>
