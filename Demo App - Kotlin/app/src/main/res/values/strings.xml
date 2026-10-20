@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RixEngine Ads Demo</string>
+    <string name="app_name">Rix Ads Demo</string>
     <string name="ads_tag">AD</string>
 
     <string name="admob_app_id">ca-app-pub-2258587227088809~4790418597</string>
@@ -38,5 +38,10 @@
     <string name="other_platform_demo">Aggregated Ad Platform Demo</string>
     <string name="alx_sdk_demo">Alx Ad Demo</string>
     <string name="clear_log">clear Log</string>
+    <string name="copy_config_info">Copy config info</string>
+    <string name="clear_local_cache">Clear local cache</string>
+    <string name="settings">Settings</string>
+    <string name="cache_cleared">Cache cleared</string>
+    <string name="clear_cache_confirm">Are you sure you want to clear all local caches?</string>
 
 </resources>

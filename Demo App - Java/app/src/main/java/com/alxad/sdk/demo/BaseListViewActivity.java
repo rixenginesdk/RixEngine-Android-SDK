@@ -41,6 +41,9 @@ public abstract class BaseListViewActivity extends BaseActivity implements Adapt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (mAdapter == null || position < 0 || position >= mAdapter.getCount()) {
+            return;
+        }
         AdapterData item = mAdapter.getItem(position);
         Intent intent = new Intent(this, item.jumpActivity);
         startActivity(intent);

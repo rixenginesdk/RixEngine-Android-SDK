@@ -40,6 +40,8 @@
             android:launchMode="singleTask"/>
         <activity android:name="com.alxad.sdk.demo.OtherPlatformActivity"
             android:label="@string/other_platform_demo"/>
+        <activity android:name="com.alxad.sdk.demo.SettingsActivity"
+            android:label="@string/settings"/>
 
 
         <!-- Alx demo：start-->

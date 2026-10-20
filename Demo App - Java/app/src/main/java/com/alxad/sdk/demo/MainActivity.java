@@ -1,11 +1,14 @@
 package com.alxad.sdk.demo;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -60,6 +63,7 @@ public class MainActivity extends BaseListViewActivity {
         List<AdapterData> list = new ArrayList<>();
         list.add(new AdapterData(getString(R.string.alx_sdk_demo), AlxDemoListActivity.class));
         list.add(new AdapterData(getString(R.string.other_platform_demo), OtherPlatformActivity.class));
+        list.add(new AdapterData(getString(R.string.settings), SettingsActivity.class));
 
         return list;
     }
@@ -68,7 +72,6 @@ public class MainActivity extends BaseListViewActivity {
         View convertView = LayoutInflater.from(this).inflate(R.layout.layout_bottom_content, null);
         TextView tvContent = (TextView) convertView.findViewById(R.id.bottom_tv_content);
         StringBuilder sb = new StringBuilder();
-        sb.append("App Package Name: ").append(getPackageName()).append("\r\n");
         sb.append("SDK Name: ").append(AlxAdSDK.getNetWorkName()).append("\r\n");
         sb.append("SDK Version: ").append(AlxAdSDK.getNetWorkVersion()).append("\r\n");
 
@@ -85,7 +88,16 @@ public class MainActivity extends BaseListViewActivity {
         sb.append("UserId: ").append(deviceInfo.getUserId() == null ? "" : deviceInfo.getUserId()).append("\r\n");
         sb.append("GAID: ").append(deviceInfo.getGAID() == null ? "" : deviceInfo.getGAID()).append("\r\n");
 
+        sb.append("\r\n");
+        sb.append("Package Name: ").append(getPackageName() == null ? "" : getPackageName()).append("\r\n");
+
         tvContent.setText(sb);
+
+        Button btnCopy = (Button) convertView.findViewById(R.id.btn_copy_config);
+        btnCopy.setOnClickListener(v -> {
+            ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+            cm.setPrimaryClip(ClipData.newPlainText("config",sb));
+        });
         mListView.addFooterView(convertView);
     }
 

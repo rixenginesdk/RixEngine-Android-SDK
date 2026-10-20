@@ -39,6 +39,7 @@ abstract class BaseListViewActivity : BaseActivity(), OnItemClickListener {
 
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        if (position !in 0 until mAdapter!!.count) return
         val item = mAdapter!!.getItem(position)
         val intent = Intent(this, item.jumpActivity)
         startActivity(intent)
