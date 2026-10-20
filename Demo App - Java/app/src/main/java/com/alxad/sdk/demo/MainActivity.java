@@ -68,6 +68,7 @@ public class MainActivity extends BaseListViewActivity {
         View convertView = LayoutInflater.from(this).inflate(R.layout.layout_bottom_content, null);
         TextView tvContent = (TextView) convertView.findViewById(R.id.bottom_tv_content);
         StringBuilder sb = new StringBuilder();
+        sb.append("App Package Name: ").append(getPackageName()).append("\r\n");
         sb.append("SDK Name: ").append(AlxAdSDK.getNetWorkName()).append("\r\n");
         sb.append("SDK Version: ").append(AlxAdSDK.getNetWorkVersion()).append("\r\n");
 
