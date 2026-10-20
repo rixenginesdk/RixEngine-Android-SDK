@@ -46,24 +46,24 @@
 
         <!-- Alx demo：start-->
         <activity android:name="com.alxad.sdk.demo.alx.AlxDemoListActivity"
-            android:label="Alx Ad"/>
+            android:label="Rix Ad"/>
         <activity android:name="com.alxad.sdk.demo.alx.BannerActivity"
-            android:label="Alx Ad: banner"/>
+            android:label="Rix Ad: banner"/>
         <activity android:name="com.alxad.sdk.demo.alx.RewardVideoActivity"
-            android:label="Alx Ad: reward video"/>
+            android:label="Rix Ad: reward video"/>
         <activity android:name="com.alxad.sdk.demo.alx.InterstitialVideoActivity"
-            android:label="Alx Ad: interstitial Ad - video"/>
+            android:label="Rix Ad: interstitial Ad - video"/>
         <activity android:name="com.alxad.sdk.demo.alx.InterstitialBannerActivity"
-            android:label="Alx Ad: interstitial Ad - banner"/>
+            android:label="Rix Ad: interstitial Ad - banner"/>
         <activity
             android:name="com.alxad.sdk.demo.alx.NativeActivity"
-            android:label="Alx Ad: native" />
+            android:label="Rix Ad: native" />
         <activity
             android:name="com.alxad.sdk.demo.alx.SplashVideoActivity"
-            android:label="Alx Ad: splash  Ad - video" />
+            android:label="Rix Ad: splash  Ad - video" />
         <activity
             android:name="com.alxad.sdk.demo.alx.SplashBannerActivity"
-            android:label="Alx Ad: splash Ad - banner" />
+            android:label="Rix Ad: splash Ad - banner" />
         <!-- Alx demo：end -->
 
         <!-- TopOn平台 demo案例 -->

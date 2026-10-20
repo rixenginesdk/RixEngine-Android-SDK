@@ -36,7 +36,7 @@
     <string name="list_item_native_title">native test title ad</string>
     <string name="list_item_native_desc">native test desc ad</string>
     <string name="other_platform_demo">Aggregated Ad Platform Demo</string>
-    <string name="alx_sdk_demo">Alx Ad Demo</string>
+    <string name="alx_sdk_demo">Rix Ad Demo</string>
     <string name="clear_log">clear Log</string>
     <string name="format_ad_unitid">%s Unit ID: %s</string>
     <string name="copy_config_info">Copy config info</string>
