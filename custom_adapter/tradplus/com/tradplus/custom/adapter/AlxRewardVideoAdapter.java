@@ -171,13 +171,12 @@ public class AlxRewardVideoAdapter extends TPRewardAdapter {
             AlxAdSDK.init(context, host, token, sid, appid, new AlxSdkInitCallback() {
                 @Override
                 public void onInit(boolean isOk, String msg) {
-                    //if (isOk){
+                    AlxBannerAdapter.sdkInfo();
                     startAdLoad(context);
-                    //}
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Alx sdk init failed:" + e.getMessage());
         }
     }
 

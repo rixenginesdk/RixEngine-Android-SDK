@@ -102,11 +102,12 @@ public class AlxSplashAdapter extends TPSplashAdapter {
                 @Override
                 public void onInit(boolean isOk, String msg) {
                     Log.i(TAG, "sdk onInit:" + isOk);
+                    AlxBannerAdapter.sdkInfo();
                     loadAd(context);
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Alx sdk init failed:" + e.getMessage());
         }
     }
 

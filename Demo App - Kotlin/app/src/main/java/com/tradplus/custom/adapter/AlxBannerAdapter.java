@@ -13,6 +13,8 @@ import com.tradplus.ads.base.adapter.banner.TPBannerAdapter;
 import com.tradplus.ads.base.common.TPError;
 import com.tradplus.ads.open.TradPlusSdk;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -125,11 +127,12 @@ public class AlxBannerAdapter extends TPBannerAdapter {
                 @Override
                 public void onInit(boolean isOk, String msg) {
                     Log.i(TAG, "sdk onInit:" + isOk);
+                    AlxBannerAdapter.sdkInfo();
                     loadAd(context);
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Alx sdk init failed:" + e.getMessage());
         }
     }
 
@@ -223,6 +226,18 @@ public class AlxBannerAdapter extends TPBannerAdapter {
     @Override
     public String getNetworkName() {
         return AlxAdSDK.getNetWorkName();
+    }
+
+    public static void sdkInfo() {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("sdk_name", "TradPlus");
+            json.put("sdk_version", TradPlusSdk.getSdkVersion());
+            json.put("adapter_version", AlxMetaInf.ADAPTER_VERSION);
+            AlxAdSDK.addExtraParameters("alx_adapter", json);
+        } catch (Exception e) {
+            Log.e(TAG, "error:" + e.getMessage());
+        }
     }
 
 }

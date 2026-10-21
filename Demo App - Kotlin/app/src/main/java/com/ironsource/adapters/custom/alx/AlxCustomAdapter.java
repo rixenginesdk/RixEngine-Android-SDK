@@ -15,6 +15,8 @@ import com.rixengine.api.AlxAdSDK;
 import com.rixengine.api.AlxSdkInitCallback;
 import com.unity3d.mediation.LevelPlay;
 
+import org.json.JSONObject;
+
 import java.util.Map;
 
 public class AlxCustomAdapter extends BaseAdapter {
@@ -45,6 +47,7 @@ public class AlxCustomAdapter extends BaseAdapter {
                 AlxAdSDK.init(context, host, token, sid, appid, new AlxSdkInitCallback() {
                     @Override
                     public void onInit(boolean isOk, String msg) {
+                        sdkInfo();
                         if (isOk) {
                             mNetworkInitializationListener.onInitSuccess();
                         } else {
@@ -53,7 +56,7 @@ public class AlxCustomAdapter extends BaseAdapter {
                     }
                 });
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e(TAG, "error:" + e.getMessage());
             }
 
         } else {
@@ -99,12 +102,12 @@ public class AlxCustomAdapter extends BaseAdapter {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "error:" + e.getMessage());
         }
 
         if (TextUtils.isEmpty(host) && !TextUtils.isEmpty(AlxMetaInf.ADAPTER_SDK_HOST_URL)) {
             host = AlxMetaInf.ADAPTER_SDK_HOST_URL;
-            Log.e(TAG,"host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
+            Log.e(TAG, "host url is null, please check it, now use default host : " + AlxMetaInf.ADAPTER_SDK_HOST_URL);
         }
 
         if (TextUtils.isEmpty(host) || TextUtils.isEmpty(unitid) || TextUtils.isEmpty(token) || TextUtils.isEmpty(sid) || TextUtils.isEmpty(appid)) {
@@ -122,6 +125,18 @@ public class AlxCustomAdapter extends BaseAdapter {
     @Override
     public String getAdapterVersion() {
         return AlxMetaInf.ADAPTER_VERSION;
+    }
+
+    public static void sdkInfo() {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("sdk_name", "LevelPlay");
+            json.put("sdk_version", LevelPlay.getSdkVersion());
+            json.put("adapter_version", AlxMetaInf.ADAPTER_VERSION);
+            AlxAdSDK.addExtraParameters("alx_adapter", json);
+        } catch (Exception e) {
+            Log.e(TAG, "error:" + e.getMessage());
+        }
     }
 }
 

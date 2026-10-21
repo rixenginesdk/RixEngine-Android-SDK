@@ -55,7 +55,7 @@ public class AlxCustomInterstitial extends BaseInterstitial<AlxCustomAdapter> {
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "error: " + e.getMessage());
         }
     }
 
@@ -97,25 +97,6 @@ public class AlxCustomInterstitial extends BaseInterstitial<AlxCustomAdapter> {
             public void onInterstitialAdClose() {
                 if (mInterstitialAdListener != null) {
                     mInterstitialAdListener.onAdClosed();
-                }
-            }
-
-            @Override
-            public void onInterstitialAdVideoStart() {
-                if (mInterstitialAdListener != null) {
-                }
-            }
-
-            @Override
-            public void onInterstitialAdVideoEnd() {
-                if (mInterstitialAdListener != null) {
-
-                }
-            }
-
-            @Override
-            public void onInterstitialAdVideoError(int errorCode, String errorMsg) {
-                if (mInterstitialAdListener != null) {
                 }
             }
         });

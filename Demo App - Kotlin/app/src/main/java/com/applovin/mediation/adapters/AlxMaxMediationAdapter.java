@@ -734,6 +734,7 @@ public class AlxMaxMediationAdapter extends MediationAdapterBase implements MaxA
                     public void onInit(boolean isOk, String msg) {
                         initialized.set(true);
                         status = InitializationStatus.INITIALIZED_SUCCESS;
+                        sdkInfo();
                         if (onCompletionListener != null) {
                             onCompletionListener.onCompletion(status, null);
                         }
@@ -870,6 +871,18 @@ public class AlxMaxMediationAdapter extends MediationAdapterBase implements MaxA
             Log.e(TAG, "max extras field error:" + e.getMessage());
         }
         return map;
+    }
+
+    public void sdkInfo() {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("sdk_name", "Max");
+            json.put("sdk_version", AppLovinSdk.VERSION);
+            json.put("adapter_version", ADAPTER_VERSION);
+            AlxAdSDK.addExtraParameters("alx_adapter", json);
+        } catch (Exception e) {
+            Log.e(TAG, "error:" + e.getMessage());
+        }
     }
 
 }
