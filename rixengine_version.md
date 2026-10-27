@@ -1,5 +1,12 @@
 # RixEngine SDK
 
+### Version: 4.2.1
+### date: 2026-10-27
+### Main Updates:
+1. Fix the known issues
+
+---
+
 ### Version: 4.2.0
 ### date: 2026-9-17
 ### Main Updates:
