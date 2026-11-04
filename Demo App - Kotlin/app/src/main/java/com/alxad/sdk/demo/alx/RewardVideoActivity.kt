@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.alxad.sdk.demo.AdConfig
 import com.alxad.sdk.demo.BaseActivity
 import com.alxad.sdk.demo.R
+import com.rixengine.api.AlxAdConstant
 import com.rixengine.api.AlxAdParam
 import com.rixengine.api.AlxRewardVideoAD
 import com.rixengine.api.AlxRewardVideoADListener
@@ -54,7 +55,7 @@ class RewardVideoActivity : BaseActivity(), View.OnClickListener {
         startTime = System.currentTimeMillis()
 
         val userExtras: MutableMap<String, String> = HashMap()
-        userExtras["bid_floor"] = "1.5"
+        userExtras[AlxAdConstant.KEY.BIDDING_FLOOR] = "1.5"
         val builder = AlxAdParam.Builder().setUserExtras(userExtras)
         mVideoAD = AlxRewardVideoAD()
         mVideoAD?.load(
@@ -72,9 +73,6 @@ class RewardVideoActivity : BaseActivity(), View.OnClickListener {
                         ) + "｜ ecpm:" + mVideoAD?.price
                         it.text = msg
                     }
-
-                    mVideoAD?.reportChargingUrl()
-                    mVideoAD?.reportBiddingUrl()
                 }
 
                 override fun onRewardedVideoAdFailed(

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.R;
+import com.rixengine.api.AlxAdConstant;
 import com.rixengine.api.AlxAdParam;
 import com.rixengine.api.AlxBannerView;
 import com.rixengine.api.AlxBannerViewAdListener;
@@ -91,7 +92,7 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
         mAlxBannerView2.setBannerRefresh(0);//[ZH]不自动刷新  |  [EN]No automatic refresh
         mAlxBannerView2.setVisibility(View.VISIBLE);
         Map<String, String> userExtras = new HashMap<>();
-        userExtras.put("bid_floor", "1.5");
+        userExtras.put(AlxAdConstant.KEY.BIDDING_FLOOR, "1.5");
         AlxAdParam.Builder builder = new AlxAdParam.Builder().setUserExtras(userExtras);
         mAlxBannerView2.loadAd(AdConfig.ALX_BANNER_AD_ID, builder.build(), new AlxBannerViewAdListener() {
             @Override
@@ -101,9 +102,6 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
                 mBnLoad.setEnabled(true);
                 showLogMessage("onAdLoaded");
                 showLogMessage(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000) + "｜ ecpm:" + mAlxBannerView2.getPrice());
-
-                mAlxBannerView2.reportBiddingUrl();
-                mAlxBannerView2.reportChargingUrl();
             }
 
             @Override

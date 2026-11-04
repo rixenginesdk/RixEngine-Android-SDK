@@ -78,7 +78,6 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
                         bean.setAdData();
                         result[i] = bean;
                         price = item.getPrice();
-                        Log.d(TAG, "startBid  load success");
                     }
                     isOk = true;
                 } catch (Exception e) {
@@ -92,7 +91,8 @@ public class AlxNativeAdapter extends CustomNativeAdapter {
                     }
                     if (mBiddingListener != null) {
                         Log.d(TAG, "bidding load success: bid price = " + price);
-                        mBiddingListener.onC2SBiddingResultWithCache(AlxSdkInitManager.getBiddingSuccessBean(price), result[0]);
+                        AlxBiddingNotice biddingNotice = new AlxBiddingNotice(ads.get(0));
+                        mBiddingListener.onC2SBiddingResultWithCache(AlxSdkInitManager.getBiddingSuccessBean(price, biddingNotice), result[0]);
                     }
                 } else {
                     if (mLoadListener != null) {

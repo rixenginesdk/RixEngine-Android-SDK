@@ -120,7 +120,7 @@ public class AlxSdkInitManager extends ATInitMediation {
 
     }
 
-    public static ATBiddingResult getBiddingSuccessBean(double bidPrice){
+    public static ATBiddingResult getBiddingSuccessBean(double bidPrice,ATBiddingNotice biddingNotice){
         //get currency
         ATAdConst.CURRENCY currency = ATAdConst.CURRENCY.USD;
 
@@ -128,7 +128,7 @@ public class AlxSdkInitManager extends ATInitMediation {
         String token = UUID.randomUUID().toString();
 
         //BiddingNotice
-        ATBiddingNotice biddingNotice = null;
+//        ATBiddingNotice biddingNotice = null;
         return ATBiddingResult.success(bidPrice, token, biddingNotice, currency);
     }
 

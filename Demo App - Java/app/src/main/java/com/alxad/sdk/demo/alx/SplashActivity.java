@@ -10,6 +10,7 @@ import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.MainActivity;
 import com.alxad.sdk.demo.R;
+import com.rixengine.api.AlxAdConstant;
 import com.rixengine.api.AlxAdParam;
 import com.rixengine.api.AlxSplashAd;
 import com.rixengine.api.AlxSplashAdListener;
@@ -46,7 +47,7 @@ public class SplashActivity extends BaseActivity {
         //[ZH] 初始化广告位。仅调用一次。
         //[EN] Initialize the ad spot. Only call once.
         Map<String, String> userExtras = new HashMap<>();
-        userExtras.put("bid_floor", "1.5");
+        userExtras.put(AlxAdConstant.KEY.BIDDING_FLOOR, "1.5");
         AlxAdParam.Builder builder = new AlxAdParam.Builder().setUserExtras(userExtras);
 
         mSlashAd = new AlxSplashAd();
@@ -56,8 +57,6 @@ public class SplashActivity extends BaseActivity {
             public void onAdLoaded() {
                 Log.d(TAG, "onAdLoaded: | price：" + mSlashAd.getPrice());
                 mSlashAd.show(mActivity);
-                mSlashAd.reportChargingUrl();
-                mSlashAd.reportBiddingUrl();
             }
 
             @Override

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.R;
+import com.rixengine.api.AlxAdConstant;
 import com.rixengine.api.AlxAdParam;
 import com.rixengine.api.AlxSplashAd;
 import com.rixengine.api.AlxSplashAdListener;
@@ -74,7 +75,7 @@ public class SplashBannerActivity extends BaseActivity implements View.OnClickLi
 
         mSplashAd = new AlxSplashAd();
         Map<String, String> userExtras = new HashMap<>();
-        userExtras.put("bid_floor", "1.5");
+        userExtras.put(AlxAdConstant.KEY.BIDDING_FLOOR, "1.5");
         AlxAdParam.Builder builder = new AlxAdParam.Builder().setUserExtras(userExtras);
         mSplashAd.load(this, AdConfig.ALX_SPLASH_BANNER_AD_ID, builder.build(), new AlxSplashAdListener() {
 
@@ -84,9 +85,6 @@ public class SplashBannerActivity extends BaseActivity implements View.OnClickLi
                 mTvShow.setEnabled(true);
                 showLogMessage("onAdLoaded");
                 showLogMessage(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000) + "｜ ecpm:" + mSplashAd.getPrice());
-
-                mSplashAd.reportChargingUrl();
-                mSplashAd.reportBiddingUrl();
             }
 
             @Override

@@ -46,7 +46,8 @@ public class AlxInterstitialAdapter extends CustomInterstitialAdapter {
                 if (mBiddingListener != null) {
                     double bidPrice = alxInterstitialAD.getPrice();
                     Log.d(TAG, "bidding load success: bid price = " + bidPrice);
-                    mBiddingListener.onC2SBiddingResultWithCache(AlxSdkInitManager.getBiddingSuccessBean(bidPrice), null);
+                    AlxBiddingNotice biddingNotice = new AlxBiddingNotice(alxInterstitialAD);
+                    mBiddingListener.onC2SBiddingResultWithCache(AlxSdkInitManager.getBiddingSuccessBean(bidPrice, biddingNotice), null);
                 }
             }
 

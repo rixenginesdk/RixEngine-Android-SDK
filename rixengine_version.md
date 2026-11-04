@@ -1,5 +1,14 @@
 # RixEngine SDK
 
+### Version: 4.3.0
+### date: 2026-11-4
+### Main Updates:
+1. Add notifications for successful bidding, failed bidding, and display billing.
+2. Add Google Play Inline installation.
+3. Fix known issues.
+
+---
+
 ### Version: 4.2.1
 ### date: 2026-10-27
 ### Main Updates:

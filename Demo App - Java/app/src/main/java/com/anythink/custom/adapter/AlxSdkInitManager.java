@@ -9,9 +9,9 @@ import com.rixengine.api.AlxSdkInitCallback;
 import com.secmtp.sdk.core.api.ATAdConst;
 import com.secmtp.sdk.core.api.ATBiddingNotice;
 import com.secmtp.sdk.core.api.ATBiddingResult;
+import com.secmtp.sdk.core.api.MediationInitCallback;
 import com.secmtp.sdk.core.api.ATInitMediation;
 import com.secmtp.sdk.core.api.ATSDK;
-import com.secmtp.sdk.core.api.MediationInitCallback;
 import com.secmtp.sdk.core.api.bridge.ATAdapterBridgeConst;
 
 import org.json.JSONObject;
@@ -120,7 +120,7 @@ public class AlxSdkInitManager extends ATInitMediation {
 
     }
 
-    public static ATBiddingResult getBiddingSuccessBean(double bidPrice){
+    public static ATBiddingResult getBiddingSuccessBean(double bidPrice,ATBiddingNotice biddingNotice){
         //get currency
         ATAdConst.CURRENCY currency = ATAdConst.CURRENCY.USD;
 
@@ -128,7 +128,7 @@ public class AlxSdkInitManager extends ATInitMediation {
         String token = UUID.randomUUID().toString();
 
         //BiddingNotice
-        ATBiddingNotice biddingNotice = null;
+//        ATBiddingNotice biddingNotice = null;
         return ATBiddingResult.success(bidPrice, token, biddingNotice, currency);
     }
 

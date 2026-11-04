@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.alxad.sdk.demo.AdConfig
 import com.alxad.sdk.demo.BaseActivity
 import com.alxad.sdk.demo.R
+import com.rixengine.api.AlxAdConstant
 import com.rixengine.api.AlxAdParam
 import com.rixengine.api.AlxInterstitialAD
 import com.rixengine.api.AlxInterstitialADListener
@@ -55,7 +56,7 @@ class InterstitialBannerActivity : BaseActivity(), View.OnClickListener {
 
         mInterstitialAD = AlxInterstitialAD()
         val userExtras: MutableMap<String, String> = HashMap()
-        userExtras["bid_floor"] = "1.5"
+        userExtras[AlxAdConstant.KEY.BIDDING_FLOOR] = "1.5"
         val builder = AlxAdParam.Builder().setUserExtras(userExtras)
         mInterstitialAD?.load(
             this,
@@ -72,9 +73,6 @@ class InterstitialBannerActivity : BaseActivity(), View.OnClickListener {
                         ) + "｜ ecpm:" + mInterstitialAD?.price
                         it.text = msg
                     }
-
-                    mInterstitialAD?.reportChargingUrl()
-                    mInterstitialAD?.reportBiddingUrl()
                 }
 
                 override fun onInterstitialAdLoadFail(errorCode: Int, errorMsg: String) {

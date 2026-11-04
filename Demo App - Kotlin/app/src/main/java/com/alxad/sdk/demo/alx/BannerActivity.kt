@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.alxad.sdk.demo.AdConfig
 import com.alxad.sdk.demo.BaseActivity
 import com.alxad.sdk.demo.R
+import com.rixengine.api.AlxAdConstant
 import com.rixengine.api.AlxAdParam
 import com.rixengine.api.AlxBannerView
 import com.rixengine.api.AlxBannerViewAdListener
@@ -67,7 +68,7 @@ class BannerActivity : BaseActivity(), View.OnClickListener {
         mAlxBannerView2?.setBannerRefresh(0) //[ZH]不自动刷新  |  [EN]No automatic refresh
         mAlxBannerView2?.visibility = View.VISIBLE
         val userExtras: MutableMap<String, String> = HashMap()
-        userExtras["bid_floor"] = "1.5"
+        userExtras[AlxAdConstant.KEY.BIDDING_FLOOR] = "1.5"
         val builder = AlxAdParam.Builder().setUserExtras(userExtras)
         mAlxBannerView2?.loadAd(AdConfig.ALX_BANNER_AD_ID, builder.build(),object : AlxBannerViewAdListener() {
             override fun onAdLoaded() {
@@ -81,9 +82,6 @@ class BannerActivity : BaseActivity(), View.OnClickListener {
                     ) + "｜ ecpm:" + mAlxBannerView2?.price
                     it.text = msg
                 }
-
-                mAlxBannerView2?.reportBiddingUrl()
-                mAlxBannerView2?.reportChargingUrl()
             }
 
             override fun onAdError(errorCode: Int, errorMsg: String) {

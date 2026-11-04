@@ -8,12 +8,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.rixengine.api.AlxAdParam;
-import com.rixengine.api.AlxInterstitialAD;
-import com.rixengine.api.AlxInterstitialADListener;
 import com.alxad.sdk.demo.AdConfig;
 import com.alxad.sdk.demo.BaseActivity;
 import com.alxad.sdk.demo.R;
+import com.rixengine.api.AlxAdConstant;
+import com.rixengine.api.AlxAdParam;
+import com.rixengine.api.AlxInterstitialAD;
+import com.rixengine.api.AlxInterstitialADListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -74,7 +75,7 @@ public class InterstitialBannerActivity extends BaseActivity implements View.OnC
 
         mInterstitialAD = new AlxInterstitialAD();
         Map<String, String> userExtras = new HashMap<>();
-        userExtras.put("bid_floor", "1.5");
+        userExtras.put(AlxAdConstant.KEY.BIDDING_FLOOR, "1.5");
         AlxAdParam.Builder builder = new AlxAdParam.Builder().setUserExtras(userExtras);
         mInterstitialAD.load(this, AdConfig.ALX_INTERSTITIAL_BANNER_AD_ID, builder.build(), new AlxInterstitialADListener() {
 
@@ -84,9 +85,6 @@ public class InterstitialBannerActivity extends BaseActivity implements View.OnC
                 mTvShow.setEnabled(true);
                 showLogMessage("onInterstitialAdLoaded");
                 showLogMessage(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000) + "｜ ecpm:" + mInterstitialAD.getPrice());
-
-                mInterstitialAD.reportChargingUrl();
-                mInterstitialAD.reportBiddingUrl();
             }
 
             @Override

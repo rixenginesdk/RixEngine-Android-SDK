@@ -44,7 +44,8 @@ public class AlxBannerAdapter extends CustomBannerAdapter {
                 if (mBiddingListener != null) {
                     double bidPrice = mBannerView.getPrice();
                     Log.d(TAG, "bidding load success: bid price = " + bidPrice);
-                    mBiddingListener.onC2SBiddingResultWithCache(AlxSdkInitManager.getBiddingSuccessBean(bidPrice), null);
+                    AlxBiddingNotice biddingNotice = new AlxBiddingNotice(mBannerView);
+                    mBiddingListener.onC2SBiddingResultWithCache(AlxSdkInitManager.getBiddingSuccessBean(bidPrice, biddingNotice), null);
                 }
             }
 

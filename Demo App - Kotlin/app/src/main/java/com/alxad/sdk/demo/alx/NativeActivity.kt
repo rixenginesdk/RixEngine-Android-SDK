@@ -14,6 +14,7 @@ import com.alxad.sdk.demo.AdConfig
 import com.alxad.sdk.demo.BaseActivity
 import com.alxad.sdk.demo.R
 import com.bumptech.glide.Glide
+import com.rixengine.api.AlxAdConstant
 import com.rixengine.api.AlxAdParam
 import com.rixengine.api.nativead.AlxMediaContent.VideoLifecycleListener
 import com.rixengine.api.nativead.AlxMediaView
@@ -73,7 +74,7 @@ class NativeActivity : BaseActivity() {
         startTime = System.currentTimeMillis()
 
         val userExtras: MutableMap<String, String> = HashMap()
-        userExtras["bid_floor"] = "1.5"
+        userExtras[AlxAdConstant.KEY.BIDDING_FLOOR] = "1.5"
         val builder = AlxAdParam.Builder().setUserExtras(userExtras)
         val loader = AlxNativeAdLoader.Builder(this, AdConfig.ALX_NATIVE_AD_ID).build()
         loader.loadAd(builder.build(), object : AlxNativeAdLoadedListener {
@@ -98,8 +99,6 @@ class NativeActivity : BaseActivity() {
                     ) + "｜ ecpm:" + mNativeAd?.price
                     it.text = msg
                 }
-                mNativeAd?.reportBiddingUrl()
-                mNativeAd?.reportChargingUrl()
 
                 showNativeAd()
             }

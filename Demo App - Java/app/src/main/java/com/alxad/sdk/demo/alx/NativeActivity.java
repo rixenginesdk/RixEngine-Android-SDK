@@ -14,6 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alxad.sdk.demo.AdConfig;
+import com.alxad.sdk.demo.BaseActivity;
+import com.alxad.sdk.demo.R;
+import com.bumptech.glide.Glide;
+import com.rixengine.api.AlxAdConstant;
 import com.rixengine.api.AlxAdParam;
 import com.rixengine.api.nativead.AlxMediaContent;
 import com.rixengine.api.nativead.AlxMediaView;
@@ -23,10 +28,6 @@ import com.rixengine.api.nativead.AlxNativeAdLoadedListener;
 import com.rixengine.api.nativead.AlxNativeAdLoader;
 import com.rixengine.api.nativead.AlxNativeAdView;
 import com.rixengine.api.nativead.AlxNativeEventListener;
-import com.alxad.sdk.demo.AdConfig;
-import com.alxad.sdk.demo.BaseActivity;
-import com.alxad.sdk.demo.R;
-import com.bumptech.glide.Glide;
 
 import java.util.HashMap;
 import java.util.List;
@@ -90,7 +91,7 @@ public class NativeActivity extends BaseActivity implements View.OnClickListener
         startTime = System.currentTimeMillis();
 
         Map<String, String> userExtras = new HashMap<>();
-        userExtras.put("bid_floor", "1.5");
+        userExtras.put(AlxAdConstant.KEY.BIDDING_FLOOR, "1.5");
         AlxAdParam.Builder builder = new AlxAdParam.Builder().setUserExtras(userExtras);
         AlxNativeAdLoader loader = new AlxNativeAdLoader.Builder(this, AdConfig.ALX_NATIVE_AD_ID).build();
         loader.loadAd(builder.build(), new AlxNativeAdLoadedListener() {
@@ -117,8 +118,6 @@ public class NativeActivity extends BaseActivity implements View.OnClickListener
                 Log.i(TAG, "price=" + mNativeAd.getPrice());
                 showLogMessage("onAdLoaded");
                 showLogMessage(getString(R.string.format_load_success, (System.currentTimeMillis() - startTime) / 1000) + "｜ ecpm:" + mNativeAd.getPrice());
-                mNativeAd.reportBiddingUrl();
-                mNativeAd.reportChargingUrl();
 
 //                showNativeAd();
             }

@@ -45,7 +45,8 @@ public class AlxRewardVideoAdapter extends CustomRewardVideoAdapter {
                 if (mBiddingListener != null) {
                     double bidPrice = alxRewardVideoAD.getPrice();
                     Log.d(TAG, "bidding load success: bid price = " + bidPrice);
-                    mBiddingListener.onC2SBiddingResultWithCache(AlxSdkInitManager.getBiddingSuccessBean(bidPrice), null);
+                    AlxBiddingNotice biddingNotice = new AlxBiddingNotice(alxRewardVideoAD);
+                    mBiddingListener.onC2SBiddingResultWithCache(AlxSdkInitManager.getBiddingSuccessBean(bidPrice, biddingNotice), null);
                 }
             }
 
