@@ -1,5 +1,14 @@
 # RixEngine SDK
 
+### Version: 4.3.1
+### date: 2026-11-9
+### Main Updates:
+1. SDK initialization callback policy adjustment
+2. New trial play advertisement added
+3. Fix known issues.
+
+---
+
 ### Version: 4.3.0
 ### date: 2026-11-4
 ### Main Updates:
