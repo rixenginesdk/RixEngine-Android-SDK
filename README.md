@@ -1,4 +1,8 @@
-# Rixengine Android SDK
+# RixEngine Android SDK
+
+English | [中文](README_ZH.md)
+
+---
 
 **Welcome to the RixEngine Android SDK**, your gateway to unlocking the full potential of in-app monetization.
 

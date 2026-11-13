@@ -1,4 +1,8 @@
-# Rixengine Android SDK
+# RixEngine Android SDK
+
+中文 | [English](README.md)
+
+---
 
 **欢迎使用 RixEngine Android SDK**, 助您充分释放应用内变现潜力的门户。
 
