@@ -9,7 +9,7 @@
 此 `RixEngine-Android-SDK` 仓库包含：
 
 1. 使用 RixEngine 的示例源代码
-2. 开源中介适配器
+2. 开源聚合适配器
 
 # 示例Demo APP
 Java Demo App 是示例项目，如何使用 RixEngine SDK 广告。要开始使用示例应用，请按照以下说明操作：
