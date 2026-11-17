@@ -11,6 +11,31 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.applovin.mediation.adapter.listeners.MaxAppOpenAdapterListener;
+import com.applovin.mediation.adapter.parameters.MaxAdapterParameters;
+import com.applovin.sdk.AppLovinSdkSettings;
+import com.rixengine.api.AlxAdParam;
+import com.rixengine.api.AlxAdSDK;
+import com.rixengine.api.AlxBannerView;
+import com.rixengine.api.AlxBannerViewAdListener;
+import com.rixengine.api.AlxImage;
+import com.rixengine.api.AlxInterstitialAD;
+import com.rixengine.api.AlxInterstitialADListener;
+import com.rixengine.api.AlxRewardVideoAD;
+import com.rixengine.api.AlxRewardVideoADListener;
+import com.rixengine.api.AlxSdkInitCallback;
+import com.rixengine.api.AlxSplashAd;
+import com.rixengine.api.AlxSplashAdListener;
+import com.rixengine.api.nativead.AlxMediaContent;
+import com.rixengine.api.nativead.AlxMediaView;
+import com.rixengine.api.nativead.AlxNativeAd;
+import com.rixengine.api.nativead.AlxNativeAdLoadedListener;
+import com.rixengine.api.nativead.AlxNativeAdLoader;
+import com.rixengine.api.nativead.AlxNativeAdView;
+import com.rixengine.api.nativead.AlxNativeEventListener;
 import com.applovin.impl.sdk.utils.BundleUtils;
 import com.applovin.mediation.MaxAdFormat;
 import com.applovin.mediation.adapter.MaxAdViewAdapter;
@@ -23,31 +48,13 @@ import com.applovin.mediation.adapter.listeners.MaxInterstitialAdapterListener;
 import com.applovin.mediation.adapter.listeners.MaxNativeAdAdapterListener;
 import com.applovin.mediation.adapter.listeners.MaxRewardedAdapterListener;
 import com.applovin.mediation.adapter.parameters.MaxAdapterInitializationParameters;
-import com.applovin.mediation.adapter.parameters.MaxAdapterParameters;
 import com.applovin.mediation.adapter.parameters.MaxAdapterResponseParameters;
 import com.applovin.mediation.nativeAds.MaxNativeAd;
 import com.applovin.mediation.nativeAds.MaxNativeAdView;
 import com.applovin.sdk.AppLovinPrivacySettings;
 import com.applovin.sdk.AppLovinSdk;
-import com.applovin.sdk.AppLovinSdkSettings;
 import com.applovin.sdk.AppLovinSdkUtils;
-import com.rixengine.api.AlxAdParam;
-import com.rixengine.api.AlxAdSDK;
-import com.rixengine.api.AlxBannerView;
-import com.rixengine.api.AlxBannerViewAdListener;
-import com.rixengine.api.AlxImage;
-import com.rixengine.api.AlxInterstitialAD;
-import com.rixengine.api.AlxInterstitialADListener;
-import com.rixengine.api.AlxRewardVideoAD;
-import com.rixengine.api.AlxRewardVideoADListener;
-import com.rixengine.api.AlxSdkInitCallback;
-import com.rixengine.api.nativead.AlxMediaContent;
-import com.rixengine.api.nativead.AlxMediaView;
-import com.rixengine.api.nativead.AlxNativeAd;
-import com.rixengine.api.nativead.AlxNativeAdLoadedListener;
-import com.rixengine.api.nativead.AlxNativeAdLoader;
-import com.rixengine.api.nativead.AlxNativeAdView;
-import com.rixengine.api.nativead.AlxNativeEventListener;
+
 
 import org.json.JSONObject;
 
@@ -66,12 +73,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Deprecated
 public class AlgorixMediationAdapter extends MediationAdapterBase implements MaxAdViewAdapter, MaxInterstitialAdapter, MaxRewardedAdapter, MaxNativeAdAdapter {
 
-    String ADAPTER_VERSION = "3.9.5";
+    String ADAPTER_VERSION = "4.0.0";
     // Chinese: SDK请求EndPoint域名, 由平台分配，请手动修改， 例如：https://yoursubdomain.svr.rixengine.com/rtb
     // English: SDK requests the EndPoint domain, assigned by the platform, please manually modify, for example: https://yoursubdomain.svr.rixengine.com/rtb
     // Chinese: https://demo.svr.rixengine.com/rtb 是测试HOST，正式需要修改
     // English: https://demo.svr.rixengine.com/rtb is the test HOST, officially need to be modified
-    String ADAPTER_SDK_HOST_URL = "https://demo.svr.rixengine.com/rtb"; //测试HOST，正式需要修改
+    String ADAPTER_SDK_HOST_URL = "https://demo.svr.rixengine.com/rtb";
 
     private static final String TAG = "AlgorixMediationAdapter";
 
@@ -86,6 +93,7 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
     private AlxRewardVideoAD rewardVideoAD;
     private AlxNativeAd nativeAD;
     private AlxNativeAdView nativeAdView;
+    private AlxSplashAd splashAd;
 
     public AlgorixMediationAdapter(AppLovinSdk appLovinSdk) {
         super(appLovinSdk);
@@ -95,6 +103,7 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
     public void initialize(MaxAdapterInitializationParameters parameters, Activity activity, final OnCompletionListener onCompletionListener) {
         Log.d(TAG, "initialize alx sdk……");
         Log.d(TAG, "alx-applovin-adapter-version:" + ADAPTER_VERSION);
+        Log.d(TAG, "applovin-sdk-version:" + AppLovinSdk.VERSION);
         initSdk(parameters, activity, true, onCompletionListener);
     }
 
@@ -135,12 +144,16 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
             nativeAdView.destroy();
             nativeAdView = null;
         }
+        if (splashAd != null) {
+            splashAd.destroy();
+            splashAd = null;
+        }
     }
 
     //banner load
     @Override
     public void loadAdViewAd(MaxAdapterResponseParameters parameters, MaxAdFormat maxAdFormat, Activity activity, final MaxAdViewAdapterListener listener) {
-        if (initialized.get() == false) {
+        if (!initialized.get()) {
             initSdk(parameters, activity, false, null);
         }
         String maxAdId = parameters.getAdUnitId();
@@ -190,8 +203,6 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
                 }
             }
         };
-        // 利用第三方统计，加入自定义打点事件（开发者可根据需要加入第三方埋点统计）
-        // 统计请求事件
         // 320 * 50 banner
         bannerAD.loadAd(adId, alxBannerADListener);
 
@@ -202,7 +213,7 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
     //interstitial ad load
     @Override
     public void loadInterstitialAd(MaxAdapterResponseParameters parameters, Activity activity, final MaxInterstitialAdapterListener listener) {
-        if (initialized.get() == false) {
+        if (!initialized.get()) {
             initSdk(parameters, activity, false, null);
         }
         String maxAdId = parameters.getAdUnitId();
@@ -283,7 +294,7 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
     //reward ad load
     @Override
     public void loadRewardedAd(MaxAdapterResponseParameters parameters, Activity activity, final MaxRewardedAdapterListener listener) {
-        if (initialized.get() == false) {
+        if (!initialized.get()) {
             initSdk(parameters, activity, false, null);
         }
         String maxAdId = parameters.getAdUnitId();
@@ -374,7 +385,7 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
     //native ad
     @Override
     public void loadNativeAd(MaxAdapterResponseParameters parameters, Activity activity, final MaxNativeAdAdapterListener listener) {
-        if (initialized.get() == false) {
+        if (!initialized.get()) {
             initSdk(parameters, activity, false, null);
         }
         String maxAdId = parameters.getAdUnitId();
@@ -386,9 +397,84 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
             return;
         }
         Context applicationContext = (activity != null) ? activity.getApplicationContext() : getApplicationContext();
-        NativeAdListener nativeAdListener = new NativeAdListener(parameters, applicationContext, listener);
+        AlgorixMediationAdapter.NativeAdListener nativeAdListener = new AlgorixMediationAdapter.NativeAdListener(parameters, applicationContext, listener);
         AlxNativeAdLoader loader = new AlxNativeAdLoader.Builder(activity, adId).build();
         loader.loadAd(new AlxAdParam.Builder().build(), nativeAdListener);
+    }
+
+    //splash ad
+    @Override
+    public void loadAppOpenAd(@NonNull MaxAdapterResponseParameters parameters, @Nullable Activity activity, @NonNull final MaxAppOpenAdapterListener listener) {
+        if (!initialized.get()) {
+            initSdk(parameters, activity, false, null);
+        }
+        String maxAdId = parameters.getAdUnitId();
+        AlxAdSDK.addExtraParameters("rix_max_pid_splash", maxAdId);
+        String adId = parameters.getThirdPartyAdPlacementId();
+        Log.d(TAG, "loadSplashAd ad id:" + adId);
+        if (TextUtils.isEmpty(adId)) {
+            listener.onAppOpenAdLoadFailed(MaxAdapterError.INVALID_CONFIGURATION);
+            return;
+        }
+        splashAd = new AlxSplashAd();
+        splashAd.load(activity, adId, null, new AlxSplashAdListener() {
+            @Override
+            public void onAdLoaded() {
+                Log.d(TAG, "onAdLoaded");
+                listener.onAppOpenAdLoaded();
+            }
+
+            @Override
+            public void onAdLoadFail(int errorCode, String errorMsg) {
+                Log.e(TAG, "onAdLoadFail: errCode=" + errorCode + ";errMsg=" + errorMsg);
+                listener.onAppOpenAdLoadFailed(new MaxAdapterError(errorCode, errorMsg));
+            }
+
+            @Override
+            public void onAdShow() {
+                Log.d(TAG, "onAdShow");
+                listener.onAppOpenAdDisplayed();
+            }
+
+            @Override
+            public void onAdClicked() {
+                Log.d(TAG, "onAdClicked");
+                listener.onAppOpenAdClicked();
+            }
+
+            @Override
+            public void onAdClose() {
+                Log.d(TAG, "onAdClose");
+                listener.onAppOpenAdHidden();
+            }
+
+            @Override
+            public void onAdVideoStart() {
+                Log.d(TAG, "onAdVideoStart");
+            }
+
+            @Override
+            public void onAdVideoEnd() {
+                Log.d(TAG, "onAdVideoEnd");
+            }
+
+            @Override
+            public void onAdVideoError(int errorCode, String errorMsg) {
+                Log.d(TAG, "onAdVideoError: errorCode=" + errorCode + ";errorMsg=" + errorMsg);
+            }
+        }, 5 * 1000);
+    }
+
+    //splash ad
+    @Override
+    public void showAppOpenAd(@NonNull MaxAdapterResponseParameters maxAdapterResponseParameters, @Nullable Activity activity, @NonNull MaxAppOpenAdapterListener listener) {
+        Log.d(TAG, "showAppOpenAd");
+        if (splashAd != null && splashAd.isReady()) {
+            splashAd.show(activity);
+        } else {
+            Log.d(TAG, "showAppOpenAd: ad no ready");
+            listener.onAppOpenAdDisplayFailed(MaxAdapterError.AD_NOT_READY);
+        }
     }
 
     private class NativeAdListener implements AlxNativeAdLoadedListener {
@@ -552,7 +638,7 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
                                 maxBuilder.setMainImage(new MaxNativeAd.MaxNativeAdImage(mediaDrawable));
                             }
 
-                            MaxNativeAd maxNativeAd = new MaxAlgorixNativeAd(maxBuilder);
+                            MaxNativeAd maxNativeAd = new AlgorixMediationAdapter.MaxAlgorixNativeAd(maxBuilder);
 
                             reportEvent(205, "[max] max show");
                             Log.d(TAG, "Native ad fully loaded:");
@@ -649,6 +735,7 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
                     public void onInit(boolean isOk, String msg) {
                         initialized.set(true);
                         status = InitializationStatus.INITIALIZED_SUCCESS;
+                        sdkInfo();
                         if (onCompletionListener != null) {
                             onCompletionListener.onCompletion(status, null);
                         }
@@ -785,6 +872,18 @@ public class AlgorixMediationAdapter extends MediationAdapterBase implements Max
             Log.e(TAG, "max extras field error:" + e.getMessage());
         }
         return map;
+    }
+
+    public void sdkInfo() {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("sdk_name", "Max");
+            json.put("sdk_version", AppLovinSdk.VERSION);
+            json.put("adapter_version", ADAPTER_VERSION);
+            AlxAdSDK.addExtraParameters("alx_adapter", json);
+        } catch (Exception e) {
+            Log.e(TAG, "error:" + e.getMessage());
+        }
     }
 
 }
