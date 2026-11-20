@@ -23,7 +23,7 @@ Java Demo App 是示例项目，如何使用 RixEngine SDK 广告。要开始使
     
         //RixEngine Android SDK (Necessary)
     
-        implementation 'io.github.rixenginesdk:rixengine:4.3.1'
+        implementation 'io.github.rixenginesdk:rixengine:4.4.0'
     
     }
 ```
