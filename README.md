@@ -23,7 +23,7 @@ RixEngine SDK. To get started with the demo apps, follow the instructions below:
     
         //RixEngine Android SDK (Necessary)
     
-        implementation 'io.github.rixenginesdk:rixengine:4.3.1'
+        implementation 'io.github.rixenginesdk:rixengine:4.4.0'
     
     }
 ```
