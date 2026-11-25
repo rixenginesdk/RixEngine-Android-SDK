@@ -54,7 +54,9 @@ v4.4.0 is a comprehensive upgrade built on stability, driven by speed, and aimed
 
 ---
 
-## 🚀 Quick Start
+## 🚀 SDK Integration Guide
+
+To integrate the RixEngine Android SDK, simply check the requirements and add the dependency.
 
 ### Requirements
 
@@ -63,19 +65,7 @@ v4.4.0 is a comprehensive upgrade built on stability, driven by speed, and aimed
 | JDK | 11 or higher      |
 | minSdk | 16 or higher      |
 
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/rixenginesdk/RixEngine-Android-SDK.git
-```
-
-> GitHub mirror: <https://github.com/rixenginesdk/RixEngine-Android-SDK>
-
-### 2. Open a sample project
-
-In Android Studio, choose **Open** and select `Demo App - Java` or `Demo App - Kotlin`, then wait for Gradle Sync to finish.
-
-### 3. Add the SDK dependency
+### Add the SDK dependency
 
 **Groovy (`build.gradle`)**
 
@@ -96,18 +86,6 @@ dependencies {
 ```
 
 > Make sure the `mavenCentral()` repository is configured; otherwise the dependency cannot be resolved.
-
-### 4. Set your application ID
-
-In `app/build.gradle`, replace `applicationId` with your own unique identifier — ideally matching the app name you created in the RixEngine dashboard.
-
-### 5. Configure ad units
-
-In `AdConfig` (Java / Kotlin), enter the app ID, SID, token, and the ad unit IDs for each ad format that you created in the RixEngine dashboard.
-
-### 6. Run the demo
-
-Connect a physical device or start an emulator, then click **Run ▶** to try the full ad flow.
 
 ---
 

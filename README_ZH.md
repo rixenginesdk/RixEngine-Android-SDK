@@ -54,7 +54,9 @@ v4.4.0 以「稳定」为底座、以「速度」为抓手、以「收益」为�
 
 ---
 
-## 🚀 快速开始
+## 🚀 SDK 集成指南
+
+在项目中引入 RixEngine Android SDK，只需确认环境要求并添加依赖即可。
 
 ### 环境要求
 
@@ -63,19 +65,7 @@ v4.4.0 以「稳定」为底座、以「速度」为抓手、以「收益」为�
 | JDK    | 11 及以上                    |
 | minSdk | 16 及以上                    |
 
-### 1. 克隆仓库
-
-```bash
-git clone https://github.com/rixenginesdk/RixEngine-Android-SDK.git
-```
-
-> GitHub 镜像：<https://github.com/rixenginesdk/RixEngine-Android-SDK>
-
-### 2. 打开示例工程
-
-在 Android Studio 中选择 **Open**，打开 `Demo App - Java` 或 `Demo App - Kotlin`，等待 Gradle Sync 完成。
-
-### 3. 添加 SDK 依赖
+### 添加 SDK 依赖
 
 **Groovy（`build.gradle`）**
 
@@ -96,18 +86,6 @@ dependencies {
 ```
 
 > 请确保工程已配置 `mavenCentral()` 仓库，否则将无法拉取依赖。
-
-### 4. 修改包名
-
-在 `app/build.gradle` 中将 `applicationId` 替换为您自己的唯一标识符，建议与您在 RixEngine 后台创建的应用名称保持一致。
-
-### 5. 配置广告位
-
-在 `AdConfig`（Java / Kotlin）中填入您在 RixEngine 后台创建的应用 ID、SID、Token 以及各广告样式对应的广告位 ID。
-
-### 6. 运行体验
-
-连接真机或启动模拟器，点击 **Run ▶** 即可体验完整广告流程。
 
 ---
 
