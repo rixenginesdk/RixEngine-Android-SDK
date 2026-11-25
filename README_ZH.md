@@ -52,7 +52,6 @@ v4.4.0 以「稳定」为底座、以「速度」为抓手、以「收益」为�
 | [`Demo App - Kotlin`](Demo%20App%20-%20Kotlin) | Kotlin 示例工程，功能与 Java 版保持一致 |
 | [`custom_adapter`](custom_adapter) | 开源聚合适配器源码（AdMob / IronSource / MAX / TopOn / TradPlus） |
 | `rixengine-sdk-demo.apk` | 可直接安装体验的 Demo 安装包 |
-| [`rixengine_version.md`](rixengine_version.md) | SDK 历史版本更新记录 |
 
 ---
 
