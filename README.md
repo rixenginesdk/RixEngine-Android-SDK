@@ -5,7 +5,6 @@ English | [中文](README_ZH.md)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.rixenginesdk/rixengine?label=Maven%20Central&color=4C6FFF)](https://central.sonatype.com/artifact/io.github.rixenginesdk/rixengine)
 [![Android](https://img.shields.io/badge/Android-6.0%2B-3DDC84?logo=android&logoColor=white)](https://developer.android.com)
 [![License](https://img.shields.io/badge/License-Apache%202.0-4C6FFF)](LICENSE)
-[![Gitee](https://img.shields.io/badge/Gitee-rixenginesdk-C71D23?logo=gitee&logoColor=white)](https://gitee.com/rixenginesdk/rixengine-android-sdk-demo)
 
 > **v4.4.0 Stable** · A more stable, faster, and more capable monetization engine
 
@@ -52,7 +51,6 @@ v4.4.0 is a comprehensive upgrade built on stability, driven by speed, and aimed
 | [`Demo App - Kotlin`](Demo%20App%20-%20Kotlin) | Kotlin sample project with the same features as the Java version |
 | [`custom_adapter`](custom_adapter) | Open-source mediation adapters (AdMob / IronSource / MAX / TopOn / TradPlus) |
 | `rixengine-sdk-demo.apk` | Ready-to-install demo APK |
-| [`rixengine_version.md`](rixengine_version.md) | SDK release history |
 
 ---
 
@@ -71,7 +69,7 @@ v4.4.0 is a comprehensive upgrade built on stability, driven by speed, and aimed
 ### 1. Clone the repository
 
 ```bash
-git clone https://gitee.com/rixenginesdk/rixengine-android-sdk-demo.git
+git clone https://github.com/rixenginesdk/RixEngine-Android-SDK.git
 ```
 
 > GitHub mirror: <https://github.com/rixenginesdk/RixEngine-Android-SDK>
@@ -139,12 +137,6 @@ Connect a physical device or start an emulator, then click **Run ▶** to try th
 | LevelPlay (formerly IronSource) | `custom_adapter/ironsource` | `mediation-sdk 9.2.0` |
 | TopOn | `custom_adapter/topon` | `core-tpn 6.6.30.2` |
 | TradPlus | `custom_adapter/tradplus` | `tradplus 14.5.0.1` |
-
----
-
-## 📝 Release Notes
-
-See [rixengine_version.md](rixengine_version.md) for the full release history. For what changed in v4.4.0, see "What's New" above.
 
 ---
 

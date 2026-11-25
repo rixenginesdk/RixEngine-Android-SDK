@@ -5,7 +5,6 @@
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.rixenginesdk/rixengine?label=Maven%20Central&color=4C6FFF)](https://central.sonatype.com/artifact/io.github.rixenginesdk/rixengine)
 [![Android](https://img.shields.io/badge/Android-6.0%2B-3DDC84?logo=android&logoColor=white)](https://developer.android.com)
 [![License](https://img.shields.io/badge/License-Apache%202.0-4C6FFF)](LICENSE)
-[![Gitee](https://img.shields.io/badge/Gitee-rixenginesdk-C71D23?logo=gitee&logoColor=white)](https://gitee.com/rixenginesdk/rixengine-android-sdk-demo)
 
 > **v4.4.0 稳定版** · 更稳定、更快速、更全面的变现引擎
 
@@ -70,7 +69,7 @@ v4.4.0 以「稳定」为底座、以「速度」为抓手、以「收益」为�
 ### 1. 克隆仓库
 
 ```bash
-git clone https://gitee.com/rixenginesdk/rixengine-android-sdk-demo.git
+git clone https://github.com/rixenginesdk/RixEngine-Android-SDK.git
 ```
 
 > GitHub 镜像：<https://github.com/rixenginesdk/RixEngine-Android-SDK>
@@ -138,12 +137,6 @@ dependencies {
 | LevelPlay（原 IronSource） | `custom_adapter/ironsource` | `mediation-sdk 9.2.0` |
 | TopOn | `custom_adapter/topon` | `core-tpn 6.6.30.2` |
 | TradPlus | `custom_adapter/tradplus` | `tradplus 14.5.0.1` |
-
----
-
-## 📝 更新日志
-
-各版本更新详情请查阅 [rixengine_version.md](rixengine_version.md)，v4.4.0 的主要变化见上方「版本亮点」。
 
 ---
 
