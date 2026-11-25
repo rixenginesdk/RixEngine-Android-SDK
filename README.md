@@ -58,13 +58,10 @@ v4.4.0 is a comprehensive upgrade built on stability, driven by speed, and aimed
 
 ### Requirements
 
-| Item | Requirement |
-| --- | --- |
-| IDE | Android Studio |
-| Build tools | Gradle 8.13+ / AGP 8.13.2 |
-| JDK | 11 or higher |
-| compileSdk / targetSdk | 36 |
-| minSdk | 23 (demo app configuration) |
+| Item | Requirement       |
+| --- |-------------------|
+| JDK | 11 or higher      |
+| minSdk | 16 or higher      |
 
 ### 1. Clone the repository
 
