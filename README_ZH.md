@@ -113,6 +113,12 @@ dependencies {
 | TopOn | `custom_adapter/topon` | `core-tpn 6.6.30.2` |
 | TradPlus | `custom_adapter/tradplus` | `tradplus 14.5.0.1` |
 
+### 使用步骤
+
+1. 在项目工程App主模块中引入对应聚合平台的SDK包（如通过 implementation 引入 Admob、Max、TopOn、LevelPlay、TradPlus依赖包）。
+2. 将对应聚合平台所需的适配器源码包文件复制到Android工程App主模块中参与编译。
+3. 在聚合平台官网后台中添加适配器的类名，具体按照聚合平台官网说明文档进行调整。
+
 ---
 
 ## 💬 技术支持

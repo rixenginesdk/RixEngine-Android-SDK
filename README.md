@@ -113,6 +113,12 @@ dependencies {
 | TopOn | `custom_adapter/topon` | `core-tpn 6.6.30.2` |
 | TradPlus | `custom_adapter/tradplus` | `tradplus 14.5.0.1` |
 
+### Usage Steps
+
+1. Add the SDK of the corresponding mediation platform to your app module (for example, pull in the AdMob, MAX, TopOn, LevelPlay, or TradPlus dependency via `implementation`).
+2. Copy the adapter source files required by that mediation platform into your Android app module so they are compiled together with your app.
+3. Add the adapter class name in the mediation platform's dashboard, and configure it according to that platform's official documentation.
+
 ---
 
 ## 💬 Support
